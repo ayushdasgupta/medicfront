@@ -1,0 +1,52 @@
+import React, { useState } from "react";
+import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
+import { loginPharmacist } from "../../redux/Action/pharmacistaction";
+import { useAppDispatch } from "../../redux/hooks/custom";
+import { login } from "../../redux/slice/pharmacistSlice";
+import GlassForm from "../GlassFrom";
+
+const AdminLogin: React.FC = () => {
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const dispatch=useAppDispatch()
+  const navigate=useNavigate()
+  const handleLogin =async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      const data= await loginPharmacist({email,password})
+      dispatch(login(data))
+      toast.success(data.message)
+      navigate("/pharmacist/dashboard")
+    } catch (error:any) {
+      toast.error(error.message)
+    }
+    
+  };
+
+  return (
+    <GlassForm
+      title="Pharmacist Login"
+      fields={[
+        { 
+          name: "email", 
+          type: "email", 
+          placeholder: "Enter your email", 
+          value: email, 
+          onChange: (e) => setEmail(e.target.value)
+      },
+      { 
+          name: "password", 
+          type: "password", 
+          placeholder: "Enter a password", 
+          value: password, 
+          onChange: (e) => setPassword(e.target.value)
+      },
+      ]}
+      buttonText="Login"
+      onSubmit={handleLogin}
+    />
+  );
+};
+
+export default AdminLogin;

@@ -1,0 +1,131 @@
+frontend/
+├── dist/
+├── node_modules/
+├── public/
+├── src/
+│   ├── assets/
+│   ├── components/
+│   │   ├── admin/
+│   │   │   ├── wrapper/
+│   │   │   │   ├── Createwrapper.tsx
+│   │   │   │   ├── Rolewrapper.tsx
+│   │   │   ├── AdminLogin.tsx
+│   │   │   ├── AdminRegister.tsx
+│   │   │   ├── AdminReset.tsx
+│   │   │   ├── BedCreate.tsx
+│   │   │   ├── CreateDoctor.tsx
+│   │   │   ├── LaboratorianCreate.tsx
+│   │   │   ├── ManageAppointment.tsx
+│   │   │   ├── ManageBed.tsx
+│   │   │   ├── ManageDoctor.tsx
+│   │   │   ├── ManageLaboratorian.tsx
+│   │   │   ├── ManagePatient.tsx
+│   │   │   ├── ManagePharmacist.tsx
+│   │   │   ├── ManageReceptionist.tsx
+│   │   │   ├── PharmacistCreate.tsx
+│   │   │   ├── ReceptionistCreate.tsx
+│   │   │   ├── Reports.tsx
+│   │   ├── doctor/
+│   │   │   ├── DoctorLogin.tsx
+│   │   │   ├── PatientHistory.tsx
+│   │   │   ├── UpdateAvatar.tsx
+│   │   │   ├── UpdateProfile.tsx
+│   │   │   ├── ViewAppointments.tsx
+│   │   ├── laboratorian/
+│   │   │   ├── AllMedicine.tsx
+│   │   │   ├── LaboratorianReports.tsx
+│   │   │   ├── MedicineCreate.tsx
+│   │   │   ├── PatientList.tsx
+│   │   │   ├── Test.tsx
+│   │   │   ├── UpdateAvatar.tsx
+│   │   │   ├── UpdateProfile.tsx
+│   │   │   ├── UploadReport.tsx
+│   │   ├── patient/
+│   │   │   ├── AppointmentBooking.tsx
+│   │   │   ├── DoctorCard.tsx
+│   │   │   ├── DoctorDetails.tsx
+│   │   │   ├── DoctorSearch.tsx
+│   │   │   ├── Invoices.tsx
+│   │   │   ├── PatientForgotPassword.tsx
+│   │   │   ├── PatientLogin.tsx
+│   │   │   ├── PatientRegister.tsx
+│   │   │   ├── PatientResetPassword.tsx
+│   │   │   ├── Reports.tsx
+│   │   │   ├── UpdateInformation.tsx
+│   │   │   ├── UpdateMedicine.tsx
+│   │   ├── pharmacist/
+│   │   │   ├── AllMedicine.tsx
+│   │   │   ├── MedicineCreate.tsx
+│   │   │   ├── PatientList.tsx
+│   │   │   ├── PharmacistLogin.tsx
+│   │   │   ├── UpdateAvatar.tsx
+│   │   │   ├── UpdateMedicine.tsx
+│   │   │   ├── UpdateProfile.tsx
+│   │   ├── receptionist/
+│   │   │   ├── AvailableBeds.tsx
+│   │   │   ├── DoctorList.tsx
+│   │   │   ├── Emergency.tsx
+│   │   │   ├── InvoiceGenerator.tsx
+│   │   │   ├── PatientList.tsx
+│   │   │   ├── QuickActions.tsx
+│   │   │   ├── ReceptionistLogin.tsx
+│   │   │   ├── ShowAppointments.tsx
+│   │   │   ├── UpdateAvatar.tsx
+│   │   │   ├── UpdatePatient.tsx
+│   │   │   ├── UpdateProfile.tsx
+│   │   ├── ConfirmModal.tsx
+│   │   ├── GlassFrom.tsx
+│   │   ├── invoice.tsx
+│   │   ├── Loader.tsx
+│   │   ├── Modal.tsx
+│   │   ├── Navbar.tsx
+│   │   ├── Sidebar.tsx
+│   │   ├── some.html
+│   │   ├── Updatepassword.tsx
+│   ├── pages/
+│   │   ├── AdminDashboard.tsx
+│   │   ├── DoctorDashboard.tsx
+│   │   ├── Home.tsx
+│   │   ├── LaboratorianDashboard.tsx
+│   │   ├── NotFound.tsx
+│   │   ├── PatientDashboard.tsx
+│   │   ├── PharmacistDashboard.tsx
+│   │   ├── ReceptionistDashboard.tsx
+│   ├── redux/
+│   │   ├── Action/
+│   │   │   ├── adminaction.ts
+│   │   │   ├── appointmentaction.ts
+│   │   │   ├── doctoraction.ts
+│   │   │   ├── invoiceaction.ts
+│   │   │   ├── laboratorianaction.ts
+│   │   │   ├── patientaction.ts
+│   │   │   ├── pharmacistaction.ts
+│   │   │   ├── razorpayaction.ts
+│   │   │   ├── receptionistaction.ts
+│   │   ├── hooks/
+│   │   │   ├── custom.ts
+│   │   ├── slice/
+│   │   │   ├── adminSlice.ts
+│   │   │   ├── doctorSlice.ts
+│   │   │   ├── laboratorianSlice.ts
+│   │   │   ├── patientSlice.ts
+│   │   │   ├── pharmacistSlice.ts
+│   │   │   ├── receptionistSlice.ts
+│   │   ├── store.ts
+│   ├── App.tsx
+│   ├── index.css
+│   ├── main.tsx
+│   ├── vite-env.d.ts
+├── .env
+├── .gitignore
+├── eslint.config.js
+├── index.html
+├── package.json
+├── pnpm-lock.yaml
+├── postcss.config.js
+├── README.md
+├── tailwind.config.js
+├── tsconfig.app.json
+├── tsconfig.json
+├── tsconfig.node.json
+├── vite.config.ts

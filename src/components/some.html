@@ -1,0 +1,87 @@
+<html>
+
+<head>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<div class="bg-white shadow-lg rounded-lg p-4 md:p-6 w-full max-w-3xl">
+    <div class="p-4 md:p-8 bg-white border border-gray-200">
+        <div class="flex w-full justify-between">
+            <div class="flex w-1/2 flex-col mb-4"><img class="w-1/6" src="/app.png" alt="logo">
+                <h1 class="text-[#4f46e5] font-bold text-4xl">MedicaPro</h1>
+            </div>
+            <h1 class="self-end font-bold">Date : 15/2/2012</h1>
+        </div>
+        <hr class="border-2">
+        <div class="mt-2">
+            <h1 class="text-gray-800 text-2xl font-medium mb-2">Type : Invoice</h1>
+            <p class="text-gray-800">Patient: John Doe</p>
+            <p class="text-gray-800">Phone: 1234567890</p>
+            <p class="text-gray-800 mb-6">Email: john@example.com</p>
+        </div>
+        <h2 class="text-lg font-semibold mb-2">Appointments</h2>
+        <table class="w-full mb-6 border-collapse border border-gray-300">
+            <thead>
+                <tr class="bg-gray-100 text-sm md:text-base">
+                    <th class="border p-2 text-center">Doctor</th>
+                    <th class="border p-2 text-center">Specialization</th>
+                    <th class="border p-2 text-center">Date</th>
+                    <th class="border p-2 text-center">Fee</th>
+                    <th class="border p-2 text-center">GST</th>
+                    <th class="border p-2 text-center">Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="text-sm md:text-base">
+                    <td class="border p-2 text-center">Dr. Smith</td>
+                    <td class="border p-2 text-center">Cardiology</td>
+                    <td class="border p-2 text-center">01/02/2025</td>
+                    <td class="border p-2 text-center">₹500.00</td>
+                    <td class="border p-2 text-center">₹25.00</td>
+                    <td class="border p-2 text-center">₹525.00</td>
+                </tr>
+                <tr class="text-sm md:text-base">
+                    <td class="border p-2 text-center">Dr. Adams</td>
+                    <td class="border p-2 text-center">Orthopedics</td>
+                    <td class="border p-2 text-center">02/02/2025</td>
+                    <td class="border p-2 text-center">₹700.00</td>
+                    <td class="border p-2 text-center">₹56.00</td>
+                    <td class="border p-2 text-center">₹756.00</td>
+                </tr>
+            </tbody>
+        </table>
+        <h2 class="text-lg font-semibold mb-2">Bed Charges</h2>
+        <table class="w-full mb-6 border-collapse border border-gray-300">
+            <thead>
+                <tr class="bg-gray-100 text-sm md:text-base">
+                    <th class="border p-2 text-center">Bed No</th>
+                    <th class="border p-2 text-center">Ward</th>
+                    <th class="border p-2 text-center">Days</th>
+                    <th class="border p-2 text-center">Rate</th>
+                    <th class="border p-2 text-center">GST</th>
+                    <th class="border p-2 text-center">Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="text-sm md:text-base">
+                    <td class="border p-2 text-center">101</td>
+                    <td class="border p-2 text-center">General</td>
+                    <td class="border p-2 text-center">3</td>
+                    <td class="border p-2 text-center">₹1500.00</td>
+                    <td class="border p-2 text-center">₹540.00</td>
+                    <td class="border p-2 text-center">₹5040.00</td>
+                </tr>
+                <tr class="text-sm md:text-base">
+                    <td class="border p-2 text-center">202</td>
+                    <td class="border p-2 text-center">ICU</td>
+                    <td class="border p-2 text-center">2</td>
+                    <td class="border p-2 text-center">₹4000.00</td>
+                    <td class="border p-2 text-center">₹1440.00</td>
+                    <td class="border p-2 text-center">₹9440.00</td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="font-bold text-lg text-right">Grand Total: ₹15761.00</div>
+    </div>
+</div>
+
+</html>

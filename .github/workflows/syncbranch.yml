@@ -1,0 +1,83 @@
+name: Sync Frontend Branches with Main
+on:
+  push:
+    branches:
+      - main
+jobs:
+  sync-branches:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write  # This explicitly grants write permission to the workflow
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+      with:
+        fetch-depth: 0  # Fetch all history
+        token: ${{ github.token }}  # Use the built-in token
+    
+    - name: Set up Git config
+      run: |
+        git config --global user.name "GitHub Actions Bot"
+        git config --global user.email "actions@github.com"
+    
+    - name: Sync basic branch
+      run: |
+        git fetch origin
+        git checkout -B basic main
+        
+        # Delete excluded frontend files for basic tier
+        git rm -rf --ignore-unmatch \
+          frontend/src/components/receptionist \
+          frontend/src/components/pharmacist \
+          frontend/src/components/laboratorian \
+          frontend/src/components/admin/BedCreate.tsx \
+          frontend/src/components/admin/ManageBed.tsx \
+          frontend/src/components/admin/ManageReceptionist.tsx \
+          frontend/src/components/admin/ReceptionistCreate.tsx \
+          frontend/src/components/admin/ManagePharmacist.tsx \
+          frontend/src/components/admin/ManageLaboratorian.tsx \
+          frontend/src/components/admin/PharmacistCreate.tsx \
+          frontend/src/components/admin/LaboratorianCreate.tsx \
+          frontend/src/pages/ReceptionistDashboard.tsx \
+          frontend/src/pages/PharmacistDashboard.tsx \
+          frontend/src/pages/LaboratorianDashboard.tsx \
+          frontend/src/redux/Action/receptionistaction.ts \
+          frontend/src/redux/Action/pharmacistaction.ts \
+          frontend/src/redux/Action/laboratorianaction.ts \
+          frontend/src/redux/slice/receptionistSlice.ts \
+          frontend/src/redux/slice/pharmacistSlice.ts \
+          frontend/src/redux/slice/laboratorianSlice.ts
+        
+        git commit -m "Update basic frontend branch from main" || echo "No changes to commit"
+        git push -f origin basic
+    
+    - name: Sync pro branch
+      run: |
+        git fetch origin
+        git checkout -B pro main
+        
+        # Delete excluded frontend files for pro tier
+        git rm -rf --ignore-unmatch \
+          frontend/src/components/pharmacist \
+          frontend/src/components/laboratorian \
+          frontend/src/components/admin/ManagePharmacist.tsx \
+          frontend/src/components/admin/ManageLaboratorian.tsx \
+          frontend/src/components/admin/PharmacistCreate.tsx \
+          frontend/src/components/admin/LaboratorianCreate.tsx \
+          frontend/src/pages/PharmacistDashboard.tsx \
+          frontend/src/pages/LaboratorianDashboard.tsx \
+          frontend/src/redux/Action/pharmacistaction.ts \
+          frontend/src/redux/Action/laboratorianaction.ts \
+          frontend/src/redux/slice/pharmacistSlice.ts \
+          frontend/src/redux/slice/laboratorianSlice.ts
+        
+        git commit -m "Update pro frontend branch from main" || echo "No changes to commit"
+        git push -f origin pro
+    
+    - name: Sync plus branch
+      run: |
+        git fetch origin
+        git checkout -B plus main
+        # Plus gets everything from main, no files to exclude
+        git commit -m "Update plus frontend branch from main" || echo "No changes to commit"
+        git push -f origin plus

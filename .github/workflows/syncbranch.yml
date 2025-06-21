@@ -27,31 +27,31 @@ jobs:
         
         # Delete excluded frontend files for basic tier
         git rm -rf --ignore-unmatch \
-          frontend/src/components/receptionist \
-          frontend/src/components/pharmacist \
-          frontend/src/components/laboratorian \
-          frontend/src/components/admin/BedCreate.tsx \
-          frontend/src/components/admin/ManageBed.tsx \
-          frontend/src/components/admin/ManageReceptionist.tsx \
-          frontend/src/components/admin/ReceptionistCreate.tsx \
-          frontend/src/components/admin/ManagePharmacist.tsx \
-          frontend/src/components/admin/ManageLaboratorian.tsx \
-          frontend/src/components/admin/PharmacistCreate.tsx \
-          frontend/src/components/admin/LaboratorianCreate.tsx \
-          frontend/src/pages/ReceptionistDashboard.tsx \
-          frontend/src/pages/PharmacistDashboard.tsx \
-          frontend/src/pages/LaboratorianDashboard.tsx \
-          frontend/src/redux/Action/receptionistaction.ts \
-          frontend/src/redux/Action/pharmacistaction.ts \
-          frontend/src/redux/Action/laboratorianaction.ts \
-          frontend/src/redux/slice/receptionistSlice.ts \
-          frontend/src/redux/slice/pharmacistSlice.ts \
-          frontend/src/redux/slice/laboratorianSlice.ts
+         src/components/receptionist \
+         src/components/pharmacist \
+         src/components/laboratorian \
+         src/components/admin/BedCreate.tsx \
+         src/components/admin/ManageBed.tsx \
+         src/components/admin/ManageReceptionist.tsx \
+         src/components/admin/ReceptionistCreate.tsx \
+         src/components/admin/ManagePharmacist.tsx \
+         src/components/admin/ManageLaboratorian.tsx \
+         src/components/admin/PharmacistCreate.tsx \
+         src/components/admin/LaboratorianCreate.tsx \
+         src/pages/ReceptionistDashboard.tsx \
+         src/pages/PharmacistDashboard.tsx \
+         src/pages/LaboratorianDashboard.tsx \
+         src/redux/Action/receptionistaction.ts \
+         src/redux/Action/pharmacistaction.ts \
+         src/redux/Action/laboratorianaction.ts \
+         src/redux/slice/receptionistSlice.ts \
+         src/redux/slice/pharmacistSlice.ts \
+         src/redux/slice/laboratorianSlice.ts
         
-        sed -i '/^\/\/ *pro$/,/^\/\/ *end$/d' frontend/src/components/Modal.tsx
-        sed -i '/^\/\/ *pro$/,/^\/\/ *end$/d' frontend/src/redux/Action/adminaction.ts
-        sed -i '/^\/\/ *pro$/,/^\/\/ *end$/d' frontend/src/components/admin/wrapper/Createwrapper.tsx
-        sed -i '/^\/\/ *pro$/,/^\/\/ *end$/d' frontend/src/components/admin/wrapper/Rolewraper.tsx
+        sed -i '/^\/\/ *pro$/,/^\/\/ *end$/d' src/components/Modal.tsx
+        sed -i '/^\/\/ *pro$/,/^\/\/ *end$/d' src/redux/Action/adminaction.ts
+        sed -i '/^\/\/ *pro$/,/^\/\/ *end$/d' src/components/admin/wrapper/Createwrapper.tsx
+        sed -i '/^\/\/ *pro$/,/^\/\/ *end$/d' src/components/admin/wrapper/Rolewraper.tsx
         
         
         git commit -am "Update basic frontend branch from main" || echo "No changes to commit"
@@ -64,23 +64,23 @@ jobs:
         
         # Delete excluded frontend files for pro tier
         git rm -rf --ignore-unmatch \
-          frontend/src/components/pharmacist \
-          frontend/src/components/laboratorian \
-          frontend/src/components/admin/ManagePharmacist.tsx \
-          frontend/src/components/admin/ManageLaboratorian.tsx \
-          frontend/src/components/admin/PharmacistCreate.tsx \
-          frontend/src/components/admin/LaboratorianCreate.tsx \
-          frontend/src/pages/PharmacistDashboard.tsx \
-          frontend/src/pages/LaboratorianDashboard.tsx \
-          frontend/src/redux/Action/pharmacistaction.ts \
-          frontend/src/redux/Action/laboratorianaction.ts \
-          frontend/src/redux/slice/pharmacistSlice.ts \
-          frontend/src/redux/slice/laboratorianSlice.ts
+          src/components/pharmacist \
+          src/components/laboratorian \
+          src/components/admin/ManagePharmacist.tsx \
+          src/components/admin/ManageLaboratorian.tsx \
+          src/components/admin/PharmacistCreate.tsx \
+          src/components/admin/LaboratorianCreate.tsx \
+          src/pages/PharmacistDashboard.tsx \
+          src/pages/LaboratorianDashboard.tsx \
+          src/redux/Action/pharmacistaction.ts \
+          src/redux/Action/laboratorianaction.ts \
+          src/redux/slice/pharmacistSlice.ts \
+          src/redux/slice/laboratorianSlice.ts
 
-        sed -i '/^\/\/ *pro$/,/^\/\/ *end$/d' frontend/src/components/Modal.tsx
-        sed -i '/^\/\/ *pro$/,/^\/\/ *end$/d' frontend/src/redux/Action/adminaction.ts
-        sed -i '/^\/\/ *pro$/,/^\/\/ *end$/d' frontend/src/components/admin/wrapper/Createwrapper.tsx
-        sed -i '/^\/\/ *pro$/,/^\/\/ *end$/d' frontend/src/components/admin/wrapper/Rolewraper.tsx
+        sed -i '/^\/\/ *pro$/,/^\/\/ *end$/d' src/components/Modal.tsx
+        sed -i '/^\/\/ *pro$/,/^\/\/ *end$/d' /src/redux/Action/adminaction.ts
+        sed -i '/^\/\/ *pro$/,/^\/\/ *end$/d' src/components/admin/wrapper/Createwrapper.tsx
+        sed -i '/^\/\/ *pro$/,/^\/\/ *end$/d' src/components/admin/wrapper/Rolewraper.tsx
         git commit -am "Update pro frontend branch from main" || echo "No changes to commit"
         git push -f origin pro
     

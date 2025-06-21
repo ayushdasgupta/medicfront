@@ -175,6 +175,7 @@ const Report: React.FC = () => {
       })
       .catch((error) => console.error("Error fetching receptionists:", error));
 //end 
+
     // Fetch invoices
     getAllInvoices()
       .then((data) => {
@@ -291,6 +292,7 @@ const Report: React.FC = () => {
 //plus
       "Pharmacists","Laboratorians"
 //end
+
     ],
     datasets: [
       {
@@ -300,6 +302,7 @@ const Report: React.FC = () => {
 //plus
           pharmacistCount,laboratorianCount
 //end
+
         ],
         backgroundColor: ["#E63946", "#457B9D", 
 //pro
@@ -307,6 +310,7 @@ const Report: React.FC = () => {
 //plus
            "#F4A261", "#9B5DE5"
 //end
+
           ],
       },
     ],

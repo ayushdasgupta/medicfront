@@ -157,13 +157,13 @@ const Report: React.FC = () => {
       .catch((error) => console.error("Error fetching appointments:", error));
 
     // Fetch receptionists
-    //pro
+//pro
      allReceptionist()
       .then((data) => {
         setReceptionistCount(data?.receptionists?.length || 0);
       })
       .catch((error) => console.error("Error fetching receptionists:", error));
-      //plus
+//plus
     allPharmacists()
       .then((data) => {
         setPharmacistCount(data?.pharmacists?.length || 0);
@@ -174,7 +174,7 @@ const Report: React.FC = () => {
         setLaboratorianCount(data?.laboratorians?.length || 0);
       })
       .catch((error) => console.error("Error fetching receptionists:", error));
-    //end 
+//end 
     // Fetch invoices
     getAllInvoices()
       .then((data) => {
@@ -286,27 +286,27 @@ const Report: React.FC = () => {
   // Pie Chart Data
   const pieData = {
     labels: ["Doctors", "Patients", 
-      //pro
+//pro
       "Receptionists",
-      //plus
+//plus
       "Pharmacists","Laboratorians"
-      //end
+//end
     ],
     datasets: [
       {
         data: [doctorCount, patientCount, 
-          //pro
+//pro
           receptionistCount,
-          //plus
+//plus
           pharmacistCount,laboratorianCount
-          //end
+//end
         ],
         backgroundColor: ["#E63946", "#457B9D", 
-          //pro
+//pro
           "#A7C957",
-          //plus
+//plus
            "#F4A261", "#9B5DE5"
-          //end
+//end
           ],
       },
     ],

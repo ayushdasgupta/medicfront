@@ -7,6 +7,7 @@ import { useAppDispatch, useAppSelector } from "../redux/hooks/custom";
 import { loadadmininfo, logout } from "../redux/slice/adminSlice";
 import CreateWrapper from "../components/admin/wrapper/Createwrapper"
 import ConfirmationModal from "../components/ConfirmModal";
+import { APPNAME } from "../utils/constant";
 
 
 // Lazy load components
@@ -101,7 +102,7 @@ const AdminDashboard: React.FC = () => {
         {/* Main Content */}
         <div className="flex-1 flex flex-col">
           <Navbar
-            websiteName="MedicaPro Admin"
+            websiteName={`${APPNAME} Admin`}
             patientName={adminName}
             onLogout={handleLogout}
           />

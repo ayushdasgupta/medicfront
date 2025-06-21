@@ -140,6 +140,7 @@ interface ITest {
   quantity:number;
   cost:number;
   tax:number
+  isPaid?:boolean
 }
 interface IReport {
   name: string;       

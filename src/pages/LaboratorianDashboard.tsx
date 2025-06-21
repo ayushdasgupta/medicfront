@@ -6,6 +6,7 @@ import { laboratorianupdatepassword, loadlaboratorian, logoutlaboratorian } from
 import { useAppDispatch, useAppSelector } from "../redux/hooks/custom";
 import { loadLaboratorianinfo } from "../redux/slice/laboratorianSlice";
 import ConfirmationModal from "../components/ConfirmModal";
+import { APPNAME } from "../utils/constant";
 
 // Lazy load components
 const Navbar = lazy(() => import("../components/Navbar"));
@@ -104,7 +105,7 @@ const LaboratorianDashboard: React.FC = () => {
                 {/* Main Content */}
                 <div className="flex-1 flex flex-col">
                     <Navbar
-                        websiteName="MedicaPro Lab"
+                        websiteName={`${APPNAME} Lab`}
                         patientName={laboratorianName!}
                         onLogout={handleLogout}
                     />

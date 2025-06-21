@@ -1,5 +1,4 @@
-import axios from 'axios';
-
+import {axiosInstance as axios}  from '../../utils/axiosinstance.js'
 export const createPatient = async (fromdata:object) => {
   try {
     const { data } = await axios.post('/api/v1/create/patient',fromdata, {

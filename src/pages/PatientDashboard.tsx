@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import Loader from "../components/Loader";
 import ConfirmationModal from "../components/ConfirmModal";
+import { APPNAME } from "../utils/constant";
 
 // Lazy load components
 const Navbar = lazy(() => import("../components/Navbar"));
@@ -115,7 +116,7 @@ const PatientDashboard: React.FC = () => {
         {/* Main Content */}
         <div className="min-h-full flex-1 flex flex-col">
           <Navbar
-            websiteName="MedicaPro"
+            websiteName={APPNAME}
             patientName={patientName}
             onLogout={handleLogout}
           />

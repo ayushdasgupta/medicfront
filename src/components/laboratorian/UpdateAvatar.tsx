@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
-import { loadPharmacist, pharmacistupdateAvatar } from "../../redux/Action/pharmacistaction";
-import { useAppDispatch, useAppSelector } from "../../redux/hooks/custom";
-import { loadpharmacistinfo } from "../../redux/slice/pharmacistSlice";
 import { laboratorianupdateAvatar, loadlaboratorian } from "../../redux/Action/laboratorianaction";
+import { useAppDispatch, useAppSelector } from "../../redux/hooks/custom";
 import { loadLaboratorianinfo } from "../../redux/slice/laboratorianSlice";
 
 const UpdateAvatar:React.FC = () => {

@@ -1,5 +1,4 @@
-import axios from "axios";
-
+import {axiosInstance as axios}  from '../../utils/axiosinstance.js'
 export const loadlaboratorian = async () => {
     try {
         const { data } = await axios.get('/api/v1/laboratorian/me', {

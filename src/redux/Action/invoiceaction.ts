@@ -1,4 +1,4 @@
-import axios from "axios";
+import {axiosInstance as axios}  from '../../utils/axiosinstance.js'
 
 export const getInvoice = async (id: string) => {
     try {

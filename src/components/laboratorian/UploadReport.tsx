@@ -100,7 +100,7 @@ const UploadReport: React.FC = () => {
                 formData.append("file", report.file!);
                 
                 // Upload individual report
-                const data = await uploadReportForPatient(patientId, formData);
+                await uploadReportForPatient(patientId, formData);
                 toast.success(`Report "${report.name}" uploaded successfully`);
             }
             

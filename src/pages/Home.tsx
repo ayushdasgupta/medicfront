@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Modal from "../components/Modal";
 import { Menu } from "lucide-react";
 import { useNavigate } from "react-router-dom"; 
+import { APPNAME } from "../utils/constant";
 
 const Home: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
@@ -15,7 +16,7 @@ const Home: React.FC = () => {
       
       <header className="w-full text-center py-12">
         <h1 className="text-4xl md:text-6xl font-extrabold text-gray-900">
-          Welcome to <span className="text-primary">MedicaPro</span>
+          Welcome to <span className="text-primary">{APPNAME}</span>
         </h1>
         <p className="text-lg md:text-2xl text-gray-600 mt-4">
           Your one-stop solution for hospital management.
@@ -44,7 +45,7 @@ const Home: React.FC = () => {
       {/* Footer */}
       <footer className="w-full py-6 backdrop-blur-lg text-center">
         <p className="text-gray-800">
-          &copy; {new Date().getFullYear()} MedicaPro. All rights reserved.
+          &copy; {new Date().getFullYear()} {APPNAME}. All rights reserved.
         </p>
       </footer>
       {/* Modal */}

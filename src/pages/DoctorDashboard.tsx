@@ -6,6 +6,7 @@ import { loaddoctorinfo, logout } from "../redux/slice/doctorSlice";
 import toast from "react-hot-toast";
 import Loader from "../components/Loader";
 import ConfirmationModal from "../components/ConfirmModal";
+import { APPNAME } from "../utils/constant";
 
 // Lazy load components
 const Navbar = lazy(() => import("../components/Navbar"));
@@ -104,7 +105,7 @@ const DoctorDashboard: React.FC = () => {
         {/* Main Content */}
         <div className="flex-1 flex flex-col">
           <Navbar
-            websiteName="MedicaPro Doctor Dashboard"
+            websiteName={`${APPNAME} Doctor Dashboard`}
             patientName={doctorName}
             onLogout={handleLogoutClick}
           />

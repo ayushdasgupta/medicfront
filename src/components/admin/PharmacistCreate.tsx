@@ -8,7 +8,7 @@ const PharmacistCreate: React.FC = () => {
   const [phone, setPhone] = useState(0);
   const [password, setPassword] = useState("");
   const [avatar, setAvatar] = useState<ArrayBuffer | undefined>();
-  const [imagePreview, setImagePreview] = useState<string | null>(null);
+  const [imagePreview,] = useState<string | null>(null);
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];

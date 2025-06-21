@@ -6,6 +6,7 @@ import { loadPharmacist, logoutPharmacist, pharmacististupdatepassword } from ".
 import { useAppDispatch, useAppSelector } from "../redux/hooks/custom";
 import { loadpharmacistinfo } from "../redux/slice/pharmacistSlice";
 import ConfirmationModal from "../components/ConfirmModal";
+import { APPNAME } from "../utils/constant";
 
 // Lazy load components
 const Navbar = lazy(() => import("../components/Navbar"));
@@ -111,7 +112,7 @@ const PharmacistDashboard: React.FC = () => {
                 {/* Main Content */}
                 <div className="flex-1 flex flex-col">
                     <Navbar
-                        websiteName="MedicaPro Pharma"
+                        websiteName={`${APPNAME} Pharma`}
                         patientName={pharmacistName!}
                         onLogout={handleLogout}
                     />

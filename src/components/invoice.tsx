@@ -1,8 +1,9 @@
-import axios from "axios";
+import {axiosInstance as axios}  from '../utils/axiosinstance.js'
 import React, { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import { getInvoice } from "../redux/Action/invoiceaction.js";
 import Loader from "./Loader.js";
+import { APPNAME } from '../utils/constant.js';
 
 // import logo from '/app.svg'
 
@@ -170,7 +171,7 @@ useEffect(() => {
           <div className="flex w-full justify-between">
             <div className="flex w-1/2 flex-col mb-4">
               <img className="w-1/6" src="/app.png" alt="logo" />
-              <h1 className="text-primary font-bold text-4xl">MedicaPro</h1>
+              <h1 className="text-primary font-bold text-4xl">{APPNAME}</h1>
             </div>
             <h1 className="self-end font-bold">Date : {invoice.createdAt?.toLocaleString().split("T")[0]}</h1>
           </div>

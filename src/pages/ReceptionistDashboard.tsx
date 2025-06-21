@@ -6,6 +6,7 @@ import { loadReceptionist, logoutReceptionist, receptionistupdatepassword } from
 import { useAppDispatch, useAppSelector } from "../redux/hooks/custom";
 import { loadreceptionistinfo, logout } from "../redux/slice/receptionist";
 import ConfirmationModal from "../components/ConfirmModal";
+import { APPNAME } from "../utils/constant";
 
 // Lazy load components
 const Navbar = lazy(() => import("../components/Navbar"));
@@ -121,7 +122,7 @@ const ReceptionistDashboard: React.FC = () => {
                 {/* Main Content */}
                 <div className="flex-1 flex flex-col">
                     <Navbar
-                        websiteName="MedicaPro Reception"
+                        websiteName={`${APPNAME} Reception`}
                         patientName={receptionistName}
                         onLogout={handleLogout}
                     />

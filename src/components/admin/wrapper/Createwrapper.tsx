@@ -22,7 +22,7 @@ const CreateWrapper: React.FC = () => {
 // plus
         { id: 'laboratorian', label: 'Laboratorian', icon: '🔬', color: 'bg-purple-100 hover:bg-purple-200 border-purple-300' },
         { id: 'pharmacist', label: 'Pharmacist', icon: '💊', color: 'bg-yellow-100 hover:bg-yellow-200 border-yellow-300' },
- //end
+        //end
     ];
 
     // Render the appropriate component based on selected role
@@ -30,17 +30,17 @@ const CreateWrapper: React.FC = () => {
         switch (selectedRole) {
             case 'doctor':
                 return <CreateDoctor />;
-//pro 
+            //pro 
             case 'receptionist':
                 return <ReceptionistCreate />;
             case 'bed':
                 return <BedCreate />;
-//plus
+            //plus
             case 'laboratorian':
                 return <LabratorianCreate />;
             case 'pharmacist':
                 return <PharmacistCreate />;
-//end
+            //end
             default:
                 return (
                     <div className="flex items-center justify-center h-64 bg-gray-50 rounded-lg border-2 border-dashed border-gray-300">

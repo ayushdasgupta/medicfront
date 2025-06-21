@@ -54,7 +54,7 @@ jobs:
         sed -i '/^\/\/ *pro$/,/^\/\/ *end$/d' frontend/src/components/admin/wrapper/Rolewraper.tsx
         
         
-        git commit -m "Update basic frontend branch from main" || echo "No changes to commit"
+        git commit -am "Update basic frontend branch from main" || echo "No changes to commit"
         git push -f origin basic
     
     - name: Sync pro branch
@@ -76,8 +76,12 @@ jobs:
           frontend/src/redux/Action/laboratorianaction.ts \
           frontend/src/redux/slice/pharmacistSlice.ts \
           frontend/src/redux/slice/laboratorianSlice.ts
-        
-        git commit -m "Update pro frontend branch from main" || echo "No changes to commit"
+
+        sed -i '/^\/\/ *pro$/,/^\/\/ *end$/d' frontend/src/components/Modal.tsx
+        sed -i '/^\/\/ *pro$/,/^\/\/ *end$/d' frontend/src/redux/Action/adminaction.ts
+        sed -i '/^\/\/ *pro$/,/^\/\/ *end$/d' frontend/src/components/admin/wrapper/Createwrapper.tsx
+        sed -i '/^\/\/ *pro$/,/^\/\/ *end$/d' frontend/src/components/admin/wrapper/Rolewraper.tsx
+        git commit -am "Update pro frontend branch from main" || echo "No changes to commit"
         git push -f origin pro
     
     - name: Sync plus branch

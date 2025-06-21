@@ -51,7 +51,7 @@ jobs:
         sed -i '/^\/\/ *pro$/,/^\/\/ *end$/d' src/components/Modal.tsx
         sed -i '/^\/\/ *pro$/,/^\/\/ *end$/d' src/redux/Action/adminaction.ts
         sed -i '/^\/\/ *pro$/,/^\/\/ *end$/d' src/components/admin/wrapper/Createwrapper.tsx
-        sed -i '/^\/\/ *pro$/,/^\/\/ *end$/d' src/components/admin/wrapper/Rolewraper.tsx
+        sed -i '/^\/\/ *pro$/,/^\/\/ *end$/d' src/components/admin/wrapper/Rolewrapper.tsx
         
         
         git commit -am "Update basic frontend branch from main" || echo "No changes to commit"
@@ -80,7 +80,7 @@ jobs:
         sed -i '/^\/\/ *pro$/,/^\/\/ *end$/d' src/components/Modal.tsx
         sed -i '/^\/\/ *pro$/,/^\/\/ *end$/d' /src/redux/Action/adminaction.ts
         sed -i '/^\/\/ *pro$/,/^\/\/ *end$/d' src/components/admin/wrapper/Createwrapper.tsx
-        sed -i '/^\/\/ *pro$/,/^\/\/ *end$/d' src/components/admin/wrapper/Rolewraper.tsx
+        sed -i '/^\/\/ *pro$/,/^\/\/ *end$/d' src/components/admin/wrapper/Rolewrapper.tsx
         git commit -am "Update pro frontend branch from main" || echo "No changes to commit"
         git push -f origin pro
     

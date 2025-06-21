@@ -15,8 +15,13 @@ import {
   RadialLinearScale,
   Filler
 } from "chart.js";
-import {allDoctor, allAppointment, allPatient ,allLaboratorians, allPharmacists, allReceptionist } from "../../redux/Action/adminaction";
+import {allDoctor, allAppointment, allPatient  } from "../../redux/Action/adminaction";
 import { getAllInvoices } from "../../redux/Action/adminaction"; // Assuming you have this action
+//pro
+import {allReceptionist} from "../../redux/Action/adminaction";
+//plus
+import { allPharmacists,allLaboratorians } from "../../redux/Action/adminaction";
+//end
 
 // Register Chart.js components
 ChartJS.register(
@@ -152,6 +157,13 @@ const Report: React.FC = () => {
       .catch((error) => console.error("Error fetching appointments:", error));
 
     // Fetch receptionists
+    //pro
+     allReceptionist()
+      .then((data) => {
+        setReceptionistCount(data?.receptionists?.length || 0);
+      })
+      .catch((error) => console.error("Error fetching receptionists:", error));
+      //plus
     allPharmacists()
       .then((data) => {
         setPharmacistCount(data?.pharmacists?.length || 0);
@@ -162,12 +174,7 @@ const Report: React.FC = () => {
         setLaboratorianCount(data?.laboratorians?.length || 0);
       })
       .catch((error) => console.error("Error fetching receptionists:", error));
-    allReceptionist()
-      .then((data) => {
-        setReceptionistCount(data?.receptionists?.length || 0);
-      })
-      .catch((error) => console.error("Error fetching receptionists:", error));
-
+    //end 
     // Fetch invoices
     getAllInvoices()
       .then((data) => {
@@ -278,11 +285,29 @@ const Report: React.FC = () => {
 
   // Pie Chart Data
   const pieData = {
-    labels: ["Doctors", "Patients", "Receptionists","Pharmacists","Laboratorians"],
+    labels: ["Doctors", "Patients", 
+      //pro
+      "Receptionists",
+      //plus
+      "Pharmacists","Laboratorians"
+      //end
+    ],
     datasets: [
       {
-        data: [doctorCount, patientCount, receptionistCount,pharmacistCount,laboratorianCount],
-        backgroundColor: ["#E63946", "#457B9D", "#A7C957", "#F4A261", "#9B5DE5"],
+        data: [doctorCount, patientCount, 
+          //pro
+          receptionistCount,
+          //plus
+          pharmacistCount,laboratorianCount
+          //end
+        ],
+        backgroundColor: ["#E63946", "#457B9D", 
+          //pro
+          "#A7C957",
+          //plus
+           "#F4A261", "#9B5DE5"
+          //end
+          ],
       },
     ],
   };

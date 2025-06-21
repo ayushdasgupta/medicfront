@@ -4,7 +4,7 @@ import ManageDoctor from '../ManageDoctor';
 import ManageReceptionist from '../ManageReceptionist';
 import ManageBeds from '../ManageBeds';
 //plus
-import ManageLaboratorian from '../ManageLabratorian';
+import ManageLaboratorian from '../ManageLaboratorian';
 import ManagePharmacist from '../ManagePharmacist';
 //end
 

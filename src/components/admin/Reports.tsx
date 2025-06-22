@@ -65,10 +65,13 @@ const formatCurrency = (amount: number): string => {
 
 const Report: React.FC = () => {
   const [doctorCount, setDoctorCount] = useState(0);
-  const [receptionistCount, setReceptionistCount] = useState(0);
   const [patientCount, setPatientCount] = useState(0);
+//pro
+  const [receptionistCount, setReceptionistCount] = useState(0);
+//plus
   const [pharmacistCount, setPharmacistCount] = useState(0);
   const [laboratorianCount, setLaboratorianCount] = useState(0);
+//end
   const [appointmentData, setAppointmentData] = useState<number[]>([]);
   const [patientData, setPatientData] = useState<number[]>([]);
   const [appointmentStatusData, setAppointmentStatusData] = useState<number[]>([0, 0, 0]); // [pending, completed, cancelled]

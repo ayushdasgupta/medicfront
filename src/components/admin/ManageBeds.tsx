@@ -18,14 +18,14 @@ const ManageBeds: React.FC = () => {
       message: ""
     });
   useEffect(()=>{
-    allBeds().then((data)=>{
+    allBeds().then((data:any)=>{
       if(data?.beds){
         setBeds(data.beds)
       }else{
         console.error("Unexpected data format:", data);
         setBeds([]);
       }
-    }) .catch((error) => {
+    }) .catch((error:any) => {
       console.error("Error fetching beds:", error);
       setBeds([]);
     });

@@ -31,7 +31,7 @@ jobs:
          src/components/pharmacist \
          src/components/laboratorian \
          src/components/admin/BedCreate.tsx \
-         src/components/admin/ManageBed.tsx \
+         src/components/admin/ManageBeds.tsx \
          src/components/admin/ManageReceptionist.tsx \
          src/components/admin/ReceptionistCreate.tsx \
          src/components/admin/ManagePharmacist.tsx \

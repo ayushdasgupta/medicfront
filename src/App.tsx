@@ -40,20 +40,20 @@ const App = () => {
         <Route path="/admin/login" element={<AdminLogin />} />
         <Route path="/admin/register" element={<AdminRegister />} />
         <Route path="/doctor/login" element={<DoctorLogin />} />
-       
         <Route path="/patient/dashboard" element={<PatientDashboard/>} />
         <Route path="/admin/dashboard" element={<AdminDashboard/>} />
         <Route path="/doctor/dashboard" element={<DoctorDashboard/>} />
+{/* pro */}
 
          <Route path="/receptionist/login" element={<ReceptionistLogin />} />
         <Route path="/receptionist/dashboard" element={<ReceptionistDashboard/>} />
-        
+{/* plus */}
         <Route path="/pharmacist/login" element={<PharmacistLogin/>} />
         <Route path="/pharmacist/dashboard" element={<PharmacistDashboard/>} />
         <Route path="/laboratorian/login" element={<LabratorianLogin/>} />
         <Route path="/laboratorian/dashboard" element={<LabratorianDashboard/>} />
         <Route path="/invoice/:id" element={<Invoice/>} />
-
+{/* end */}
 
         <Route path="*" element={<NotFound />} />
       </Routes>

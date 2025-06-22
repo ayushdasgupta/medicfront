@@ -19,9 +19,6 @@ import {allDoctor, allAppointment, allPatient  } from "../../redux/Action/admina
 import { getAllInvoices } from "../../redux/Action/adminaction"; // Assuming you have this action
 //pro
 import {allReceptionist} from "../../redux/Action/adminaction";
-//plus
-import { allPharmacists,allLaboratorians } from "../../redux/Action/adminaction";
-//end
 
 // Register Chart.js components
 ChartJS.register(
@@ -68,10 +65,6 @@ const Report: React.FC = () => {
   const [patientCount, setPatientCount] = useState(0);
 //pro
   const [receptionistCount, setReceptionistCount] = useState(0);
-//plus
-  const [pharmacistCount, setPharmacistCount] = useState(0);
-  const [laboratorianCount, setLaboratorianCount] = useState(0);
-//end
   const [appointmentData, setAppointmentData] = useState<number[]>([]);
   const [patientData, setPatientData] = useState<number[]>([]);
   const [appointmentStatusData, setAppointmentStatusData] = useState<number[]>([0, 0, 0]); // [pending, completed, cancelled]
@@ -166,18 +159,6 @@ const Report: React.FC = () => {
         setReceptionistCount(data?.receptionists?.length || 0);
       })
       .catch((error) => console.error("Error fetching receptionists:", error));
-//plus
-    allPharmacists()
-      .then((data) => {
-        setPharmacistCount(data?.pharmacists?.length || 0);
-      })
-      .catch((error) => console.error("Error fetching receptionists:", error));
-    allLaboratorians()
-      .then((data) => {
-        setLaboratorianCount(data?.laboratorians?.length || 0);
-      })
-      .catch((error) => console.error("Error fetching receptionists:", error));
-//end 
 
     // Fetch invoices
     getAllInvoices()
@@ -292,9 +273,6 @@ const Report: React.FC = () => {
     labels: ["Doctors", "Patients", 
 //pro
       "Receptionists",
-//plus
-      "Pharmacists","Laboratorians"
-//end
 
     ],
     datasets: [
@@ -302,17 +280,11 @@ const Report: React.FC = () => {
         data: [doctorCount, patientCount, 
 //pro
           receptionistCount,
-//plus
-          pharmacistCount,laboratorianCount
-//end
 
         ],
         backgroundColor: ["#E63946", "#457B9D", 
 //pro
           "#A7C957",
-//plus
-           "#F4A261", "#9B5DE5"
-//end
 
           ],
       },

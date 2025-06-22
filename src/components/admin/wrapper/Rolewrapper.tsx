@@ -1,12 +1,5 @@
 import React, { useState } from 'react';
 import ManageDoctor from '../ManageDoctor';
-//pro
-import ManageReceptionist from '../ManageReceptionist';
-import ManageBeds from '../ManageBeds';
-//plus
-import ManageLaboratorian from '../ManageLaboratorian';
-import ManagePharmacist from '../ManagePharmacist';
-//end
 
 // Type for role options
 type Role = 'doctor' | 'receptionist' | 'laboratorian' | 'pharmacist' | 'bed';
@@ -16,30 +9,12 @@ const RoleWrapper: React.FC = () => {
     // Role options data
     const roles: { id: Role; label: string; icon: string; color: string }[] = [
         { id: 'doctor', label: 'Doctor', icon: '👨‍⚕️', color: 'bg-blue-100 hover:bg-blue-200 border-blue-300' },
-//pro
-        { id: 'receptionist', label: 'Receptionist', icon: '👩‍💼', color: 'bg-green-100 hover:bg-green-200 border-green-300' },
-        { id: 'bed', label: 'Beds', icon: '🛏️', color: 'bg-yellow-100 hover:bg-yellow-200 border-yellow-300' },
-//plus
-        { id: 'laboratorian', label: 'Laboratorian', icon: '🔬', color: 'bg-purple-100 hover:bg-purple-200 border-purple-300' },
-        { id: 'pharmacist', label: 'Pharmacist', icon: '💊', color: 'bg-yellow-100 hover:bg-yellow-200 border-yellow-300' },
-//end
     ];
   
     const renderRoleComponent = () => {
       switch (selectedRole) {
         case 'doctor':
           return <ManageDoctor />;
-//pro
-        case 'receptionist':
-          return <ManageReceptionist />;
-        case 'bed':
-          return <ManageBeds />;
-//plus
-        case 'laboratorian':
-          return <ManageLaboratorian />;
-        case 'pharmacist':
-          return <ManagePharmacist />;
-//end
         default:
           return (
             <div className="flex items-center justify-center h-64 bg-gray-50 rounded-lg border-2 border-dashed border-gray-300">

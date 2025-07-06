@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { loadReceptionist, receptionistupdateAvatar } from "../../redux/Action/receptionistaction";
-import { loadreceptionistinfo } from "../../redux/slice/receptionist";
+import { loadreceptionistinfo } from "../../redux/slice/receptionistSlice";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks/custom";
 
 const UpdateAvatar: React.FC = () => {
@@ -64,8 +64,8 @@ const UpdateAvatar: React.FC = () => {
       toast.success("Avatar updated successfully!");
       const data=await loadReceptionist()
       dispatch(loadreceptionistinfo(data))
-      setPreviewImage(null); // Reset preview
-      setSelectedImage(null); // Reset selected image
+      setPreviewImage(null); 
+      setSelectedImage(null); 
     } catch (error: any) {
       toast.error(error.message || "Failed to update avatar. Please try again.");
     } finally {

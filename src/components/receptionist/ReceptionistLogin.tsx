@@ -5,7 +5,7 @@ import { useAppDispatch } from "../../redux/hooks/custom";
 
 import GlassForm from "../GlassFrom";
 import { loginReceptionist } from "../../redux/Action/receptionistaction";
-import { login } from "../../redux/slice/receptionist";
+import { login } from "../../redux/slice/receptionistSlice";
 
 const ReceptionistLogin: React.FC = () => {
     const [email, setEmail] = useState<string>("");

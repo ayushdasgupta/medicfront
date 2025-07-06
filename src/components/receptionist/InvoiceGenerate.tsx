@@ -1,4 +1,4 @@
-import axios from "axios";
+import {axiosInstance as axios} from "../../utils/axiosinstance";
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { invoiceGenerate } from "../../redux/Action/receptionistaction";

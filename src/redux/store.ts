@@ -4,7 +4,7 @@ import adminreducer from "./slice/adminSlice";
 import doctorreducer from "./slice/doctorSlice";
 import patientreducer from "./slice/patientSlice";
 //pro
-import receptionistreducer from "./slice/receptionist";
+import receptionistreducer from "./slice/receptionistSlice";
 //plus
 import pharmacistreducer from "./slice/pharmacistSlice";
 import laboratorianreducer from "./slice/laboratorianSlice";

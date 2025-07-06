@@ -1,4 +1,4 @@
-import axios from "axios";
+import {axiosInstance as axios} from "../../utils/axiosinstance";
 import React, { useState } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
@@ -54,7 +54,6 @@ const UpdatePatient: React.FC = () => {
             setPatient(data.patient);
             toast.success("Patient details fetched successfully!");
 
-            // Populate form fields with fetched data
             Object.entries(data.patient).forEach(([key, value]) => {
                 setValue(key as any, value);
             });

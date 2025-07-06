@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { loadReceptionist, receptionistupdateInfo } from "../../redux/Action/receptionistaction";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks/custom";
-import { loadreceptionistinfo } from "../../redux/slice/receptionist";
+import { loadreceptionistinfo } from "../../redux/slice/receptionistSlice";
 
 
 

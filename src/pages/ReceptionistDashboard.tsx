@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import Loader from "../components/Loader";
 import { loadReceptionist, logoutReceptionist, receptionistupdatepassword } from "../redux/Action/receptionistaction";
 import { useAppDispatch, useAppSelector } from "../redux/hooks/custom";
-import { loadreceptionistinfo, logout } from "../redux/slice/receptionist";
+import { loadreceptionistinfo, logout } from "../redux/slice/receptionistSlice";
 import ConfirmationModal from "../components/ConfirmModal";
 import { APPNAME } from "../utils/constant";
 

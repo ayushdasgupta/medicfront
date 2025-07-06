@@ -1,4 +1,4 @@
-import axios from "axios";
+import {axiosInstance as axios} from '../../utils/axiosinstance'
 import { X } from "lucide-react";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";

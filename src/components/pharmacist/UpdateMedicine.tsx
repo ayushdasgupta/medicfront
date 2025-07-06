@@ -1,10 +1,10 @@
-import axios from "axios";
+import {axiosInstance as axios} from '../../utils/axiosinstance';
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { updateMedicine } from "../../redux/Action/pharmacistaction";
 
-// Update interface to include newStock
+
 
 const UpdateMedicine: React.FC = () => {
     const {

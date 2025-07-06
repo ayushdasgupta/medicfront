@@ -1,4 +1,4 @@
-import axios from "axios";
+import { axiosInstance as axios } from '../../utils/axiosinstance'
 import { X } from "lucide-react";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -6,8 +6,8 @@ import toast from "react-hot-toast";
 import { uploadReportForPatient } from "../../redux/Action/laboratorianaction";
 
 interface IReport {
-  name: string;
-  file: File | null;
+    name: string;
+    file: File | null;
 }
 
 const UploadReport: React.FC = () => {
@@ -74,7 +74,7 @@ const UploadReport: React.FC = () => {
 
     const onSubmit = async () => {
         console.log("Reports:", reports);
-        
+
         // Validate reports before submission
         for (let i = 0; i < reports.length; i++) {
             const report = reports[i];
@@ -82,28 +82,28 @@ const UploadReport: React.FC = () => {
                 toast.error(`Report ${i + 1} must have a name`);
                 return;
             }
-            
+
             if (!report.file) {
                 toast.error(`Report ${i + 1} must have a file uploaded`);
                 return;
             }
         }
-        
+
         // Upload reports one by one
         try {
             for (let i = 0; i < reports.length; i++) {
                 const report = reports[i];
-                
+
                 // Create FormData for single report
                 const formData = new FormData();
                 formData.append("name", report.name);
                 formData.append("file", report.file!);
-                
+
                 // Upload individual report
                 await uploadReportForPatient(patientId, formData);
                 toast.success(`Report "${report.name}" uploaded successfully`);
             }
-            
+
             // Clear reports after successful upload
             setReports([]);
         } catch (error: any) {

@@ -356,7 +356,7 @@ const Report: React.FC = () => {
     datasets: [
       {
         label: "Doctor Count",
-        data: departmentData.length ? departmentData : [3, 2, 4, 3, 5], // Fallback data if empty
+        data: departmentData.length ? departmentData : [3, 2, 4, 3, 5], 
         backgroundColor: "rgba(75,192,192,0.2)",
         borderColor: "rgba(75,192,192,1)",
         pointBackgroundColor: "rgba(75,192,192,1)",

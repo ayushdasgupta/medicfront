@@ -63,7 +63,8 @@ const PatientList: React.FC = () => {
       patient._id.toString().toLowerCase().includes(word) ||
       patient.name.toLowerCase().includes(word) ||
       (patient.phone && patient.phone.toString().includes(word)) ||
-      (patient.email && patient.email.toLowerCase().includes(word))
+      (patient.email && patient.email.toLowerCase().includes(word)) || 
+      (patient.bloodgroup && patient.bloodgroup.toLowerCase().includes(word))
     );
   });
 
@@ -87,7 +88,7 @@ const PatientList: React.FC = () => {
       <div className="mb-4">
         <input
           type="text"
-          placeholder="Search patients by name,phone, email with a space"
+          placeholder="Search patients by name, phone, email, Blood Group with a space"
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
           className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring focus:ring-blue-500"

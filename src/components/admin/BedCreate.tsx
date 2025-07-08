@@ -3,27 +3,30 @@ import { createBeds } from "../../redux/Action/adminaction";
 import toast from "react-hot-toast";
 
 const BedCreate: React.FC = () => {
+  const [loading, setLoading] = useState(false)
   const [bedNumber, setBedNumber] = useState(0);
   const [floorNumber, setFloorNumber] = useState(0);
   const [ward, setWard] = useState("");
   const [tax, setTax] = useState(0);
   const [category, setCategory] = useState("");
- 
+
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log({bedNumber,floorNumber,ward,category});
+    setLoading(true)
+    console.log({ bedNumber, floorNumber, ward, category });
     const formData = new FormData();
     formData.append("bednumber", bedNumber.toString());
     formData.append("floornumber", floorNumber.toString());
     formData.append("ward", ward);
     formData.append("category", category);
-    formData.append("tax",tax.toString())
+    formData.append("tax", tax.toString())
     createBeds(formData).then((data) => {
       toast.success(data.message)
+      setLoading(false)
     }).catch((e) => {
       console.log(e.message);
-
+      setLoading(false)
     })
 
     // Optional: Reset the form fields
@@ -77,7 +80,7 @@ const BedCreate: React.FC = () => {
         {/* ward */}
         <div>
           <label htmlFor="ward" className="text-gray-700 text-sm">
-            Ward 
+            Ward
           </label>
           <input
             type="text"
@@ -104,8 +107,8 @@ const BedCreate: React.FC = () => {
           </select>
         </div>
 
-       {/* tax */}
-       <div>
+        {/* tax */}
+        <div>
           <label htmlFor="tax" className="text-gray-700 text-sm">
             Tax
           </label>
@@ -119,12 +122,13 @@ const BedCreate: React.FC = () => {
           </select>
         </div>
 
-        
+
 
         {/* Submit Button */}
         <div className="col-span-2 flex justify-center mt-4">
           <button
             type="submit"
+            disabled={loading}
             className="px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition"
           >
             Create Bed

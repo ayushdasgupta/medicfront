@@ -38,11 +38,17 @@ const newPatient=(e:React.FormEvent)=>{
     });
   }, [])
 
-  const filteredPatients = patients.filter(
-    (patient) =>
-      patient.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    (patient.phone && patient.phone.toString().includes(searchQuery))
+ const filteredPatients = patients.filter((patient) => {
+  const searchWords = searchQuery.toLowerCase().split(" ");
+
+  return searchWords.every((word) =>
+    patient._id.toString().toLowerCase().includes(word) ||
+    patient.name.toLowerCase().includes(word) ||
+    (patient.phone && patient.phone.toString().includes(word)) ||
+    (patient.email && patient.email.toLowerCase().includes(word))    
   );
+});
+
 
   const totalPages = Math.ceil(filteredPatients.length / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
@@ -57,7 +63,7 @@ const newPatient=(e:React.FormEvent)=>{
       <div className="mb-4">
         <input
           type="text"
-          placeholder="Search patients by name, or phone"
+          placeholder="Search patients by name, phone, email with a space"
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
           className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring focus:ring-blue-500"

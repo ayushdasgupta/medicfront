@@ -75,8 +75,11 @@ const PatientDashboard: React.FC = () => {
         return <UpdateMedicalInfo />;
       case "invoice":
         return <Invoice />;
+//pro
+//plus
       case "report":
         return <Report />;
+//end
       case "updatePassword":
         return (
           <UpdatePassword role="patient" updatePasswordAction={patientUpdatePassword} />
@@ -93,7 +96,10 @@ const PatientDashboard: React.FC = () => {
     { id: "doctorSearch", label: "Doctor Search" },
     { id: "appointments", label: "Appointments" },
     { id: "invoice", label: "Invoice" },
+//pro
+//plus
     { id: "report", label: "Report" },
+//end
     { id: "updateInfo", label: "Update Information" },
     { id: "medicalInfo", label: "Medical Information" },
     { id: "updatePassword", label: "Update Password" },

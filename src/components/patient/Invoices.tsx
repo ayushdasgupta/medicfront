@@ -1,20 +1,20 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAppSelector } from "../../redux/hooks/custom";
-
+import { format } from "date-fns";
 
 const Invoices: React.FC = () => {
-    const { patient } = useAppSelector((state) => state.patient);
+  const { patient } = useAppSelector((state) => state.patient);
   const [invoice, setInvoice] = useState<IInvoice[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [sortField, setSortField] = useState<keyof IInvoice | null>(null);
   const [sortDirection, setSortDirection] = useState<"asc" | "desc">("asc");
-  const navigate=useNavigate();
+  const navigate = useNavigate();
   const itemsPerPage = 5;
 
   useEffect(() => {
-    if(patient && patient.invoice){
-      setInvoice(patient.invoice)
+    if (patient && patient.invoice) {
+      setInvoice(patient.invoice);
     }
   }, [patient]);
 
@@ -25,7 +25,7 @@ const Invoices: React.FC = () => {
     const bValue = b[sortField];
 
     if (aValue! < bValue!) return sortDirection === "asc" ? -1 : 1;
-  if (aValue! > bValue!) return sortDirection === "asc" ? 1 : -1;
+    if (aValue! > bValue!) return sortDirection === "asc" ? 1 : -1;
     return 0;
   });
 
@@ -34,19 +34,18 @@ const Invoices: React.FC = () => {
   const startIndex = (currentPage - 1) * itemsPerPage;
   const currentInvoices = sortedInvoices.slice(startIndex, startIndex + itemsPerPage);
 
-  // Change Page
   const handlePageChange = (page: number) => {
     if (page > 0 && page <= totalPages) setCurrentPage(page);
   };
 
-  // Change Sorting
   const handleSort = (field: keyof IInvoice) => {
     setSortField(field);
     setSortDirection(sortField === field ? (sortDirection === "asc" ? "desc" : "asc") : "asc");
   };
-  const handleInvoice=(id:string)=>{
-    navigate(`/invoice/${id}`)
-  }
+
+  const handleInvoice = (id: string) => {
+    navigate(`/invoice/${id}`);
+  };
 
   return (
     <div className="bg-white/30 backdrop-blur-md p-4 md:p-6 rounded-lg shadow-lg max-w-full md:max-w-5xl mx-auto">
@@ -72,16 +71,24 @@ const Invoices: React.FC = () => {
             {currentInvoices.length > 0 ? (
               currentInvoices.map((invoice) => (
                 <tr key={invoice._id} className="hover:bg-gray-100 transition">
-                  <td className="px-4 py-2 border border-gray-300">{invoice.createdAt?.toLocaleString().split("T")[0]}</td>
                   <td className="px-4 py-2 border border-gray-300">
-                      <button onClick={()=>{handleInvoice(invoice._id!)}} className="bg-green-500 hover:bg-green-700 text-white px-2 py-1 rounded">View</button>
-                    
+                    {invoice.createdAt ? format(new Date(invoice.createdAt), "yyyy-MM-dd HH:mm:ss") : "N/A"}
+                  </td>
+                  <td className="px-4 py-2 border border-gray-300">
+                    <button
+                      onClick={() => handleInvoice(invoice._id!)}
+                      className="bg-green-500 hover:bg-green-700 text-white px-2 py-1 rounded"
+                    >
+                      View
+                    </button>
                   </td>
                 </tr>
               ))
             ) : (
               <tr>
-                <td colSpan={7} className="text-center text-gray-600 py-4">No invoice available.</td>
+                <td colSpan={7} className="text-center text-gray-600 py-4">
+                  No invoice available.
+                </td>
               </tr>
             )}
           </tbody>
@@ -99,7 +106,9 @@ const Invoices: React.FC = () => {
         >
           Previous
         </button>
-        <p className="text-gray-700">Page {currentPage} of {totalPages}</p>
+        <p className="text-gray-700">
+          Page {currentPage} of {totalPages}
+        </p>
         <button
           onClick={() => handlePageChange(currentPage + 1)}
           disabled={currentPage === totalPages}

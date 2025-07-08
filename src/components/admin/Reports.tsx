@@ -5,6 +5,7 @@ import {
   Chart as ChartJS,
   Title,
   Tooltip,
+  TooltipItem,
   Legend,
   CategoryScale,
   LinearScale,
@@ -15,15 +16,14 @@ import {
   RadialLinearScale,
   Filler
 } from "chart.js";
-import {allDoctor, allAppointment, allPatient  } from "../../redux/Action/adminaction";
-import { getAllInvoices } from "../../redux/Action/adminaction"; // Assuming you have this action
+import { allDoctor, allAppointment, allPatient } from "../../redux/Action/adminaction";
+import { getAllInvoices } from "../../redux/Action/adminaction"; 
 //pro
-import {allReceptionist} from "../../redux/Action/adminaction";
+import { allReceptionist } from "../../redux/Action/adminaction";
 //plus
-import { allPharmacists,allLaboratorians } from "../../redux/Action/adminaction";
+import { allPharmacists, allLaboratorians } from "../../redux/Action/adminaction";
 //end
 
-// Register Chart.js components
 ChartJS.register(
   Title,
   Tooltip,
@@ -53,7 +53,6 @@ interface Invoice {
   updatedAt?: Date;
 }
 
-// Helper function to format currency
 const formatCurrency = (amount: number): string => {
   return new Intl.NumberFormat('en-IN', {
     style: 'currency',
@@ -66,6 +65,9 @@ const formatCurrency = (amount: number): string => {
 const Report: React.FC = () => {
   const [doctorCount, setDoctorCount] = useState(0);
   const [patientCount, setPatientCount] = useState(0);
+  const [totalTax, setTotalTax] = useState(0);
+  const [totalRevenue, setTotalRevenue] = useState(0);
+  const [monthlyTax, setMonthlyTax] = useState<number[]>(Array(12).fill(0));
 //pro
   const [receptionistCount, setReceptionistCount] = useState(0);
 //plus
@@ -85,8 +87,6 @@ const Report: React.FC = () => {
   const [monthlyRemaining, setMonthlyRemaining] = useState<number[]>(Array(12).fill(0));
   const [totalIncome, setTotalIncome] = useState(0);
   const [totalPaid, setTotalPaid] = useState(0);
-  const [totalRemaining, setTotalRemaining] = useState(0);
-  const [paymentStatusData, setPaymentStatusData] = useState<number[]>([0, 0]); // [paid, remaining]
 
   useEffect(() => {
     // Fetch Doctors
@@ -161,7 +161,7 @@ const Report: React.FC = () => {
 
     // Fetch receptionists
 //pro
-     allReceptionist()
+    allReceptionist()
       .then((data) => {
         setReceptionistCount(data?.receptionists?.length || 0);
       })
@@ -197,37 +197,56 @@ const Report: React.FC = () => {
     const monthlyIncomeData = Array(12).fill(0);
     const monthlyPaidData = Array(12).fill(0);
     const monthlyRemainingData = Array(12).fill(0);
+    const monthlyTaxData = Array(12).fill(0);
     let totalIncomeSum = 0;
     let totalPaidSum = 0;
     let totalRemainingSum = 0;
+    let totalTaxSum = 0;
 
     invoices.forEach(invoice => {
-      // Only process invoices with valid dates
       if (invoice.createdAt) {
         const date = new Date(invoice.createdAt);
         const month = date.getMonth();
 
-        // Accumulate monthly data
-        monthlyIncomeData[month] += invoice.total || 0;
-        monthlyPaidData[month] += invoice.paid || 0;
-        monthlyRemainingData[month] += invoice.remaining || 0;
+        const total = invoice.total || 0;
+        const paid = invoice.paid || 0;
+        const remaining = invoice.remaining || 0;
 
-        // Accumulate totals
-        totalIncomeSum += invoice.total || 0;
-        totalPaidSum += invoice.paid || 0;
-        totalRemainingSum += invoice.remaining || 0;
+        totalIncomeSum += total;
+        totalPaidSum += paid;
+        totalRemainingSum += remaining;
+
+        monthlyIncomeData[month] += total;
+        monthlyPaidData[month] += paid;
+        monthlyRemainingData[month] += remaining;
+
+        // Calculate tax from all services
+        const sources = ['appointment', 'beds', 'test', 'medicene'];
+
+        sources.forEach((key) => {
+          const items = (invoice as any)[key] || [];
+          items.forEach((item: any) => {
+            const cost = item.cost || 0;
+            const taxPercent = item.tax || 0;
+            const taxAmount = (cost * taxPercent) / 100;
+            totalTaxSum += taxAmount;
+            monthlyTaxData[month] += taxAmount;
+          });
+        });
       }
     });
 
-    // Update state with processed data
     setMonthlyIncome(monthlyIncomeData);
     setMonthlyPaid(monthlyPaidData);
     setMonthlyRemaining(monthlyRemainingData);
     setTotalIncome(totalIncomeSum);
     setTotalPaid(totalPaidSum);
-    setTotalRemaining(totalRemainingSum);
-    setPaymentStatusData([totalPaidSum, totalRemainingSum]);
+
+    setMonthlyTax(monthlyTaxData);
+    setTotalTax(totalTaxSum);
+    setTotalRevenue(totalIncomeSum - totalTaxSum);
   };
+
 
   // Line Chart Data
   const lineData = {
@@ -289,32 +308,32 @@ const Report: React.FC = () => {
 
   // Pie Chart Data
   const pieData = {
-    labels: ["Doctors", "Patients", 
+    labels: ["Doctors", "Patients",
 //pro
       "Receptionists",
 //plus
-      "Pharmacists","Laboratorians"
+      "Pharmacists", "Laboratorians"
 //end
 
     ],
     datasets: [
       {
-        data: [doctorCount, patientCount, 
+        data: [doctorCount, patientCount,
 //pro
           receptionistCount,
 //plus
-          pharmacistCount,laboratorianCount
+          pharmacistCount, laboratorianCount
 //end
 
         ],
-        backgroundColor: ["#E63946", "#457B9D", 
+        backgroundColor: ["#E63946", "#457B9D",
 //pro
           "#A7C957",
 //plus
-           "#F4A261", "#9B5DE5"
+          "#F4A261", "#9B5DE5"
 //end
 
-          ],
+        ],
       },
     ],
   };
@@ -428,16 +447,32 @@ const Report: React.FC = () => {
   };
 
   // Doughnut Chart - Payment Status
-  const paymentStatusChart = {
-    labels: ["Payment Received", "Payment Pending"],
+
+  const monthlyRevenueData = {
+    labels: [
+      "January", "February", "March", "April", "May", "June",
+      "July", "August", "September", "October", "November", "December",
+    ],
     datasets: [
       {
-        data: paymentStatusData,
-        backgroundColor: ["#3498db", "#e74c3c"],
-        hoverBackgroundColor: ["#2980b9", "#c0392b"],
+        label: "Total Income",
+        data: monthlyIncome,
+        borderColor: "#27ae60",
+        backgroundColor: "rgba(39, 174, 96, 0.1)",
+        fill: true,
+        tension: 0.4
       },
-    ],
+      {
+        label: "Total Taxes",
+        data: monthlyTax,
+        borderColor: "#e67e22",
+        backgroundColor: "rgba(230, 126, 34, 0.1)",
+        fill: true,
+        tension: 0.4
+      }
+    ]
   };
+
 
   return (
     <motion.div
@@ -482,13 +517,13 @@ const Report: React.FC = () => {
         </motion.div>
 
         <motion.div
-          className="bg-white p-4 rounded-lg shadow border-l-4 border-red-500"
+          className="bg-white p-4 rounded-lg shadow border-l-4 border-yellow-500"
           initial={{ scale: 0.9 }}
           animate={{ scale: 1 }}
           transition={{ type: "spring", stiffness: 50, delay: 0.3 }}
         >
-          <h3 className="text-gray-500 text-sm">Payment Pending</h3>
-          <p className="text-3xl font-bold text-gray-800">{formatCurrency(totalRemaining)}</p>
+          <h3 className="text-gray-500 text-sm">Total Taxes</h3>
+          <p className="text-3xl font-bold text-gray-800">{formatCurrency(totalTax)}</p>
         </motion.div>
       </div>
 
@@ -522,19 +557,15 @@ const Report: React.FC = () => {
           </motion.div>
 
           <motion.div
-            className="bg-white p-4 rounded-lg shadow border-l-4 border-purple-500"
+            className="bg-white p-4 rounded-lg shadow border-l-4 border-indigo-500"
             initial={{ scale: 0.9 }}
             animate={{ scale: 1 }}
-            transition={{ type: "spring", stiffness: 50 }}
+            transition={{ type: "spring", stiffness: 50, delay: 0.4 }}
           >
-            <h3 className="text-gray-500 text-sm">Collection Efficiency</h3>
-            <p className="text-3xl font-bold text-gray-800">
-              {totalIncome > 0 ? ((totalPaid / totalIncome) * 100).toFixed(1) : 0}%
-            </p>
-            <p className="text-sm text-gray-500 mt-2">
-              {formatCurrency(totalRemaining)} pending
-            </p>
+            <h3 className="text-gray-500 text-sm">Net Revenue</h3>
+            <p className="text-3xl font-bold text-gray-800">{formatCurrency(totalRevenue)}</p>
           </motion.div>
+
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -592,9 +623,9 @@ const Report: React.FC = () => {
             />
           </motion.div>
         </div>
+      
 
-        {/* Payment Status Doughnut Chart */}
-        {/* <div className="mt-6">
+        <div className="mt-6">
           <motion.div
             className="bg-white p-4 rounded-lg shadow"
             initial={{ y: -50 }}
@@ -602,88 +633,43 @@ const Report: React.FC = () => {
             transition={{ type: "spring", stiffness: 50 }}
           >
             <h3 className="text-lg font-semibold text-gray-700 mb-4">
-              Overall Payment Status
+              Monthly Revenue vs Taxes
             </h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div>
-                <Doughnut 
-                  data={paymentStatusChart} 
-                  options={{ 
-                    responsive: true,
-                    plugins: {
-                      legend: {
-                        position: 'bottom'
-                      }
-                    }
-                  }} 
-                />
-              </div>
-              <div className="flex flex-col justify-center">
-                <div className="mb-4">
-                  <h4 className="text-sm font-medium text-gray-600">Payment Received</h4>
-                  <p className="text-2xl font-semibold text-blue-600">{formatCurrency(totalPaid)}</p>
-                  <p className="text-sm text-gray-500">
-                    {((totalPaid / totalIncome) * 100).toFixed(1)}% of total billed
-                  </p>
-                </div>
-                <div>
-                  <h4 className="text-sm font-medium text-gray-600">Payment Pending</h4>
-                  <p className="text-2xl font-semibold text-red-600">{formatCurrency(totalRemaining)}</p>
-                  <p className="text-sm text-gray-500">
-                    {((totalRemaining / totalIncome) * 100).toFixed(1)}% of total billed
-                  </p>
-                </div>
-              </div>
-            </div>
-          </motion.div>
-        </div>
-      </div> */}
 
-        <div className="mt-6 h-auto">
-          <motion.div
-            className="bg-white p-4 rounded-lg shadow"
-            initial={{ y: -50 }}
-            animate={{ y: 0 }}
-            transition={{ type: "spring", stiffness: 50 }}
-          >
-            <h3 className="text-lg font-semibold text-gray-700 mb-4">
-              Overall Payment Status
-            </h3>
-            <div className="flex justify-center items-center">
-              <div>
-                <Doughnut
-                  height={400}
-                  width={400}
-                  data={paymentStatusChart}
-                  options={{
-                    responsive: true,
-                    plugins: {
-                      legend: {
-                        position: 'bottom'
+            <div className="w-full h-[400px]"> 
+              <Line
+                data={monthlyRevenueData}
+                options={{
+                  responsive: true,
+                  plugins: {
+                    tooltip: {
+                      callbacks: {
+                        label: function (context: TooltipItem<"line">) {
+                          const label = context.dataset.label || '';
+                          const value = context.raw as number;
+                          return `${label}: ₹${value.toLocaleString('en-IN', { maximumFractionDigits: 0 })}`;
+                        }
+                      }
+                    },
+                    legend: {
+                      position: 'bottom'
+                    }
+                  },
+                  scales: {
+                    y: {
+                      beginAtZero: true,
+                      title: {
+                        display: true,
+                        text: 'Amount (₹)'
                       }
                     }
-                  }}
-                />
-              </div>
-              <div className="flex flex-col justify-center">
-                <div className="mb-4">
-                  <h4 className="text-sm font-medium text-gray-600">Payment Received</h4>
-                  <p className="text-2xl font-semibold text-blue-600">{formatCurrency(totalPaid)}</p>
-                  <p className="text-sm text-gray-500">
-                    {((totalPaid / totalIncome) * 100).toFixed(1)}% of total billed
-                  </p>
-                </div>
-                <div>
-                  <h4 className="text-sm font-medium text-gray-600">Payment Pending</h4>
-                  <p className="text-2xl font-semibold text-red-600">{formatCurrency(totalRemaining)}</p>
-                  <p className="text-sm text-gray-500">
-                    {((totalRemaining / totalIncome) * 100).toFixed(1)}% of total billed
-                  </p>
-                </div>
-              </div>
+                  }
+                }}
+              />
             </div>
           </motion.div>
         </div>
+
       </div>
 
       {/* Patient and Appointment Statistics */}
@@ -793,6 +779,8 @@ const Report: React.FC = () => {
             </h3>
             <Radar data={radarData} options={{ responsive: true }} />
           </motion.div>
+
+
         </div>
       </div>
     </motion.div>

@@ -3,6 +3,7 @@ import { createReceptionist } from "../../redux/Action/adminaction";
 import toast from "react-hot-toast";
 
 const ReceptionistCreate: React.FC = () => {
+  const [loading, setLoading] = useState(false)
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState(0);
@@ -46,17 +47,19 @@ const ReceptionistCreate: React.FC = () => {
       const blob = new Blob([avatar], { type: "image/*" });
       formData.append("avatar", blob, "avatar.png");
     }
+    setLoading(true)
     createReceptionist(formData).then(() => {
 
       toast.success("Receptionist created Successfully !!! ")
-
+      setLoading(false)
 
     }).catch((e) => {
       console.log(e.message);
+      setLoading(false)
 
     })
 
-    
+
 
     // Optional: Reset the form fields
     setName("");
@@ -160,12 +163,13 @@ const ReceptionistCreate: React.FC = () => {
           )}
         </div>
 
-        
+
 
         {/* Submit Button */}
         <div className="col-span-2 flex justify-center mt-4">
           <button
             type="submit"
+            disabled={loading}
             className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition"
           >
             Create Receptionist

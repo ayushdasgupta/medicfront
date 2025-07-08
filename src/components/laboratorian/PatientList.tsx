@@ -13,16 +13,16 @@ const PatientList: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
 
-const newPatient=(e:React.FormEvent)=>{
-  e.preventDefault()
-  const formData=new FormData()
-  formData.append("name",name)
-  formData.append("phone",phone.toString())
-  formData.append("bloodgroup",bloodGroup)
-  createPatientByReception(formData).then(()=>{
-    toast.success("Patient created ")
-  }).catch((e)=>toast.error(e.message))
-}
+  const newPatient = (e: React.FormEvent) => {
+    e.preventDefault()
+    const formData = new FormData()
+    formData.append("name", name)
+    formData.append("phone", phone.toString())
+    formData.append("bloodgroup", bloodGroup)
+    createPatientByReception(formData).then(() => {
+      toast.success("Patient created ")
+    }).catch((e) => toast.error(e.message))
+  }
   const itemsPerPage = 10;
   useEffect(() => {
     patientListForlaboratorian().then((data) => {
@@ -38,11 +38,17 @@ const newPatient=(e:React.FormEvent)=>{
     });
   }, [])
 
-  const filteredPatients = patients.filter(
-    (patient) =>
-      patient.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    (patient.phone && patient.phone.toString().includes(searchQuery))
-  );
+  const filteredPatients = patients.filter((patient) => {
+    const searchWords = searchQuery.toLowerCase().split(" ");
+
+    return searchWords.every((word) =>
+      patient._id.toString().toLowerCase().includes(word) ||
+      patient.name.toLowerCase().includes(word) ||
+      (patient.phone && patient.phone.toString().includes(word)) ||
+      (patient.email && patient.email.toLowerCase().includes(word))
+    );
+  });
+
 
   const totalPages = Math.ceil(filteredPatients.length / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
@@ -51,13 +57,13 @@ const newPatient=(e:React.FormEvent)=>{
   return (
     <div className="bg-white/30 backdrop-blur-md p-6 rounded-lg shadow-lg">
       <div className="flex justify-between mb-3">
-      <h2 className="text-2xl font-semibold text-gray-800 ">Patient's List</h2>
+        <h2 className="text-2xl font-semibold text-gray-800 ">Patient's List</h2>
       </div>
       {/* Search Bar */}
       <div className="mb-4">
         <input
           type="text"
-          placeholder="Search patients by name, or phone"
+          placeholder="Search patients by name, phone,email with a space"
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
           className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring focus:ring-blue-500"
@@ -81,7 +87,7 @@ const newPatient=(e:React.FormEvent)=>{
             {paginatedPatients.length > 0 ? (
               paginatedPatients.map((patient) => (
                 <tr key={patient._id} className="hover:bg-gray-100">
-                   <td className="px-4 py-2 border border-gray-300 flex items-center gap-2">
+                  <td className="px-4 py-2 border border-gray-300 flex items-center gap-2">
                     {patient._id}
                     <button
                       onClick={() => {
@@ -92,7 +98,7 @@ const newPatient=(e:React.FormEvent)=>{
                     >
                       <Copy className="w-4 h-4" />
                     </button>
-                    </td>
+                  </td>
                   <td className="px-4 py-2 border border-gray-300">{patient.name}</td>
                   <td className="px-4 py-2 border border-gray-300">{patient.email || "None"}</td>
                   <td className="px-4 py-2 border border-gray-300">{patient.phone || "None"}</td>
@@ -142,63 +148,63 @@ const newPatient=(e:React.FormEvent)=>{
       )}
       {isPatient && (
         <div className="fixed inset-0 bg-black bg-opacity-30 flex justify-center items-center">
-        <div className="bg-white rounded-lg shadow-lg p-6 w-full max-w-md">
-          <h3 className="text-xl font-semibold mb-4">Create patient</h3>
-          <form onSubmit={newPatient} className="space-y-4">
-            <div>
-              <label className="block mb-1">Name</label>
-              <input
-                type="text"
-                value={name}
-                onChange={(e) =>
-                 setName(e.target.value)
-                }
-                className="w-full px-4 py-2 border rounded-lg"
-              />
-            </div>
-            <div>
-              <label className="block mb-1">Phone no</label>
-              <input
-                type="number"
-                value={phone}
-                onChange={(e) =>
-                 setPhone(Number(e.target.value))
-                }
-                className="w-full px-4 py-2 border rounded-lg"
-              />
-            </div>
-            <div>
-              <label className="block mb-1">Blood Group</label>
-              <input
-                type="text"
-                value={bloodGroup}
-                onChange={(e) =>
-                 setBloodGroup(e.target.value)
-                }
-                className="w-full px-4 py-2 border rounded-lg"
-              />
-            </div>
+          <div className="bg-white rounded-lg shadow-lg p-6 w-full max-w-md">
+            <h3 className="text-xl font-semibold mb-4">Create patient</h3>
+            <form onSubmit={newPatient} className="space-y-4">
+              <div>
+                <label className="block mb-1">Name</label>
+                <input
+                  type="text"
+                  value={name}
+                  onChange={(e) =>
+                    setName(e.target.value)
+                  }
+                  className="w-full px-4 py-2 border rounded-lg"
+                />
+              </div>
+              <div>
+                <label className="block mb-1">Phone no</label>
+                <input
+                  type="number"
+                  value={phone}
+                  onChange={(e) =>
+                    setPhone(Number(e.target.value))
+                  }
+                  className="w-full px-4 py-2 border rounded-lg"
+                />
+              </div>
+              <div>
+                <label className="block mb-1">Blood Group</label>
+                <input
+                  type="text"
+                  value={bloodGroup}
+                  onChange={(e) =>
+                    setBloodGroup(e.target.value)
+                  }
+                  className="w-full px-4 py-2 border rounded-lg"
+                />
+              </div>
 
-            <div className="flex justify-end space-x-2">
-              <button
-                type="button"
-                onClick={() => {
-                  setIsPatient(false);
-                }}
-                className="px-4 py-2 bg-gray-300 rounded-lg hover:bg-gray-400"
-              >
-                Cancel
-              </button>
-              <button
-                type="submit"
-                className="px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600"
-              >
-                Create
-              </button>
-            </div>
-          </form>
+              <div className="flex justify-end space-x-2">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setIsPatient(false);
+                  }}
+                  className="px-4 py-2 bg-gray-300 rounded-lg hover:bg-gray-400"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className="px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600"
+                >
+                  Create
+                </button>
+              </div>
+            </form>
+          </div>
         </div>
-      </div>
       )}
     </div>
   );

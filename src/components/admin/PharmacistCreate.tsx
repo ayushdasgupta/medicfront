@@ -3,6 +3,7 @@ import toast from "react-hot-toast";
 import { createPharmacistAdmin } from "../../redux/Action/adminaction";
 
 const PharmacistCreate: React.FC = () => {
+  const [loading, setLoading] = useState(false)
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState(0);
@@ -45,10 +46,13 @@ const PharmacistCreate: React.FC = () => {
       formData.append("avatar", blob, "avatar.png");
     }
     try {
+      setLoading(true)
       const data = await createPharmacistAdmin(formData)
       toast.success(data.message)
+      setLoading(false)
     } catch (error: any) {
       toast.error(error.message)
+      setLoading(false)
     }
 
     // Optional: Reset the form fields
@@ -154,6 +158,7 @@ const PharmacistCreate: React.FC = () => {
         <div className="col-span-2 flex justify-center mt-4">
           <button
             type="submit"
+            disabled={loading}
             className="px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition"
           >
             Create Pharamacist

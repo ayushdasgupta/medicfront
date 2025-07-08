@@ -4,6 +4,7 @@ import toast from "react-hot-toast";
 import { Copy } from "lucide-react";
 
 const PatientList: React.FC = () => {
+  const [loading, setLoading] = useState(false)
   const [patients, setPatients] = useState<IPatient[]>([]);
   const [isPatient, setIsPatient] = useState(false);
   const [phone, setPhone] = useState(0);
@@ -35,11 +36,11 @@ const PatientList: React.FC = () => {
     formData.append("name", name);
     formData.append("phone", phone.toString());
     formData.append("bloodgroup", bloodGroup);
-
+    setLoading(true)
     createPatientByReception(formData)
       .then((res) => {
         toast.success("Patient created");
-        const newId = res?.patient?._id || res?._id;
+        const newId = res?.id ;
         if (newId) {
           setCreatedPatientId(newId);
         }
@@ -55,12 +56,16 @@ const PatientList: React.FC = () => {
       .catch((e) => toast.error(e.message));
   };
 
-  const filteredPatients = patients.filter(
-    (patient) =>
-      patient._id.toString().includes(searchQuery.toLowerCase()) ||
-      patient.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      (patient.phone && patient.phone.toString().includes(searchQuery))
-  );
+  const filteredPatients = patients.filter((patient) => {
+    const searchWords = searchQuery.toLowerCase().split(" ");
+
+    return searchWords.every((word) =>
+      patient._id.toString().toLowerCase().includes(word) ||
+      patient.name.toLowerCase().includes(word) ||
+      (patient.phone && patient.phone.toString().includes(word)) ||
+      (patient.email && patient.email.toLowerCase().includes(word))
+    );
+  });
 
   const totalPages = Math.ceil(filteredPatients.length / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
@@ -82,7 +87,7 @@ const PatientList: React.FC = () => {
       <div className="mb-4">
         <input
           type="text"
-          placeholder="Search patients by name, or phone"
+          placeholder="Search patients by name,phone, email with a space"
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
           className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring focus:ring-blue-500"
@@ -143,8 +148,8 @@ const PatientList: React.FC = () => {
             onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
             disabled={currentPage === 1}
             className={`px-4 py-2 rounded-lg ${currentPage === 1
-                ? "bg-gray-300 cursor-not-allowed"
-                : "bg-blue-500 text-white hover:bg-blue-600"
+              ? "bg-gray-300 cursor-not-allowed"
+              : "bg-blue-500 text-white hover:bg-blue-600"
               }`}
           >
             Previous
@@ -156,8 +161,8 @@ const PatientList: React.FC = () => {
             onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
             disabled={currentPage === totalPages}
             className={`px-4 py-2 rounded-lg ${currentPage === totalPages
-                ? "bg-gray-300 cursor-not-allowed"
-                : "bg-blue-500 text-white hover:bg-blue-600"
+              ? "bg-gray-300 cursor-not-allowed"
+              : "bg-blue-500 text-white hover:bg-blue-600"
               }`}
           >
             Next
@@ -213,6 +218,7 @@ const PatientList: React.FC = () => {
                 <button
                   type="button"
                   onClick={() => setIsPatient(false)}
+                  disabled={loading}
                   className="px-4 py-2 bg-gray-300 rounded-lg hover:bg-gray-400"
                 >
                   Cancel

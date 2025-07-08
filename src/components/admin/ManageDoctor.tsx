@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {allDoctor, changeDocPassAdmin, deleteDocAdmin, updateDocAdmin, } from "../../redux/Action/adminaction";
+import { allDoctor, changeDocPassAdmin, deleteDocAdmin, updateDocAdmin, } from "../../redux/Action/adminaction";
 import toast from "react-hot-toast";
 import ConfirmationModal from "../ConfirmModal";
 
@@ -62,7 +62,7 @@ const ManageDoctor: React.FC = () => {
     setModalData(modalDetails);
     setIsModalOpen(true);
   };
-  
+
   // Pagination logic
   const totalPages = Math.ceil(filteredDoctor.length / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
@@ -246,21 +246,22 @@ const ManageDoctor: React.FC = () => {
       {/* Improved Update Doctor Details Modal */}
       {isEditing && selectedDoctor && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
-          <div className="bg-white rounded-xl shadow-2xl p-6 w-full max-w-lg">
+          <div className="bg-white rounded-xl shadow-2xl p-6 w-full max-w-3xl">
             <div className="flex justify-between items-center border-b pb-3 mb-4">
               <h3 className="text-xl font-semibold text-blue-700">Update Doctor Details</h3>
               <button
                 onClick={closeModal}
                 className="text-gray-500 hover:text-gray-700 transition-colors"
               >
-                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"></path>
+                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
                 </svg>
               </button>
             </div>
 
-            <form onSubmit={handleUpdateSubmit} className="space-y-4">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <form onSubmit={handleUpdateSubmit} className="space-y-6">
+              {/* First Row: 4 Inputs */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                 <div>
                   <label className="block mb-1 font-medium text-gray-700">Specialization</label>
                   <input
@@ -283,19 +284,14 @@ const ManageDoctor: React.FC = () => {
                     onChange={(e) =>
                       setSelectedDoctor((prev) =>
                         prev
-                          ? {
-                            ...prev,
-                            maxAppointmentsPerDay: Number(e.target.value),
-                          }
+                          ? { ...prev, maxAppointmentsPerDay: Number(e.target.value) }
                           : null
                       )
                     }
                     className="w-full px-4 py-2 border rounded-lg focus:ring focus:ring-blue-300 focus:outline-none transition-shadow"
                   />
                 </div>
-              </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                   <label className="block mb-1 font-medium text-gray-700">Start Time</label>
                   <input
@@ -304,10 +300,7 @@ const ManageDoctor: React.FC = () => {
                     onChange={(e) =>
                       setSelectedDoctor((prev) =>
                         prev
-                          ? {
-                            ...prev,
-                            availableHours: { ...prev.availableHours, start: e.target.value },
-                          }
+                          ? { ...prev, availableHours: { ...prev.availableHours, start: e.target.value } }
                           : null
                       )
                     }
@@ -323,10 +316,7 @@ const ManageDoctor: React.FC = () => {
                     onChange={(e) =>
                       setSelectedDoctor((prev) =>
                         prev
-                          ? {
-                            ...prev,
-                            availableHours: { ...prev.availableHours, end: e.target.value },
-                          }
+                          ? { ...prev, availableHours: { ...prev.availableHours, end: e.target.value } }
                           : null
                       )
                     }
@@ -335,26 +325,26 @@ const ManageDoctor: React.FC = () => {
                 </div>
               </div>
 
+              {/* Second Row: Available Days */}
               <div>
                 <label className="block mb-2 font-medium text-gray-700">Available Days</label>
-                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2 bg-gray-50 p-3 rounded-lg">
+                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2 bg-gray-50 p-4 rounded-lg">
                   {daysOfWeek.map((day) => (
-                    <div key={day} className="flex items-center">
-                      <label className="flex items-center space-x-2 cursor-pointer">
-                        <input
-                          type="checkbox"
-                          value={day}
-                          checked={selectedDays.includes(day)}
-                          onChange={() => handleDayChange(day)}
-                          className="rounded text-blue-600 focus:ring-blue-500 h-4 w-4"
-                        />
-                        <span className="text-gray-700">{day}</span>
-                      </label>
-                    </div>
+                    <label key={day} className="flex items-center space-x-2 cursor-pointer">
+                      <input
+                        type="checkbox"
+                        value={day}
+                        checked={selectedDays.includes(day)}
+                        onChange={() => handleDayChange(day)}
+                        className="rounded text-blue-600 focus:ring-blue-500 h-4 w-4"
+                      />
+                      <span className="text-gray-700">{day}</span>
+                    </label>
                   ))}
                 </div>
               </div>
 
+              {/* Actions */}
               <div className="flex justify-end space-x-3 pt-3 border-t">
                 <button
                   type="button"
@@ -374,6 +364,7 @@ const ManageDoctor: React.FC = () => {
           </div>
         </div>
       )}
+
 
       {/* Improved Password Change Modal */}
       {ispass && selectedDoctor && (

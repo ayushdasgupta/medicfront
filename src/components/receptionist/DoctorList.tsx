@@ -60,13 +60,16 @@ const DoctorList: React.FC = () => {
       });
   }, []);
 
-  const filteredDoctor = doctors.filter(
-    (doctor) =>
-      doctor.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      doctor.email.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      doctor.phone.toString().includes(searchQuery)
-  );
+const filteredDoctor = doctors.filter((doctor) => {
+  const searchWords = searchQuery.toLowerCase().split(" ");
 
+  return searchWords.every((word) =>
+    doctor.name.toLowerCase().includes(word) ||
+    doctor.email.toLowerCase().includes(word) ||
+    doctor.phone.toString().includes(word) ||
+    (doctor.specialization && doctor.specialization.toLowerCase().includes(word)) 
+  );
+});
   const totalPages = Math.ceil(filteredDoctor.length / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
   const paginatedDoctors = filteredDoctor.slice(startIndex, startIndex + itemsPerPage);
@@ -103,7 +106,7 @@ const DoctorList: React.FC = () => {
       <div className="mb-4">
         <input
           type="text"
-          placeholder="Search doctors by name, email, or phone"
+          placeholder="Search doctors by name, email, phone and spcialization with a space"
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
           className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring focus:ring-blue-500"

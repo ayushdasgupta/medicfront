@@ -5,8 +5,6 @@ import { getInvoice } from "../redux/Action/invoiceaction.js";
 import Loader from "./Loader.js";
 import { APPNAME } from '../utils/constant.js';
 
-// import logo from '/app.svg'
-
 const Invoice: React.FC = () => {
   const printPdf = useRef<HTMLDivElement>(null);
   const [invoice, setInvoice] = useState<IInvoice | null>(null)

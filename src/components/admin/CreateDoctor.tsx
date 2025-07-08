@@ -15,6 +15,7 @@ const specializations = [
 const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
 
 const CreateDoctor: React.FC = () => {
+  const [loading, setLoading] = useState(false)
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState(0);
@@ -60,7 +61,7 @@ const CreateDoctor: React.FC = () => {
     } else {
       setPasswordError("");
     }
-
+    setLoading(true)
     const formData = new FormData();
     formData.append("name", name);
     formData.append("email", email);
@@ -86,8 +87,10 @@ const CreateDoctor: React.FC = () => {
       setSpecialization(""); setAvailableHours({ start: "", end: "" });
       setMaxAppointmentsPerDay(20); setAvatar(undefined); setImagePreview(null);
       setSelectedDays([]); setPasswordError("");
+      setLoading(false)
     } catch (error: any) {
       toast.error(error?.response?.data?.message || error.message || "Something went wrong.");
+      setLoading(false)
     }
   };
 
@@ -199,7 +202,7 @@ const CreateDoctor: React.FC = () => {
 
         {/* Submit */}
         <div className="col-span-2 flex justify-center mt-4">
-          <button type="submit" className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition">
+          <button type="submit" disabled={loading} className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition">
             Create Doctor
           </button>
         </div>

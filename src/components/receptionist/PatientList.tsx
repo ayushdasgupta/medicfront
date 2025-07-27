@@ -7,7 +7,7 @@ const PatientList: React.FC = () => {
   const [loading, setLoading] = useState(false)
   const [patients, setPatients] = useState<IPatient[]>([]);
   const [isPatient, setIsPatient] = useState(false);
-  const [phone, setPhone] = useState(0);
+  const [phone, setPhone] = useState<string>("");
   const [name, setName] = useState("");
   const [bloodGroup, setBloodGroup] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
@@ -34,7 +34,7 @@ const PatientList: React.FC = () => {
     e.preventDefault();
     const formData = new FormData();
     formData.append("name", name);
-    formData.append("phone", phone.toString());
+    formData.append("phone", phone);
     formData.append("bloodgroup", bloodGroup);
     setLoading(true)
     createPatientByReception(formData)
@@ -50,7 +50,7 @@ const PatientList: React.FC = () => {
         if (data?.patients) setPatients(data.patients);
         setIsPatient(false);
         setName("");
-        setPhone(0);
+        setPhone("");
         setBloodGroup("");
       })
       .catch((e) => toast.error(e.message));
@@ -175,7 +175,7 @@ const PatientList: React.FC = () => {
       {isPatient && (
         <div className="fixed inset-0 bg-black bg-opacity-30 flex justify-center items-center z-40">
           <div className="bg-white rounded-lg shadow-lg p-6 w-full max-w-md">
-            <h3 className="text-xl font-semibold mb-4">Create patient</h3>
+            <h3 className="text-xl font-semibold mb-4">Create Patient</h3>
             <form onSubmit={newPatient} className="space-y-4">
               <div>
                 <label className="block mb-1">Name</label>
@@ -183,6 +183,7 @@ const PatientList: React.FC = () => {
                   type="text"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
+                  placeholder="Enter name of the Patient"
                   className="w-full px-4 py-2 border rounded-lg"
                 />
               </div>
@@ -191,7 +192,8 @@ const PatientList: React.FC = () => {
                 <input
                   type="number"
                   value={phone}
-                  onChange={(e) => setPhone(Number(e.target.value))}
+                  placeholder="Enter here"
+                  onChange={(e) => setPhone(e.target.value)}
                   className="w-full px-4 py-2 border rounded-lg"
                 />
               </div>

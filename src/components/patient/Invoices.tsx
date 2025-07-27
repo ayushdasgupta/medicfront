@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAppSelector } from "../../redux/hooks/custom";
-import { format } from "date-fns";
+import { dateFormater, timeFormater } from "../../utils/constant";
 
 const Invoices: React.FC = () => {
   const { patient } = useAppSelector((state) => state.patient);
@@ -56,7 +56,7 @@ const Invoices: React.FC = () => {
         <table className="table-auto w-full text-left border-collapse border border-gray-300">
           <thead>
             <tr className="bg-blue-500/80 text-white">
-              {["Date", "Action"].map((header, index) => (
+              {["Date","Time", "Action"].map((header, index) => (
                 <th
                   key={index}
                   className="px-4 py-2 border border-gray-300 cursor-pointer"
@@ -72,7 +72,13 @@ const Invoices: React.FC = () => {
               currentInvoices.map((invoice) => (
                 <tr key={invoice._id} className="hover:bg-gray-100 transition">
                   <td className="px-4 py-2 border border-gray-300">
-                    {invoice.createdAt ? format(new Date(invoice.createdAt), "yyyy-MM-dd HH:mm:ss") : "N/A"}
+                    {invoice.createdAt
+                    ? dateFormater(invoice.createdAt):"N/A"}
+                  </td>
+                  <td className="px-4 py-2 border border-gray-300">
+                  {invoice.createdAt?
+                     timeFormater(invoice.createdAt):"N/A"
+                  }
                   </td>
                   <td className="px-4 py-2 border border-gray-300">
                     <button
@@ -100,9 +106,8 @@ const Invoices: React.FC = () => {
         <button
           onClick={() => handlePageChange(currentPage - 1)}
           disabled={currentPage === 1}
-          className={`px-4 py-2 bg-blue-500 text-white rounded-lg shadow-md hover:bg-blue-600 transition ${
-            currentPage === 1 ? "opacity-50 cursor-not-allowed" : ""
-          }`}
+          className={`px-4 py-2 bg-blue-500 text-white rounded-lg shadow-md hover:bg-blue-600 transition ${currentPage === 1 ? "opacity-50 cursor-not-allowed" : ""
+            }`}
         >
           Previous
         </button>
@@ -112,9 +117,8 @@ const Invoices: React.FC = () => {
         <button
           onClick={() => handlePageChange(currentPage + 1)}
           disabled={currentPage === totalPages}
-          className={`px-4 py-2 bg-blue-500 text-white rounded-lg shadow-md hover:bg-blue-600 transition ${
-            currentPage === totalPages ? "opacity-50 cursor-not-allowed" : ""
-          }`}
+          className={`px-4 py-2 bg-blue-500 text-white rounded-lg shadow-md hover:bg-blue-600 transition ${currentPage === totalPages ? "opacity-50 cursor-not-allowed" : ""
+            }`}
         >
           Next
         </button>

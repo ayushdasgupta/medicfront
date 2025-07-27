@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 import toast from "react-hot-toast";
 import { createMedicine } from "../../redux/Action/pharmacistaction";
+import { medicineCategories } from "../../utils/constant";
 
 const MedicineCreate: React.FC = () => {
   const [name, setName] = useState("");
-  const [quantity, setQuantity] = useState(0);
-  const [perUnitCost, setPerUnitCost] = useState(0);
-  const [tax, setTax] = useState(0)
+  const [quantity, setQuantity] = useState<string>("");
+  const [perUnitCost, setPerUnitCost] = useState<string>("");
+  const [tax, setTax] = useState<string>("")
   const [category, setCategory] = useState("Other");
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -14,23 +15,23 @@ const MedicineCreate: React.FC = () => {
     console.log({ name, quantity, perUnitCost, category });
     const formData = new FormData();
     formData.append("name", name);
-    formData.append("quantity", quantity.toString());
-    formData.append("perUnitCost", perUnitCost.toString());
-    formData.append("tax", tax.toString());
+    formData.append("quantity", quantity);
+    formData.append("perUnitCost", perUnitCost);
+    formData.append("tax", tax);
     formData.append("category", category);
 
     try {
-      const data=await createMedicine(formData)
+      const data = await createMedicine(formData)
       toast.success(data.message)
     } catch (error: any) {
       toast.error(error.message)
     }
 
     setName("");
-    setQuantity(0);
-    setPerUnitCost(0);
+    setQuantity("");
+    setPerUnitCost("");
     setCategory("");
-    setTax(0)
+    setTax("")
   };
   return (
 
@@ -52,6 +53,7 @@ const MedicineCreate: React.FC = () => {
             type="text"
             id="name"
             value={name}
+            placeholder="Enter name here"
             onChange={(e) => setName(e.target.value)}
             className="w-full px-2 py-1 mt-1 border rounded focus:outline-none"
             required
@@ -66,8 +68,9 @@ const MedicineCreate: React.FC = () => {
           <input
             type="number"
             id="quantity"
+            placeholder="Enter Quantity"
             value={quantity}
-            onChange={(e) => setQuantity(Number(e.target.value))}
+            onChange={(e) => setQuantity(e.target.value)}
             className="w-full px-2 py-1 mt-1 border rounded focus:outline-none"
             required
           />
@@ -81,8 +84,9 @@ const MedicineCreate: React.FC = () => {
           <input
             type="number"
             id="unitcost"
+            placeholder="Enter here"
             value={perUnitCost}
-            onChange={(e) => setPerUnitCost(Number(e.target.value))}
+            onChange={(e) => setPerUnitCost(e.target.value)}
             className="w-full px-2 py-1 mt-1 border rounded focus:outline-none"
             required
           />
@@ -93,7 +97,7 @@ const MedicineCreate: React.FC = () => {
           <label htmlFor="tax" className="text-gray-700 text-sm">
             Tax
           </label>
-          <select onChange={(e) => { setTax(Number(e.target.value)) }} className="w-full px-2 py-1 mt-1 border rounded focus:outline-none" name="" id="" value={tax}>
+          <select onChange={(e) => { setTax(e.target.value)}} className="w-full px-2 py-1 mt-1 border rounded focus:outline-none" name="" id="" value={tax}>
             <option value={0}>NILL</option>
             <option value={5}>5 %</option>
             <option value={12}>12 %</option>
@@ -107,11 +111,16 @@ const MedicineCreate: React.FC = () => {
           <label htmlFor="category" className="text-gray-700 text-sm">
             Category
           </label>
-          <select onChange={(e) => { setCategory(e.target.value) }} className="w-full px-2 py-1 mt-1 border rounded focus:outline-none" name="" id="" value={category}>
-            <option value="Other">Other</option>
-            <option value="Antibiotic">Antibiotic</option>
-            <option value="Painkiller">Painkiller</option>
-            <option value="Supplement">Supplement</option>
+          <select
+            onChange={(e) => setCategory(e.target.value)}
+            className="w-full px-2 py-1 mt-1 border rounded focus:outline-none"
+            value={category}
+          >
+            {medicineCategories.map((cat) => (
+              <option key={cat} value={cat}>
+                {cat}
+              </option>
+            ))}
           </select>
         </div>
 

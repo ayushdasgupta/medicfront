@@ -60,16 +60,19 @@ const DoctorList: React.FC = () => {
       });
   }, []);
 
-const filteredDoctor = doctors.filter((doctor) => {
-  const searchWords = searchQuery.toLowerCase().split(" ");
+  const filteredDoctor = doctors.filter((doctor) => {
+    const searchWords = searchQuery.toLowerCase().split(" ");
 
-  return searchWords.every((word) =>
-    doctor.name.toLowerCase().includes(word) ||
-    doctor.email.toLowerCase().includes(word) ||
-    doctor.phone.toString().includes(word) ||
-    (doctor.specialization && doctor.specialization.toLowerCase().includes(word)) 
-  );
-});
+    return searchWords.every((word) =>
+      doctor.name.toLowerCase().includes(word) ||
+      doctor.email.toLowerCase().includes(word) ||
+      doctor.phone.toString().includes(word) ||
+      (Array.isArray(doctor.specialization) &&
+        doctor.specialization.some(spec =>
+          spec.toLowerCase().includes(word)
+        ))
+    );
+  });
   const totalPages = Math.ceil(filteredDoctor.length / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
   const paginatedDoctors = filteredDoctor.slice(startIndex, startIndex + itemsPerPage);
@@ -78,7 +81,7 @@ const filteredDoctor = doctors.filter((doctor) => {
     e.preventDefault();
 
     if (selectedDate && docId && patientId.trim()) {
-      const dateStr = new Date(selectedDate).toISOString().split("T")[0];
+      const dateStr = new Date(selectedDate).toLocaleDateString('sv-SE');
       const formdata = {
         date: dateStr,
         id: docId,
@@ -138,7 +141,11 @@ const filteredDoctor = doctors.filter((doctor) => {
                   <td className="px-4 py-2 border border-gray-300 text-center">{doctor.name}</td>
                   <td className="px-4 py-2 border border-gray-300 text-center">{doctor.email}</td>
                   <td className="px-4 py-2 border border-gray-300 text-center">{doctor.phone}</td>
-                  <td className="px-4 py-2 border border-gray-300 text-center">{doctor.specialization}</td>
+                  <td className="px-4 py-2 border border-gray-300 text-center">
+                    {Array.isArray(doctor.specialization)
+                      ? doctor.specialization.join(", ")
+                      : doctor.specialization}
+                  </td>
                   <td className="px-4 py-2 border border-gray-300 text-center">{doctor.availableHours.start}</td>
                   <td className="px-4 py-2 border border-gray-300 text-center">{doctor.fees}</td>
                   <td className="px-4 py-2 border border-gray-300 text-center">
@@ -176,11 +183,10 @@ const filteredDoctor = doctors.filter((doctor) => {
           <button
             onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
             disabled={currentPage === 1}
-            className={`px-4 py-2 rounded-lg ${
-              currentPage === 1
+            className={`px-4 py-2 rounded-lg ${currentPage === 1
                 ? "bg-gray-300 cursor-not-allowed"
                 : "bg-blue-500 text-white hover:bg-blue-600"
-            }`}
+              }`}
           >
             Previous
           </button>
@@ -190,11 +196,10 @@ const filteredDoctor = doctors.filter((doctor) => {
           <button
             onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
             disabled={currentPage === totalPages}
-            className={`px-4 py-2 rounded-lg ${
-              currentPage === totalPages
+            className={`px-4 py-2 rounded-lg ${currentPage === totalPages
                 ? "bg-gray-300 cursor-not-allowed"
                 : "bg-blue-500 text-white hover:bg-blue-600"
-            }`}
+              }`}
           >
             Next
           </button>

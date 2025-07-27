@@ -1,0 +1,47 @@
+{
+  "welcome": "{{appname}} এ স্বাগতম",
+  "subtitle": "হাসপাতাল ব্যবস্থাপনার জন্য আপনার একমাত্র সমাধান।",
+  "get_started": "শুরু করুন",
+  "book_appointments": "অ্যাপয়েন্টমেন্ট বুক করুন",
+  "book_appointments_desc": "সহজেই আমাদের বিশেষজ্ঞদের সাথে অ্যাপয়েন্টমেন্ট বুক করুন।",
+  "doctor_directory": "ডাক্তার তালিকা",
+  "doctor_directory_desc": "আমাদের বিশেষজ্ঞ ডাক্তারদের প্রোফাইল দেখুন।",
+  "medical_records": "মেডিকেল রেকর্ড",
+  "medical_records_desc": "আপনার স্বাস্থ্য রেকর্ড নিরাপদে সংরক্ষণ ও অ্যাক্সেস করুন।",
+  "footer": "সর্বস্বত্ব সংরক্ষিত।",
+
+  "patient_registration": "রোগী নিবন্ধন",
+  "register": "নিবন্ধন করুন",
+  "register_success": "সফলভাবে নিবন্ধিত হয়েছে!",
+
+  "name": "নাম",
+  "name_placeholder": "আপনার নাম লিখুন",
+
+  "email": "ইমেল",
+  "email_placeholder": "আপনার ইমেল লিখুন",
+
+  "phone": "ফোন",
+  "phone_placeholder": "আপনার ফোন নম্বর লিখুন",
+
+  "age": "বয়স",
+  "age_placeholder": "আপনার বয়স লিখুন",
+
+  "password": "পাসওয়ার্ড",
+  "password_placeholder": "একটি পাসওয়ার্ড তৈরি করুন",
+
+  "gender": "লিঙ্গ",
+  "gender_select": "লিঙ্গ নির্বাচন করুন",
+  "male": "পুরুষ",
+  "female": "নারী",
+  "others": "অন্যান্য",
+
+  "patient_reset_password": "রোগীর পাসওয়ার্ড রিসেট করুন",
+  "new_password": "নতুন পাসওয়ার্ড",
+  "confirm_password": "পাসওয়ার্ড নিশ্চিত করুন",
+  "new_password_placeholder": "আপনার নতুন পাসওয়ার্ড লিখুন",
+  "confirm_password_placeholder": "পাসওয়ার্ড আবার লিখুন",
+  "change_password": "পাসওয়ার্ড পরিবর্তন করুন",
+  "password_mismatch_error": "নতুন পাসওয়ার্ড এবং নিশ্চিত পাসওয়ার্ড একই হতে হবে",
+  "password_reset_success": "পাসওয়ার্ড সফলভাবে রিসেট হয়েছে",
+  "password_reset_error": "পাসওয়ার্ড রিসেট করতে সমস্যা হয়েছে"
+}

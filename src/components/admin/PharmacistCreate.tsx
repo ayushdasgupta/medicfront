@@ -67,7 +67,7 @@ const PharmacistCreate: React.FC = () => {
 
     <div className="bg-gradient-to-bl from-blue-100 via-white to-gray-100 p-4 rounded-lg shadow-lg w-full ">
       <h2 className="text-xl font-semibold text-gray-800 mb-4 text-left">
-        Create Pharmacists
+        Create Pharmacist
       </h2>
       <form
         onSubmit={handleSubmit}
@@ -159,10 +159,14 @@ const PharmacistCreate: React.FC = () => {
           <button
             type="submit"
             disabled={loading}
-            className="px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition"
+            className={`px-4 py-2 rounded-lg transition
+            ${loading
+                ? "bg-gray-400 text-white cursor-not-allowed"
+                : "bg-green-500 text-white hover:bg-green-600"}`}
           >
-            Create Pharamacist
+            {loading ? "Creating..." : "Create Pharmacist"}
           </button>
+
         </div>
       </form>
     </div>

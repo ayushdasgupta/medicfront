@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useAppSelector } from "../../redux/hooks/custom";
+import { dateFormater } from "../../utils/constant";
 
 const Reports: React.FC = () => {
   const { patient } = useAppSelector((state) => state.patient);
@@ -7,7 +8,7 @@ const Reports: React.FC = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [sortField, setSortField] = useState<keyof IReport | null>(null);
   const [sortDirection, setSortDirection] = useState<"asc" | "desc">("asc");
-//   const navigate = useNavigate();
+  //   const navigate = useNavigate();
   const itemsPerPage = 5;
 
   useEffect(() => {
@@ -57,7 +58,7 @@ const Reports: React.FC = () => {
         <table className="table-auto w-full text-left border-collapse border border-gray-300">
           <thead>
             <tr className="bg-blue-500/80 text-white">
-              {["name", "uploadDate",  "action"].map((header, index) => (
+              {["name", "uploadDate", "action"].map((header, index) => (
                 <th
                   key={index}
                   className="px-4 py-2 border border-gray-300 cursor-pointer"
@@ -75,9 +76,9 @@ const Reports: React.FC = () => {
                 <tr key={index} className="hover:bg-gray-100 transition">
                   <td className="px-4 py-2 border border-gray-300">{report.name}</td>
                   <td className="px-4 py-2 border border-gray-300">
-                    {new Date(report.uploadDate).toLocaleDateString()}
+                  {dateFormater(report.uploadDate)}
                   </td>
-                 
+
                   <td className="px-4 py-2 border border-gray-300">
                     <button
                       onClick={() => handleViewReport(report.url)}
@@ -85,7 +86,7 @@ const Reports: React.FC = () => {
                     >
                       View
                     </button>
-                    
+
                   </td>
                 </tr>
               ))
@@ -105,9 +106,8 @@ const Reports: React.FC = () => {
         <button
           onClick={() => handlePageChange(currentPage - 1)}
           disabled={currentPage === 1}
-          className={`px-4 py-2 bg-blue-500 text-white rounded-lg shadow-md hover:bg-blue-600 transition ${
-            currentPage === 1 ? "opacity-50 cursor-not-allowed" : ""
-          }`}
+          className={`px-4 py-2 bg-blue-500 text-white rounded-lg shadow-md hover:bg-blue-600 transition ${currentPage === 1 ? "opacity-50 cursor-not-allowed" : ""
+            }`}
         >
           Previous
         </button>
@@ -117,9 +117,8 @@ const Reports: React.FC = () => {
         <button
           onClick={() => handlePageChange(currentPage + 1)}
           disabled={currentPage === totalPages || totalPages === 0}
-          className={`px-4 py-2 bg-blue-500 text-white rounded-lg shadow-md hover:bg-blue-600 transition ${
-            currentPage === totalPages || totalPages === 0 ? "opacity-50 cursor-not-allowed" : ""
-          }`}
+          className={`px-4 py-2 bg-blue-500 text-white rounded-lg shadow-md hover:bg-blue-600 transition ${currentPage === totalPages || totalPages === 0 ? "opacity-50 cursor-not-allowed" : ""
+            }`}
         >
           Next
         </button>

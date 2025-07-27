@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import {Menu,X} from 'lucide-react'
+import { Menu, X, Sun, Moon } from 'lucide-react'
+import { useTheme } from "../utils/ThemeContext";
 interface SidebarProps {
   activeTab: string;
   setActiveTab: (tab: string) => void;
@@ -10,11 +11,11 @@ interface SidebarProps {
 
 const Sidebar: React.FC<SidebarProps> = ({ activeTab, setActiveTab, tabs, name, logout }) => {
   const [isMobileSidebarOpen, setMobileSidebarOpen] = useState(false);
-
+  const { theme, toggleTheme } = useTheme();
   return (
     <>
       {/* Large Screen Sidebar */}
-      <div className="hidden md:flex z-50 w-64 bg-white/30 backdrop-blur-md rounded-r-xl shadow-lg flex-col">
+      <div className="hidden md:flex z-50 w-64 bg-white/30 backdrop-blur-md rounded-r-xl shadow-lg flex-col ">
         <div className="text-center py-6 font-extrabold text-lg text-gray-800 border-b border-white/40">
           Menu
         </div>
@@ -23,7 +24,7 @@ const Sidebar: React.FC<SidebarProps> = ({ activeTab, setActiveTab, tabs, name, 
             <button
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
-              className={`w-full text-left px-6 py-4 transition duration-200 hover:bg-white/20 rounded-lg ${activeTab === tab.id ? "bg-white/40" : ""
+              className={`w-full text-left px-6 py-4 transition duration-200  rounded-lg ${activeTab === tab.id ? "bg-white/40" : ""
                 }`}
             >
               {tab.label}
@@ -36,11 +37,18 @@ const Sidebar: React.FC<SidebarProps> = ({ activeTab, setActiveTab, tabs, name, 
       <div>
         {/* Hamburger Menu */}
         <button
-          className="md:hidden fixed top-4 right-2 z-50 bg-blue-500 text-white p-2 rounded"
+          className="md:hidden fixed top-4 right-2 z-50 bg-blue-500 text-white  p-2 rounded"
           onClick={() => setMobileSidebarOpen(!isMobileSidebarOpen)}
         >
-          {isMobileSidebarOpen===false? (<Menu/>):(<X/>)}
-          
+          {isMobileSidebarOpen === false ? (<Menu />) : (<X />)}
+
+        </button>
+        <button
+          onClick={toggleTheme}
+          className="md:hidden fixed top-4 right-14 z-30  p-2 rounded-full bg-gray-200 dark:bg-gray-800 text-black dark:text-white transition"
+          aria-label="Toggle Theme"
+        >
+          {theme === 'dark' ? <Sun size={20} /> : <Moon size={20} />}
         </button>
 
         {/* Mobile Sidebar */}

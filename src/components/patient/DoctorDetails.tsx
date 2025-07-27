@@ -98,7 +98,8 @@ const DoctorDetails: React.FC<{ id: string }> = ({ id }) => {
       "time": doctor.availableHours?.start!,
       "specialization": doctor.specialization!
     };
-
+    console.log(formdata);
+    
     try {
       let data = await bookAppointment(formdata);
       toast.success("Appointment booked successfully!");
@@ -146,7 +147,7 @@ const DoctorDetails: React.FC<{ id: string }> = ({ id }) => {
             {doctor?.name}
           </h2>
           <p className="text-lg text-blue-600 font-medium">
-            {doctor?.specialization}
+            {doctor?.specialization.join(", ")}
           </p>
           <p className="text-gray-600 mt-2">
             <span className="font-semibold">Email:</span> {doctor?.email}

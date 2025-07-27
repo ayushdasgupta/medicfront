@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {  } from "../../redux/Action/doctoraction";
-import { allPatient,deletePatientAdmin } from "../../redux/Action/adminaction";
+import { allPatient, deletePatientAdmin } from "../../redux/Action/adminaction";
 import toast from "react-hot-toast";
 import ConfirmationModal from "../ConfirmModal";
 
@@ -42,12 +41,15 @@ const ManagePatients: React.FC = () => {
     setModalData(modalDetails);
     setIsModalOpen(true);
   };
-  const filteredPatients = patients.filter(
-    (patient) =>
-      patient.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      patient.email.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      patient.phone.toString().includes(searchQuery)
-  );
+  const filteredPatients = patients.filter((patient) => {
+    const searchWords = (searchQuery || "").toLowerCase().split(" ");
+
+    return searchWords.every((word) =>
+      (patient.name?.toLowerCase() || "").includes(word) ||
+      (patient.email?.toLowerCase() || "").includes(word) ||
+      (patient.phone?.toString() || "").includes(word)
+    );
+  });
 
   // Pagination logic
   const totalPages = Math.ceil(filteredPatients.length / itemsPerPage);
@@ -115,9 +117,9 @@ const ManagePatients: React.FC = () => {
                     {startIndex + index + 1}
                   </td>
                   <td className="px-4 py-2 border border-gray-300">{patient.name}</td>
-                  <td className="px-4 py-2 border border-gray-300">{patient.email}</td>
-                  <td className="px-4 py-2 border border-gray-300">{patient.phone}</td>
-                  <td className="px-4 py-2 border border-gray-300 text-center">{patient.age}</td>
+                  <td className="px-4 py-2 border border-gray-300">{patient.email || "None"}</td>
+                  <td className="px-4 py-2 border border-gray-300">{patient.phone || "None"}</td>
+                  <td className="px-4 py-2 border border-gray-300 text-center">{patient.age || "None"}</td>
                   <td className="px-4 py-2 border border-gray-300 text-center">
                     <button
                       onClick={() => handleDelete(patient._id)}
@@ -146,8 +148,8 @@ const ManagePatients: React.FC = () => {
             onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
             disabled={currentPage === 1}
             className={`px-4 py-2 rounded-lg ${currentPage === 1
-                ? "bg-gray-300 cursor-not-allowed"
-                : "bg-blue-500 text-white hover:bg-blue-600"
+              ? "bg-gray-300 cursor-not-allowed"
+              : "bg-blue-500 text-white hover:bg-blue-600"
               }`}
           >
             Previous
@@ -159,8 +161,8 @@ const ManagePatients: React.FC = () => {
             onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
             disabled={currentPage === totalPages}
             className={`px-4 py-2 rounded-lg ${currentPage === totalPages
-                ? "bg-gray-300 cursor-not-allowed"
-                : "bg-blue-500 text-white hover:bg-blue-600"
+              ? "bg-gray-300 cursor-not-allowed"
+              : "bg-blue-500 text-white hover:bg-blue-600"
               }`}
           >
             Next

@@ -1,7 +1,7 @@
 import React from "react";
 
 
-const DoctorCard: React.FC<DoctorCardProps> = ({  name, specialization, image,onViewMore }) => {
+const DoctorCard: React.FC<DoctorCardProps> = ({ name, specialization, image, onViewMore }) => {
   return (
     <div className="bg-white/30 backdrop-blur-md rounded-xl shadow-lg p-6  hover:shadow-xl transition-shadow">
       {/* Doctor Image */}
@@ -16,7 +16,9 @@ const DoctorCard: React.FC<DoctorCardProps> = ({  name, specialization, image,on
       {/* Doctor Info */}
       <div className="mt-4">
         <h3 className="text-xl font-semibold text-gray-800">{name}</h3>
-        <p className="text-gray-800 mt-2"><span className="font-bold">Specialization:</span> {specialization}</p>
+        <p className="text-gray-800 mt-2">
+          <span className="font-bold">Specialization:</span> {specialization.join(', ')}
+        </p>
       </div>
 
       {/* View More Button */}

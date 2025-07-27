@@ -1,4 +1,4 @@
-import {axiosInstance as axios} from '../../utils/axiosinstance'
+import { axiosInstance as axios } from '../../utils/axiosinstance'
 import { X } from "lucide-react";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -34,11 +34,7 @@ const Test: React.FC = () => {
             Object.entries(data.patient).forEach(([key, value]) => {
                 setValue(key as any, value);
             });
-            if (data.patient.tests && Array.isArray(data.patient.tests)) {
-                setTests(data.patient.tests);
-            } else {
-                setTests([]);
-            }
+            setTests([]);
         } catch (error: any) {
             toast.error(error.medicalFields);
             setPatient(null);
@@ -60,11 +56,11 @@ const Test: React.FC = () => {
         index: number,
         field: K,
         value: ITest[K]
-      ) => {
+    ) => {
         const updatedTests = [...tests];
         updatedTests[index][field] = value;
         setTests(updatedTests);
-      };
+    };
 
     const onSubmit = async () => {
         console.log("Tests:", tests);
@@ -72,10 +68,10 @@ const Test: React.FC = () => {
             const data = await createTestForPatient(patientId, { tests })
             toast.success(data.message);
             setTests([])
-        } catch (error:any) {
+        } catch (error: any) {
             toast.error(error.message);
         }
-        
+
     };
 
     return (

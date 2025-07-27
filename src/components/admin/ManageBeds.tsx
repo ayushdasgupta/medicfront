@@ -1,43 +1,46 @@
 import React, { useEffect, useState } from "react";
-import {allBeds, deleteBeds } from "../../redux/Action/adminaction";
+import { allBeds, deleteBeds } from "../../redux/Action/adminaction";
 import toast from "react-hot-toast";
 import ConfirmationModal from "../ConfirmModal";
 
 const ManageBeds: React.FC = () => {
-  const [beds, setBeds] = useState<IBeds[]>([]); 
+  const [beds, setBeds] = useState<IBeds[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
-  
-    const [isModalOpen, setIsModalOpen] = useState(false);
-  
-    const [modalData, setModalData] = useState({
-      id: "",
-      actionType: "" as "Delete",
-      title: "",
-      message: ""
-    });
-  useEffect(()=>{
-    allBeds().then((data:any)=>{
-      if(data?.beds){
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const [modalData, setModalData] = useState({
+    id: "",
+    actionType: "" as "Delete",
+    title: "",
+    message: ""
+  });
+  useEffect(() => {
+    allBeds().then((data: any) => {
+      if (data?.beds) {
         setBeds(data.beds)
-      }else{
+      } else {
         console.error("Unexpected data format:", data);
         setBeds([]);
       }
-    }) .catch((error:any) => {
+    }).catch((error: any) => {
       console.error("Error fetching beds:", error);
       setBeds([]);
     });
-  },[])
- 
-  const filteredBeds = beds.filter(
-    (beds) =>
-      // beds.bednumber.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      beds.bednumber.toString().includes(searchQuery) ||
-      beds.floornumber.toString().includes(searchQuery) ||
-      beds.category.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  }, [])
+
+  const filteredBeds = beds.filter((bed) => {
+    const searchWords = searchQuery.toLowerCase().split(" ");
+
+    return searchWords.every((word) =>
+      bed.bednumber.toString().includes(word) ||
+      bed.floornumber.toString().includes(word) ||
+      bed.category.toLowerCase().includes(word)
+    );
+  });
+
 
   // Pagination logic
   const totalPages = Math.ceil(filteredBeds.length / itemsPerPage);
@@ -59,7 +62,7 @@ const ManageBeds: React.FC = () => {
   // Delete a bed
   const handleDelete = (id: string) => {
     openConfirmationModal("Delete", id)
-  
+
   };
   const handleConfirmAction = async () => {
     try {
@@ -88,7 +91,7 @@ const ManageBeds: React.FC = () => {
       <div className="mb-4">
         <input
           type="text"
-          placeholder="Search Beds by catagory, floor no"
+          placeholder="Search Beds by catagory, floor no and catagory with a space"
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
           className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring focus:ring-blue-500"
@@ -150,11 +153,10 @@ const ManageBeds: React.FC = () => {
           <button
             onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
             disabled={currentPage === 1}
-            className={`px-4 py-2 rounded-lg ${
-              currentPage === 1
+            className={`px-4 py-2 rounded-lg ${currentPage === 1
                 ? "bg-gray-300 cursor-not-allowed"
                 : "bg-blue-500 text-white hover:bg-blue-600"
-            }`}
+              }`}
           >
             Previous
           </button>
@@ -164,11 +166,10 @@ const ManageBeds: React.FC = () => {
           <button
             onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
             disabled={currentPage === totalPages}
-            className={`px-4 py-2 rounded-lg ${
-              currentPage === totalPages
+            className={`px-4 py-2 rounded-lg ${currentPage === totalPages
                 ? "bg-gray-300 cursor-not-allowed"
                 : "bg-blue-500 text-white hover:bg-blue-600"
-            }`}
+              }`}
           >
             Next
           </button>

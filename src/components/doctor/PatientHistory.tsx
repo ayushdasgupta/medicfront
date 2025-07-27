@@ -1,24 +1,26 @@
-import axios from "axios";
+import { axiosInstance as axios } from "../../utils/axiosinstance";
 import React, { useState } from "react";
 import toast from "react-hot-toast";
+import { useAppSelector } from "../../redux/hooks/custom";
+import { dateFormater } from "../../utils/constant";
 
 const PatientHistory: React.FC = () => {
   const [patientId, setPatientId] = useState("");
   const [patient, setPatient] = useState<IPatient | null>(null);
   const [loading, setLoading] = useState(false);
-
+  const { doctor } = useAppSelector(state => state.doctor)
 
   const handleSearch = async () => {
     if (!patientId.trim()) {
       toast.error("Please enter a valid Patient ID");
       return;
     }
-    
+
     setLoading(true);
     try {
-      const {data} = await axios.get(`/api/v1/patient/info/${patientId}`,{
-        headers:{
-          "Content-Type":"application/json"
+      const { data } = await axios.get(`/api/v1/patient/info/${patientId}`, {
+        headers: {
+          "Content-Type": "application/json"
         }
       });
       setPatient(data.patient);
@@ -62,37 +64,39 @@ const PatientHistory: React.FC = () => {
           <p className="text-gray-600">Blood Group: {patient.bloodgroup}</p>
           <h4 className="text-lg font-medium mt-3">Allergies:</h4>
           <ul className="list-disc list-inside text-gray-700">
-          {patient.allergies.length > 0 ? (
-            patient.allergies.map((item, index) => <li key={index}>`${item.name}:${item.causes}`</li>)
-          ) : (
-            <p className="text-gray-500">No allergies history available.</p>
-          )}
+            {patient.allergies.length > 0 ? (
+              patient.allergies.map((item, index) => <li key={index}>`${item.name}:${item.causes}`</li>)
+            ) : (
+              <p className="text-gray-500">No allergies history available.</p>
+            )}
           </ul>
           <h4 className="text-lg font-medium mt-3">Medical Records:</h4>
           <ul className="list-disc list-inside text-gray-700">
-          {patient.medicalRecord.length > 0 ? (
+            {patient.medicalRecord.length > 0 ? (
               patient.medicalRecord.map((item, index) => <li key={index}>{item.record}</li>)
             ) : (
               <p className="text-gray-500">No medical history available.</p>
             )}
           </ul>
           <h4 className="text-lg font-medium mt-4">Previous Appointments:</h4>
-          {/* <ul className="list-disc list-inside text-gray-700">
-            {patient.appointment.length > 0 ? (
+          <ul className="list-disc list-inside text-gray-700">
+            {patient.appointment && patient.appointment.length > 0 ? (
               patient.appointment
-                .filter((appt) => new Date(appt.date) < new Date()) // Only past appointments
-                .filter((appt) => appt.doctor === doctorName) // Match doctor name
-                .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()) // Sort by latest first
+                .filter((appt) => appt.doctorId._id === doctor!._id! && appt.status === "Completed")
+                .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
                 .map((appt, index) => (
                   <li key={index} className="py-2">
-                    <span className="font-medium">{new Date(appt.date).toLocaleDateString()}</span> - {appt.status}
+                    <span className="font-medium">
+                      {dateFormater(appt.date)}
+                    </span>{" "}
+                    - {appt.remark}
                   </li>
                 ))
             ) : (
-              <p className="text-gray-500">No previous appointments.</p>
+              <p className="text-gray-500">No previous appointments with you.</p>
             )}
-          </ul> */}
-          
+          </ul>
+
         </div>
       )}
     </div>

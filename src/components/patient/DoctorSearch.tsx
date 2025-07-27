@@ -28,15 +28,20 @@ const DoctorSearch: React.FC = () => {
     });
   }, []);
 
-  const handleSearch = (query: string) => {
-    setSearchQuery(query);
-    const filtered = allDoctors.filter(
-      (doc) =>
-        doc.name.toLowerCase().includes(query.toLowerCase()) ||
-        doc.specialization.toLowerCase().includes(query.toLowerCase())
-    );
-    setFilteredDoctors(filtered);
-  };
+ const handleSearch = (query: string) => {
+  setSearchQuery(query);
+  const lowerQuery = query.toLowerCase();
+
+  const filtered = allDoctors.filter((doc) =>
+    doc.name.toLowerCase().includes(lowerQuery) ||
+    doc.specialization.some((spec) =>
+      spec.toLowerCase().includes(lowerQuery)
+    )
+  );
+
+  setFilteredDoctors(filtered);
+};
+
 
   return (
     <div className="bg-white/30 backdrop-blur-md shadow-lg rounded-lg p-8">
@@ -56,7 +61,7 @@ const DoctorSearch: React.FC = () => {
 
       {/* Doctor Grid */}
       <Suspense fallback={<Loader />}>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {filteredDoctors.map((doc) => (
             <DoctorCard
               key={doc._id}

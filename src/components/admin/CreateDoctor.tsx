@@ -2,15 +2,13 @@ import React, { useState } from "react";
 import { createDoctor } from "../../redux/Action/adminaction";
 import toast from "react-hot-toast";
 import { Eye, EyeOff } from "lucide-react";
+import { specializations } from "../../utils/constant";
 
 const daysOfWeek = [
   "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday",
 ];
 
-const specializations = [
-  "Cardiologist", "Dermatologist", "Neurologist", "Orthopedic",
-  "Pediatrician", "Psychiatrist", "Radiologist", "General Physician", "ENT Specialist",
-];
+
 
 const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
 
@@ -23,7 +21,9 @@ const CreateDoctor: React.FC = () => {
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [passwordError, setPasswordError] = useState("");
-  const [specialization, setSpecialization] = useState("");
+  const [specialization, setSpecialization] = useState<string[]>([]);
+  const [showCustomInput, setShowCustomInput] = useState(false);
+  const [customSpec, setCustomSpec] = useState("");
   const [availableHours, setAvailableHours] = useState({ start: "", end: "" });
   const [maxAppointmentsPerDay, setMaxAppointmentsPerDay] = useState(20);
   const [avatar, setAvatar] = useState<ArrayBuffer | undefined>();
@@ -68,7 +68,9 @@ const CreateDoctor: React.FC = () => {
     formData.append("phone", phone.toString());
     formData.append("fees", fees.toString());
     formData.append("password", password);
-    formData.append("specialization", specialization);
+    specialization.forEach((spec) => {
+      formData.append("specialization", spec);
+    });
     formData.append("availableHoursStart", availableHours.start);
     formData.append("availableHoursEnd", availableHours.end);
     formData.append("maxAppointmentsPerDay", maxAppointmentsPerDay.toString());
@@ -84,7 +86,7 @@ const CreateDoctor: React.FC = () => {
       toast.success("Doctor created successfully!");
       // Reset form
       setName(""); setEmail(""); setPhone(0); setFees(0); setPassword("");
-      setSpecialization(""); setAvailableHours({ start: "", end: "" });
+      setSpecialization([]); setAvailableHours({ start: "", end: "" });
       setMaxAppointmentsPerDay(20); setAvatar(undefined); setImagePreview(null);
       setSelectedDays([]); setPasswordError("");
       setLoading(false)
@@ -151,14 +153,86 @@ const CreateDoctor: React.FC = () => {
 
         {/* Specialization */}
         <div>
-          <label htmlFor="specialization" className="text-gray-700 text-sm">Specialization</label>
-          <select id="specialization" value={specialization} onChange={(e) => setSpecialization(e.target.value)} className="w-full px-2 py-1 mt-1 border rounded" required>
-            <option value="">Select specialization</option>
-            {specializations.map((spec) => (
-              <option key={spec} value={spec}>{spec}</option>
+          <label htmlFor="specialization" className="text-gray-700 text-sm block mb-1">Specializations</label>
+
+          {/* Dropdown selection */}
+          <div className="flex gap-2 mb-2">
+            <select
+              id="specialization-select"
+              className="border rounded px-2 py-1 w-full"
+              onChange={(e) => {
+                const value = e.target.value;
+                if (value === "") return;
+
+                if (value === "Other") {
+                  setShowCustomInput(true);
+                } else if (!specialization.includes(value)) {
+                  setSpecialization((prev) => [...prev, value]);
+                }
+
+                // Reset dropdown
+                e.target.value = "";
+              }}
+            >
+              <option value="">Select specialization</option>
+              {specializations.map((spec) => (
+                <option key={spec} value={spec}>
+                  {spec}
+                </option>
+              ))}
+              <option value="Other">Other</option>
+            </select>
+          </div>
+
+          {/* Custom input for 'Other' */}
+          {showCustomInput && (
+            <div className="flex gap-2 mb-2">
+              <input
+                type="text"
+                placeholder="Enter custom specialization"
+                className="border rounded px-2 py-1 w-full"
+                value={customSpec}
+                onChange={(e) => setCustomSpec(e.target.value)}
+              />
+              <button
+                type="button"
+                className="bg-blue-500 text-white px-3 py-1 rounded"
+                onClick={() => {
+                  const trimmed = customSpec.trim();
+                  if (trimmed && !specialization.includes(trimmed)) {
+                    setSpecialization((prev) => [...prev, trimmed]);
+                  }
+                  setCustomSpec("");
+                  setShowCustomInput(false);
+                }}
+              >
+                Add
+              </button>
+            </div>
+          )}
+
+          {/* Display selected specializations */}
+          <div className="flex flex-wrap gap-2 mt-2">
+            {specialization.map((spec) => (
+              <span
+                key={spec}
+                className="bg-gray-200 text-sm px-2 py-1 rounded-full flex items-center gap-1"
+              >
+                {spec}
+                <button
+                  type="button"
+                  className="text-red-500 hover:text-red-700 text-xs"
+                  onClick={() =>
+                    setSpecialization((prev) => prev.filter((s) => s !== spec))
+                  }
+                >
+                  ✕
+                </button>
+              </span>
             ))}
-          </select>
+          </div>
         </div>
+
 
         {/* Avatar */}
         <div>
@@ -202,8 +276,13 @@ const CreateDoctor: React.FC = () => {
 
         {/* Submit */}
         <div className="col-span-2 flex justify-center mt-4">
-          <button type="submit" disabled={loading} className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition">
-            Create Doctor
+          <button
+            type="submit"
+            disabled={loading}
+            className={`px-4 py-2 rounded-lg transition 
+            ${loading ? "bg-gray-400 cursor-not-allowed" : "bg-green-500 hover:bg-green-600 text-white"}`}
+          >
+            {loading ? "Creating..." : "Create Doctor"}
           </button>
         </div>
       </form>

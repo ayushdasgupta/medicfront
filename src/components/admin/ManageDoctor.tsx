@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { allDoctor, changeDocPassAdmin, deleteDocAdmin, updateDocAdmin, } from "../../redux/Action/adminaction";
 import toast from "react-hot-toast";
 import ConfirmationModal from "../ConfirmModal";
+import { specializations } from "../../utils/constant";
 
 const daysOfWeek = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
 const ManageDoctor: React.FC = () => {
@@ -19,6 +20,9 @@ const ManageDoctor: React.FC = () => {
     title: "",
     message: ""
   });
+  const [specialization, setSpecialization] = useState<string[]>([]);
+  const [customSpec, setCustomSpec] = useState("");
+  const [showCustomInput, setShowCustomInput] = useState(false);
 
   const handleDayChange = (day: string) => {
     setSelectedDays((prev) =>
@@ -43,12 +47,15 @@ const ManageDoctor: React.FC = () => {
       });
   }, []);
 
-  const filteredDoctor = doctors.filter(
-    (doctor) =>
-      doctor.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      doctor.email.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      doctor.phone.includes(searchQuery)
-  );
+  const filteredDoctor = doctors.filter((doctor) => {
+    const searchWords = searchQuery.toLowerCase().split(" ");
+
+    return searchWords.every((word) =>
+      doctor.name.toLowerCase().includes(word) ||
+      doctor.email.toLowerCase().includes(word) ||
+      doctor.phone.toString().includes(word)
+    );
+  });
   const openConfirmationModal = (action: "Delete", id: string) => {
     const doctorName = doctors.find(a => a._id === id)?.name;
 
@@ -94,6 +101,7 @@ const ManageDoctor: React.FC = () => {
   const handleUpdate = (doctor: IDoctor) => {
     setSelectedDoctor(doctor);
     setSelectedDays([...doctor.availability]);
+    setSpecialization([...doctor.specialization]);
     setIsEditing(true);
   };
   const handleChange = (doctor: IDoctor) => {
@@ -106,13 +114,13 @@ const ManageDoctor: React.FC = () => {
     if (!selectedDoctor) return;
     const formData = {
       id: selectedDoctor._id,
-      specialization: selectedDoctor.specialization,
+      specialization: specialization,
       maxAppointmentsPerDay: selectedDoctor.maxAppointmentsPerDay,
       availableHoursStart: selectedDoctor.availableHours.start,
       availableHoursEnd: selectedDoctor.availableHours.end,
       availability: [...selectedDays],
     };
-
+    
     updateDocAdmin(formData)
       .then(() => {
         toast.success("Doctor updated successfully!");
@@ -152,7 +160,7 @@ const ManageDoctor: React.FC = () => {
       <div className="mb-4">
         <input
           type="text"
-          placeholder="Search doctors by name, email, or phone"
+          placeholder="Search doctors by name, email, and phone with a space"
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
           className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring focus:ring-blue-500"
@@ -181,7 +189,9 @@ const ManageDoctor: React.FC = () => {
                   <td className="px-4 py-2 border border-gray-300">{doctor.email}</td>
                   <td className="px-4 py-2 border border-gray-300">{doctor.phone}</td>
                   <td className="px-4 py-2 border border-gray-300 text-center">
-                    {doctor.specialization}
+                    {Array.isArray(doctor.specialization)
+                      ? doctor.specialization.join(", ")
+                      : doctor.specialization}
                   </td>
                   <td className="px-4 py-2 border border-gray-300 text-center">
                     <button
@@ -263,18 +273,89 @@ const ManageDoctor: React.FC = () => {
               {/* First Row: 4 Inputs */}
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                 <div>
-                  <label className="block mb-1 font-medium text-gray-700">Specialization</label>
-                  <input
-                    type="text"
-                    value={selectedDoctor.specialization}
-                    onChange={(e) =>
-                      setSelectedDoctor((prev) =>
-                        prev ? { ...prev, specialization: e.target.value } : null
-                      )
-                    }
-                    className="w-full px-4 py-2 border rounded-lg focus:ring focus:ring-blue-300 focus:outline-none transition-shadow"
-                  />
+                  <label htmlFor="specialization" className="text-gray-700 text-sm block mb-1">
+                    Specializations
+                  </label>
+
+                  {/* Dropdown selection */}
+                  <div className="flex gap-2 mb-2">
+                    <select
+                      id="specialization-select"
+                      className="border rounded px-2 py-1 w-full"
+                      onChange={(e) => {
+                        const value = e.target.value;
+                        if (value === "") return;
+
+                        if (value === "Other") {
+                          setShowCustomInput(true);
+                        } else if (!specialization.includes(value)) {
+                          setSpecialization((prev) => [...prev, value]);
+                        }
+
+                        // Reset dropdown
+                        e.target.value = "";
+                      }}
+                    >
+                      <option value="">Select specialization</option>
+                      {specializations.map((spec) => (
+                        <option key={spec} value={spec}>
+                          {spec}
+                        </option>
+                      ))}
+                      <option value="Other">Other</option>
+                    </select>
+                  </div>
+
+                  {/* Custom input for 'Other' */}
+                  {showCustomInput && (
+                    <div className="flex gap-2 mb-2">
+                      <input
+                        type="text"
+                        placeholder="Enter custom specialization"
+                        className="border rounded px-2 py-1 w-full"
+                        value={customSpec}
+                        onChange={(e) => setCustomSpec(e.target.value)}
+                      />
+                      <button
+                        type="button"
+                        className="bg-blue-500 text-white px-3 py-1 rounded"
+                        onClick={() => {
+                          const trimmed = customSpec.trim();
+                          if (trimmed && !specialization.includes(trimmed)) {
+                            setSpecialization((prev) => [...prev, trimmed]);
+                          }
+                          setCustomSpec("");
+                          setShowCustomInput(false);
+                        }}
+                      >
+                        Add
+                      </button>
+                    </div>
+                  )}
+
+                  {/* Display selected specializations */}
+                  <div className="flex flex-wrap gap-2 mt-2">
+                    {specialization.map((spec) => (
+                      <span
+                        key={spec}
+                        className="bg-gray-200 text-sm px-2 py-1 rounded-full flex items-center gap-1"
+                      >
+                        {spec}
+                        <button
+                          type="button"
+                          className="text-red-500 hover:text-red-700 text-xs"
+                          onClick={() =>
+                            setSpecialization((prev) => prev.filter((s) => s !== spec))
+                          }
+                        >
+                          ✕
+                        </button>
+                      </span>
+                    ))}
+                  </div>
                 </div>
+
+
 
                 <div>
                   <label className="block mb-1 font-medium text-gray-700">Max Appointments/Day</label>

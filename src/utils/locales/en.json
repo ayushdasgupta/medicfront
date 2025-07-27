@@ -1,0 +1,47 @@
+{
+  "welcome": "Welcome to {{appname}}",
+  "subtitle": "Your one-stop solution for hospital management.",
+  "get_started": "Get Started",
+  "book_appointments": "Book Appointments",
+  "book_appointments_desc": "Easily book appointments with our specialists.",
+  "doctor_directory": "Doctor Directory",
+  "doctor_directory_desc": "Access detailed profiles of all our expert doctors.",
+  "medical_records": "Medical Records",
+  "medical_records_desc": "Securely manage and access your medical history.",
+  "footer": "All rights reserved.",
+
+   "patient_registration": "Patient Registration",
+  "register": "Register",
+  "register_success": "Successfully Registered!",
+  
+  "name": "Name",
+  "name_placeholder": "Enter your name",
+
+  "email": "Email",
+  "email_placeholder": "Enter your email",
+
+  "phone": "Phone",
+  "phone_placeholder": "Enter your phone number",
+
+  "age": "Age",
+  "age_placeholder": "Enter your age",
+
+  "password": "Password",
+  "password_placeholder": "Create a password",
+
+  "gender": "Gender",
+  "gender_select": "Select Gender",
+  "male": "Male",
+  "female": "Female",
+  "others": "Others",
+
+  "patient_reset_password": "Patient Reset Password",
+  "new_password": "New Password",
+  "confirm_password": "Confirm Password",
+  "new_password_placeholder": "Enter your new password",
+  "confirm_password_placeholder": "Enter the password again",
+  "change_password": "Change Password",
+  "password_mismatch_error": "New Password and Confirm password should be same",
+  "password_reset_success": "Password reset successful",
+  "password_reset_error": "Error resetting password"
+}

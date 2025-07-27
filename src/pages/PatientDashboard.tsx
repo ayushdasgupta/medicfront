@@ -109,7 +109,7 @@ const PatientDashboard: React.FC = () => {
     <Loader />
   ) : (
     <Suspense fallback={<Loader />}>
-      <div className="overflow-auto flex h-screen bg-gradient-to-br from-blue-100 via-white to-gray-100">
+      <div className="overflow-auto flex h-screen bg-gradient-to-br from-blue-100 via-white to-gray-100 ">
         {/* Sidebar */}
         <Sidebar
           tabs={tabs}

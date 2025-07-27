@@ -55,7 +55,6 @@ const AllMedicines: React.FC = () => {
         return searchWords.every((word) =>
             medicine.name.toString().includes(word) ||
             medicine.quantity.toString().includes(word) ||
-            medicine.tax.toString().includes(word) ||
             medicine.category.toLowerCase().includes(word) ||
             medicine.perUnitCost.toString().includes(word) // Allow charge-based filtering
         );
@@ -119,7 +118,7 @@ const AllMedicines: React.FC = () => {
             <div className="mb-4">
                 <input
                     type="text"
-                    placeholder="Search medicines by catagory, name with a space"
+                    placeholder="Search medicines by catagory, name, Quantity and Unit cost with a space"
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                     className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring focus:ring-blue-500"

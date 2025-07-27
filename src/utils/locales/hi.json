@@ -1,0 +1,47 @@
+{
+  "welcome": "{{appname}} में आपका स्वागत है",
+  "subtitle": "अस्पताल प्रबंधन के लिए आपकी एकमात्र समाधान।",
+  "get_started": "शुरू करें",
+  "book_appointments": "नियुक्ति बुक करें",
+  "book_appointments_desc": "हमारे विशेषज्ञों के साथ आसानी से नियुक्ति बुक करें।",
+  "doctor_directory": "डॉक्टर डायरेक्टरी",
+  "doctor_directory_desc": "सभी विशेषज्ञ डॉक्टरों की जानकारी देखें।",
+  "medical_records": "चिकित्सा रिकॉर्ड",
+  "medical_records_desc": "अपने मेडिकल रिकॉर्ड को सुरक्षित रूप से प्रबंधित करें।",
+  "footer": "सभी अधिकार सुरक्षित।",
+
+  "patient_registration": "रोगी पंजीकरण",
+  "register": "पंजीकरण करें",
+  "register_success": "सफलतापूर्वक पंजीकृत किया गया!",
+
+  "name": "नाम",
+  "name_placeholder": "अपना नाम दर्ज करें",
+
+  "email": "ईमेल",
+  "email_placeholder": "अपना ईमेल दर्ज करें",
+
+  "phone": "फ़ोन",
+  "phone_placeholder": "अपना फ़ोन नंबर दर्ज करें",
+
+  "age": "आयु",
+  "age_placeholder": "अपनी आयु दर्ज करें",
+
+  "password": "पासवर्ड",
+  "password_placeholder": "पासवर्ड बनाएं",
+
+  "gender": "लिंग",
+  "gender_select": "लिंग चुनें",
+  "male": "पुरुष",
+  "female": "महिला",
+  "others": "अन्य",
+
+  "patient_reset_password": "रोगी पासवर्ड रीसेट करें",
+  "new_password": "नया पासवर्ड",
+  "confirm_password": "पासवर्ड की पुष्टि करें",
+  "new_password_placeholder": "अपना नया पासवर्ड दर्ज करें",
+  "confirm_password_placeholder": "पासवर्ड फिर से दर्ज करें",
+  "change_password": "पासवर्ड बदलें",
+  "password_mismatch_error": "नया पासवर्ड और पुष्टि पासवर्ड एक जैसे होने चाहिए",
+  "password_reset_success": "पासवर्ड सफलतापूर्वक रीसेट किया गया",
+  "password_reset_error": "पासवर्ड रीसेट करने में त्रुटि हुई"
+}

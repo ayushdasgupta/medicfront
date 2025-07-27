@@ -1,51 +1,100 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { allAppointmentToday } from "../../redux/Action/receptionistaction";
+
+const TOKEN_MAP_KEY = "appointment_token_map";
 
 const ShowAppointment: React.FC = () => {
   const [appointments, setAppointments] = useState<IAppointment[]>([]);
   const [groupedAppointments, setGroupedAppointments] = useState<Record<string, IAppointment[]>>({});
+  const tokenMapRef = useRef<Record<string, number>>({});
+  const pollerRef = useRef<ReturnType<typeof setInterval> | null>(null);
+
+  // Load tokens from localStorage once
+  useEffect(() => {
+    const storedMap = localStorage.getItem(TOKEN_MAP_KEY);
+    if (storedMap) {
+      tokenMapRef.current = JSON.parse(storedMap);
+    }
+  }, []);
+
+  const saveTokenMapToStorage = () => {
+    localStorage.setItem(TOKEN_MAP_KEY, JSON.stringify(tokenMapRef.current));
+  };
+
+  const assignTokens = (fetched: IAppointment[]) => {
+    const updatedMap = { ...tokenMapRef.current };
+    let maxToken = Math.max(0, ...Object.values(updatedMap));
+
+    const withTokens = fetched.map((appointment) => {
+      if (!updatedMap[appointment._id]) {
+        updatedMap[appointment._id] = ++maxToken;
+      }
+      return { ...appointment, token: updatedMap[appointment._id] };
+    });
+
+    tokenMapRef.current = updatedMap;
+    saveTokenMapToStorage();
+    return withTokens;
+  };
+
+  const fetchAppointments = async (isInitial = false) => {
+    try {
+      const data = await allAppointmentToday();
+      const fetched = (data?.appointments || []).sort(
+        (a: IAppointment, b: IAppointment) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
+      );
+
+      if (fetched.length === 0) {
+        setAppointments([]);
+        setGroupedAppointments({});
+        console.log("No appointments. Stopping further polling.");
+        localStorage.removeItem(TOKEN_MAP_KEY);
+        // Stop polling forever
+        if (pollerRef.current) clearInterval(pollerRef.current);
+        pollerRef.current = null;
+        return;
+      }
+
+      // If this was the initial fetch and data exists, start polling
+      if (isInitial && !pollerRef.current) {
+        pollerRef.current = setInterval(() => {
+          fetchAppointments();
+        }, 60000); // 1 min
+      }
+
+      const withTokens = assignTokens(fetched);
+      setAppointments(withTokens);
+    } catch (err) {
+      console.error("Error fetching appointments:", err);
+    }
+  };
 
   useEffect(() => {
-    allAppointmentToday()
-      .then((data) => {
-        const sortedAppointments = (data?.appointments || []).sort(
-          (a: IAppointment, b: IAppointment) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
-        );
-        console.log("all appointment "+sortedAppointments);
-        
-        setAppointments(sortedAppointments);
-      })
-      .catch((error) => {
-        console.error("Error fetching appointments:", error);
-      });
+    fetchAppointments(true); // Initial fetch
+
+    return () => {
+      if (pollerRef.current) clearInterval(pollerRef.current);
+    };
   }, []);
 
   useEffect(() => {
-    if (appointments.length > 0) {
-      const grouped = appointments.reduce((acc: Record<string, IAppointment[]>, appointment, index) => {
-        const doctorName = appointment.doctor;
-        const appointmentWithToken = { ...appointment, token: index + 1 };
-
-        if (!acc[doctorName]) {
-          acc[doctorName] = [];
-        }
-
-        acc[doctorName].push(appointmentWithToken);
-        return acc;
-      }, {});
-
-      setGroupedAppointments(grouped);
-      
-    }
-    // console.log(groupedAppointments);
+    const grouped = appointments.reduce((acc: Record<string, IAppointment[]>, appointment) => {
+      const doctor = appointment.doctor;
+      if (!acc[doctor]) acc[doctor] = [];
+      acc[doctor].push(appointment);
+      return acc;
+    }, {});
+    setGroupedAppointments(grouped);
   }, [appointments]);
 
   const removeAppointment = (doctorName: string, appointmentId: string) => {
-    setGroupedAppointments((prevGrouped) => {
-      const updatedAppointments = prevGrouped[doctorName].filter((app) => app._id !== appointmentId);
-
-      return { ...prevGrouped, [doctorName]: updatedAppointments };
+    setGroupedAppointments((prev) => {
+      const updated = prev[doctorName].filter((a) => a._id !== appointmentId);
+      return { ...prev, [doctorName]: updated };
     });
+
+    setAppointments((prev) => prev.filter((a) => a._id !== appointmentId));
+    // Token remains in tokenMapRef for consistency
   };
 
   return (
@@ -91,13 +140,6 @@ const ShowAppointment: React.FC = () => {
                       </td>
                     </tr>
                   ))}
-                  {doctorAppointments.length === 0 && (
-                    <tr>
-                      <td colSpan={5} className="py-3 text-center text-gray-500">
-                        No appointments available.
-                      </td>
-                    </tr>
-                  )}
                 </tbody>
               </table>
             </div>

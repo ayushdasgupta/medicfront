@@ -1,4 +1,5 @@
 import Home from "./pages/Home";
+import Homecopy from "./pages/Home-copy";
 import NotFound from "./pages/NotFound";
 
 import AdminDashboard from "./pages/AdminDashboard";
@@ -31,7 +32,7 @@ const App = () => {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route path="/" element={<Homecopy/>} />
         <Route path="/patient/register" element={<PatientRegister />} />
         <Route path="/patient/login" element={<PatientLogin />} />
         <Route path="/patient/forgotpassword" element={<PatientForgotPass />} />

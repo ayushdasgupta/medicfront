@@ -6,6 +6,7 @@ import { loadpatientinfo } from "../../redux/slice/patientSlice";
 import { createOrder, verifyOrder } from "../../redux/Action/razorpayaction";
 import ConfirmationModal from "../ConfirmModal";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks/custom";
+import { APPNAME, dateFormater } from "../../utils/constant";
 
 
 const AppointmentsTable: React.FC = () => {
@@ -22,7 +23,7 @@ const AppointmentsTable: React.FC = () => {
     title: "",
     message: ""
   });
-  const dispatch=useAppDispatch()
+  const dispatch = useAppDispatch()
   const itemsPerPage = 5;
 
   const loadScript = (src: string) => {
@@ -46,8 +47,12 @@ const AppointmentsTable: React.FC = () => {
 
       const paymentObject = new (window as any).Razorpay({
         key: import.meta.env.VITE_RAZORPAY_KEY_ID,
-        order_id: data.id,
-        ...data,
+        amount: data.order.amount,
+        currency: data.order.currency,
+        name: APPNAME,
+        description: "Appointment Payment",
+        order_id: data.order.id,
+        
         handler: function (response: any) {
           console.log(response);
           const options = {
@@ -66,13 +71,14 @@ const AppointmentsTable: React.FC = () => {
               loadpatient().then((data) => {
                 setAppointments(data?.patient?.appointment || []);
                 dispatch(loadpatientinfo(data));
-              }).catch(e=>toast.error(e.message))
+              }).catch(e => toast.error(e.message))
             }
             else {
               toast.error("Payment Failed")
             }
           })
-        }
+        },
+
       })
       paymentObject.open()
     } catch (error) {
@@ -211,7 +217,7 @@ const AppointmentsTable: React.FC = () => {
         <div className="grid grid-cols-2 gap-2 mb-3">
           <div>
             <p className="text-gray-500 text-sm">Date</p>
-            <p className="font-semibold">{appointment.date.toLocaleString().split("T")[0]}</p>
+            <p className="font-semibold">{dateFormater(appointment.date)}</p>
           </div>
           <div>
             <p className="text-gray-500 text-sm">Time</p>
@@ -231,22 +237,29 @@ const AppointmentsTable: React.FC = () => {
           </div>
           <div>
             <p className="text-gray-500 text-sm">Specialization</p>
-            <p className="font-semibold">{appointment.specialization}</p>
+            <p className="font-semibold">{appointment.specialization?.join(", ")}</p>
           </div>
         </div>
 
         <div className="flex justify-between items-center mt-4">
           <div>
             <p className="text-gray-500 text-sm mb-1">Status</p>
-            <select
-              value={statuses[appointment._id] || "Pending"}
-              onChange={(e) => handleStatusChange(appointment._id, e.target.value)}
-              disabled={statuses[appointment._id] === "Cancel"}
-              className={`px-3 py-1 rounded-lg ${statuses[appointment._id] === "Cancel" ? "bg-red-100 text-red-600" : "bg-green-100 text-green-600"}`}
-            >
-              <option value="Pending">Pending</option>
-              <option value="Cancel">Cancel</option>
-            </select>
+            {appointment.status === "Completed" ? (
+              <span className="text-green-600 font-semibold">Completed</span>
+            ) : (
+              <select
+                value={statuses[appointment._id] || "Pending"}
+                onChange={(e) => handleStatusChange(appointment._id, e.target.value)}
+                disabled={statuses[appointment._id] === "Cancel"}
+                className={`px-3 py-1 rounded-lg ${statuses[appointment._id] === "Cancel"
+                  ? "bg-red-100 text-red-600"
+                  : "bg-green-100 text-green-600"
+                  }`}
+              >
+                <option value="Pending">Pending</option>
+                <option value="Cancel">Cancel</option>
+              </select>
+            )}
           </div>
 
           <div>
@@ -286,21 +299,31 @@ const AppointmentsTable: React.FC = () => {
             {currentAppointments.length > 0 ? (
               currentAppointments.map((appointment) => (
                 <tr key={appointment._id} className="hover:bg-gray-100 transition">
-                  <td className="px-4 py-2 border border-gray-300">{appointment.date.toLocaleString().split("T")[0]}</td>
+                  <td className="px-4 py-2 border border-gray-300">{dateFormater(appointment.date)}</td>
                   <td className="px-4 py-2 border border-gray-300">{appointment.time}</td>
                   <td className="px-4 py-2 border border-gray-300">{appointment.doctor}</td>
                   <td className="px-4 py-2 border border-gray-300">{appointment.fees}</td>
-                  <td className="px-4 py-2 border border-gray-300">{appointment.specialization}</td>
                   <td className="px-4 py-2 border border-gray-300">
-                    <select
-                      value={statuses[appointment._id] || "Pending"}
-                      onChange={(e) => handleStatusChange(appointment._id, e.target.value)}
-                      disabled={statuses[appointment._id] === "Cancel"}
-                      className={`px-3 py-1 rounded-lg ${statuses[appointment._id] === "Cancel" ? "bg-red-100 text-red-600" : "bg-green-100 text-green-600"}`}
-                    >
-                      <option value="Pending">Pending</option>
-                      <option value="Cancel">Cancel</option>
-                    </select>
+                    {appointment.specialization?.join(", ")}
+                  </td>
+
+                  <td className="px-4 py-2 border border-gray-300">
+                    {appointment.status === "Completed" ? (
+                      <span className="text-green-600 font-semibold">Completed</span>
+                    ) : (
+                      <select
+                        value={statuses[appointment._id] || "Pending"}
+                        onChange={(e) => handleStatusChange(appointment._id, e.target.value)}
+                        disabled={statuses[appointment._id] === "Cancel"}
+                        className={`px-3 py-1 rounded-lg ${statuses[appointment._id] === "Cancel"
+                          ? "bg-red-100 text-red-600"
+                          : "bg-green-100 text-green-600"
+                          }`}
+                      >
+                        <option value="Pending">Pending</option>
+                        <option value="Cancel">Cancel</option>
+                      </select>
+                    )}
                   </td>
                   <td className="px-4 py-2 border border-gray-300">
                     {appointment.ispaid ? (

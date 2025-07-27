@@ -22,6 +22,7 @@ import { getAllInvoices } from "../../redux/Action/adminaction";
 import { allReceptionist } from "../../redux/Action/adminaction";
 //plus
 import { allPharmacists, allLaboratorians } from "../../redux/Action/adminaction";
+import { specializations } from "../../utils/constant";
 //end
 
 ChartJS.register(
@@ -352,7 +353,7 @@ const Report: React.FC = () => {
 
   // Radar Chart - Department Distribution
   const radarData = {
-    labels: ["Cardiology", "Neurology", "Orthopedics", "Pediatrics", "General"],
+    labels: specializations,
     datasets: [
       {
         label: "Doctor Count",
@@ -625,7 +626,7 @@ const Report: React.FC = () => {
         </div>
       
 
-        <div className="mt-6">
+        <div className="mt-6 w-1/2">
           <motion.div
             className="bg-white p-4 rounded-lg shadow"
             initial={{ y: -50 }}
@@ -636,7 +637,7 @@ const Report: React.FC = () => {
               Monthly Revenue vs Taxes
             </h3>
 
-            <div className="w-full h-[400px]"> 
+            <div className="w-full"> 
               <Line
                 data={monthlyRevenueData}
                 options={{

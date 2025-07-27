@@ -3,7 +3,7 @@
 interface IDoctor {
   _id: string;
   name: string;
-  specialization: string;
+  specialization: string[]
   fees: number;
   phone: string;
   email: string;
@@ -45,11 +45,12 @@ interface IAppointment {
   status: string;
   fees: number;
   time: string;
+  remark:string;
   doctor: string;
   patient: string;
   doctorId: IDoctor;
   tax?:number
-  specialization: string;
+  specialization: string[];
   patientId: IPatient
   ispaid: boolean;
   token?: number;
@@ -205,6 +206,6 @@ interface DoctorCardProps {
   _id: string;
   image: string;
   name: string;
-  specialization: string;
+  specialization: string[];
   onViewMore: () => void;
 }

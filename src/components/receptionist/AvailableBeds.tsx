@@ -91,7 +91,7 @@ const AvailableBeds: React.FC = () => {
             <div className="mb-4">
                 <input
                     type="text"
-                    placeholder="Search Beds by catagory, status with a space"
+                    placeholder="Search Beds by bed no, floor no, category, status and charge with a space"
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                     className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring focus:ring-blue-500"
@@ -202,7 +202,7 @@ const AvailableBeds: React.FC = () => {
             {isBook && (
                 <div className="fixed inset-0 bg-black bg-opacity-30 flex justify-center items-center">
                     <div className="bg-white rounded-lg shadow-lg p-6 w-full max-w-md">
-                        <h3 className="text-xl font-semibold mb-4">Assgin Patient</h3>
+                        <h3 className="text-xl font-semibold mb-4">Assign Patient</h3>
                         <form onSubmit={handleBook} className="space-y-4">
                             <div>
                                 <label className="block mb-1">Enter Patient ID</label>
@@ -212,6 +212,7 @@ const AvailableBeds: React.FC = () => {
                                     onChange={(e) =>
                                         setPatientId(e.target.value)
                                     }
+                                    placeholder="Enter here"
                                     className="w-full px-4 py-2 border rounded-lg"
                                 />
                             </div>

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { allAppointment, deleteAppointmentAdmin } from "../../redux/Action/adminaction";
 import ConfirmationModal from "../ConfirmModal"; // Import the modal component
+import { dateFormater } from "../../utils/constant";
 
 const ManageAppointment: React.FC = () => {
   const [appointments, setAppointments] = useState<IAppointment[]>([]);
@@ -36,12 +37,20 @@ const ManageAppointment: React.FC = () => {
     }
   };
 
-  const filteredAppointment = appointments.filter(
-    (appointment) =>
-      appointment.doctor.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      appointment.patient.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      appointment.date.toISOString().split("T")[0].includes(searchQuery.toLowerCase())
+  const filteredAppointment = appointments.filter((appointment) => {
+  const searchWords = (searchQuery || "").toLowerCase().split(" ");
+const formattedDate = appointment.date
+      ? dateFormater(appointment.date)
+      : "";
+  return searchWords.every((word) =>
+    (appointment.doctor?.toLowerCase() || "").includes(word) ||
+    (appointment.patient?.toLowerCase() || "").includes(word) ||
+     formattedDate.includes(word)  ||
+    (appointment.time?.toLowerCase() || "").includes(word) ||
+    (appointment.status?.toLowerCase() || "").includes(word) ||
+    ((appointment.isPaid ? "yes" : "no").toLowerCase().includes(word))
   );
+});
 
   const totalPages = Math.ceil(filteredAppointment.length / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
@@ -81,7 +90,7 @@ const ManageAppointment: React.FC = () => {
       <div className="mb-4">
         <input
           type="text"
-          placeholder="Search appointment by patient, doctor or date"
+          placeholder="Search appointment by patient, doctor, date, status & paid with a space"
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
           className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring focus:ring-blue-500"
@@ -98,6 +107,7 @@ const ManageAppointment: React.FC = () => {
               <th className="px-4 py-2 border border-gray-300">Doctor</th>
               <th className="px-4 py-2 border border-gray-300">Patient</th>
               <th className="px-4 py-2 border border-gray-300">Status</th>
+              <th className="px-4 py-2 border border-gray-300">Paid</th> {/* ✅ New Column */}
               <th className="px-4 py-2 border border-gray-300">Actions</th>
             </tr>
           </thead>
@@ -109,13 +119,14 @@ const ManageAppointment: React.FC = () => {
                     {startIndex + index + 1}
                   </td>
                   <td className="px-4 py-2 border border-gray-300">
-                    {appointment.date.toLocaleString().split("T")[0]}
+                   {dateFormater(appointment.date)}
                   </td>
                   <td className="px-4 py-2 border border-gray-300">{appointment.doctor}</td>
                   <td className="px-4 py-2 border border-gray-300">{appointment.patient}</td>
+                  <td className="px-4 py-2 border border-gray-300 text-center">{appointment.status}</td>
                   <td className="px-4 py-2 border border-gray-300 text-center">
-                    {appointment.status}
-                  </td>
+                    {appointment.isPaid ? "Yes" : "No"}
+                  </td> {/* ✅ Paid Value */}
                   <td className="px-4 py-2 border border-gray-300 text-center">
                     <button
                       onClick={() => openConfirmationModal(appointment._id, appointment.patient)}
@@ -128,13 +139,14 @@ const ManageAppointment: React.FC = () => {
               ))
             ) : (
               <tr>
-                <td colSpan={6} className="text-center py-4 text-gray-500">
+                <td colSpan={7} className="text-center py-4 text-gray-500">
                   No appointments found.
                 </td>
               </tr>
             )}
           </tbody>
         </table>
+
       </div>
 
       {/* Pagination */}
@@ -143,11 +155,10 @@ const ManageAppointment: React.FC = () => {
           <button
             onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
             disabled={currentPage === 1}
-            className={`px-4 py-2 rounded-lg ${
-              currentPage === 1
-                ? "bg-gray-300 cursor-not-allowed"
-                : "bg-blue-500 text-white hover:bg-blue-600"
-            }`}
+            className={`px-4 py-2 rounded-lg ${currentPage === 1
+              ? "bg-gray-300 cursor-not-allowed"
+              : "bg-blue-500 text-white hover:bg-blue-600"
+              }`}
           >
             Previous
           </button>
@@ -157,11 +168,10 @@ const ManageAppointment: React.FC = () => {
           <button
             onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
             disabled={currentPage === totalPages}
-            className={`px-4 py-2 rounded-lg ${
-              currentPage === totalPages
-                ? "bg-gray-300 cursor-not-allowed"
-                : "bg-blue-500 text-white hover:bg-blue-600"
-            }`}
+            className={`px-4 py-2 rounded-lg ${currentPage === totalPages
+              ? "bg-gray-300 cursor-not-allowed"
+              : "bg-blue-500 text-white hover:bg-blue-600"
+              }`}
           >
             Next
           </button>

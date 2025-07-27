@@ -38,8 +38,15 @@ const UploadReport: React.FC = () => {
             Object.entries(data.patient).forEach(([key, value]) => {
                 setValue(key as any, value);
             });
-            if (data.patient.reports && Array.isArray(data.patient.reports)) {
-                setReports(data.patient.reports);
+            if (data.patient.tests && Array.isArray(data.patient.tests)) {
+                const preparedReports = data.patient.tests
+                    .filter((test: any) => test.isPaid === true) // ✅ only include tests where isPaid is true
+                    .map((test: any) => ({
+                        name: test.name || "",
+                        file: null,
+                        isPaid: true, // optional, but helpful to keep track
+                    }));
+                setReports(preparedReports);
             } else {
                 setReports([]);
             }

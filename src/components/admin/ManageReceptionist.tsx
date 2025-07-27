@@ -34,12 +34,15 @@ const ManageReceptionist: React.FC = () => {
     });
   }, [])
 
-  const filteredReceptionist = receptionists.filter(
-    (receptionist) =>
-      receptionist.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      receptionist.email.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      receptionist.phone.toString().includes(searchQuery)
-  );
+  const filteredReceptionist = receptionists.filter((receptionist) => {
+    const searchWords = searchQuery.toLowerCase().split(" ");
+
+    return searchWords.every((word) =>
+      receptionist.name.toLowerCase().includes(word) ||
+      receptionist.email.toLowerCase().includes(word) ||
+      receptionist.phone.toString().includes(word)
+    );
+  });
 
   // Pagination logic
   const totalPages = Math.ceil(filteredReceptionist.length / itemsPerPage);
@@ -81,7 +84,7 @@ const ManageReceptionist: React.FC = () => {
   const handleCancelAction = () => {
     setIsModalOpen(false);
   };
-  
+
   const handlePassSubmit = (e: React.FormEvent) => {
     e.preventDefault()
     if (!selectedReceptionist) return;
@@ -112,7 +115,7 @@ const ManageReceptionist: React.FC = () => {
       <div className="mb-4">
         <input
           type="text"
-          placeholder="Search receptionist by name, email, or phone"
+          placeholder="Search receptionist by name, email, and phone with a space"
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
           className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring focus:ring-blue-500"

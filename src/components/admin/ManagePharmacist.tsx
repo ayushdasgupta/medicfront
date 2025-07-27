@@ -4,47 +4,50 @@ import { allPharmacists, changePharmaPassAdmin, deletePharmacistByAdmin } from "
 import ConfirmationModal from "../ConfirmModal";
 
 const ManagePharmacist: React.FC = () => {
-  const [pharmacists, setPharmacists] = useState<IPharmacist[]>([]); 
+  const [pharmacists, setPharmacists] = useState<IPharmacist[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
-   const [selectedPharmacist, setSelectedPharmacist] = useState<IPharmacist | null>(null);
-  
-    const [ispass, setIspass] = useState(false);
-  
-    const [isModalOpen, setIsModalOpen] = useState(false);
-  
-    const [modalData, setModalData] = useState({
-      id: "",
-      actionType: "" as "Delete",
-      title: "",
-      message: ""
-    });
-  useEffect(()=>{
-    allPharmacists().then((data)=>{
-      if(data?.pharmacists){
+  const [selectedPharmacist, setSelectedPharmacist] = useState<IPharmacist | null>(null);
+
+  const [ispass, setIspass] = useState(false);
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const [modalData, setModalData] = useState({
+    id: "",
+    actionType: "" as "Delete",
+    title: "",
+    message: ""
+  });
+  useEffect(() => {
+    allPharmacists().then((data) => {
+      if (data?.pharmacists) {
         setPharmacists(data.pharmacists)
-      }else{
+      } else {
         console.error("Unexpected data format:", data);
         setPharmacists([]);
       }
-    }) .catch((error) => {
+    }).catch((error) => {
       console.error("Error fetching pharmacist:", error);
       setPharmacists([]);
     });
-  },[])
- 
-  const filteredReceptionist = pharmacists.filter(
-    (pharmacist) =>
-      pharmacist.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      pharmacist.email.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      pharmacist.phone.toString().includes(searchQuery)
-  );
+  }, [])
+
+  const filteredPharmacist = pharmacists.filter((pharmacist) => {
+    const searchWords = searchQuery.toLowerCase().split(" ");
+
+    return searchWords.every((word) =>
+      pharmacist.name.toLowerCase().includes(word) ||
+      pharmacist.email.toLowerCase().includes(word) ||
+      pharmacist.phone.toString().includes(word)
+    );
+  });
 
   // Pagination logic
-  const totalPages = Math.ceil(filteredReceptionist.length / itemsPerPage);
+  const totalPages = Math.ceil(filteredPharmacist.length / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
-  const pagintedPharmacist = filteredReceptionist.slice(startIndex, startIndex + itemsPerPage);
+  const pagintedPharmacist = filteredPharmacist.slice(startIndex, startIndex + itemsPerPage);
 
   const openConfirmationModal = (action: "Delete", id: string) => {
     const pharmacistName = pharmacists.find(a => a._id === id)?.name;
@@ -62,7 +65,7 @@ const ManagePharmacist: React.FC = () => {
   // Delete a pharmacist
   const handleDelete = (id: string) => {
     openConfirmationModal("Delete", id)
-    
+
   };
   const handleConfirmAction = async () => {
     try {
@@ -115,7 +118,7 @@ const ManagePharmacist: React.FC = () => {
       <div className="mb-4">
         <input
           type="text"
-          placeholder="Search pharmacist by name, email, or phone"
+          placeholder="Search pharmacist by name, email, and phone with a space"
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
           className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring focus:ring-blue-500"
@@ -145,7 +148,7 @@ const ManagePharmacist: React.FC = () => {
                   <td className="px-4 py-2 border border-gray-300">{pharmacist.email}</td>
                   <td className="px-4 py-2 border border-gray-300">{pharmacist.phone}</td>
                   <td className="px-4 py-2 border border-gray-300 text-center">
-                  <button
+                    <button
                       onClick={() => handleChange(pharmacist)}
                       className="bg-green-500 text-white px-4 py-1 rounded-lg hover:bg-green-600 transition mr-2"
                     >
@@ -177,11 +180,10 @@ const ManagePharmacist: React.FC = () => {
           <button
             onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
             disabled={currentPage === 1}
-            className={`px-4 py-2 rounded-lg ${
-              currentPage === 1
+            className={`px-4 py-2 rounded-lg ${currentPage === 1
                 ? "bg-gray-300 cursor-not-allowed"
                 : "bg-blue-500 text-white hover:bg-blue-600"
-            }`}
+              }`}
           >
             Previous
           </button>
@@ -191,17 +193,16 @@ const ManagePharmacist: React.FC = () => {
           <button
             onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
             disabled={currentPage === totalPages}
-            className={`px-4 py-2 rounded-lg ${
-              currentPage === totalPages
+            className={`px-4 py-2 rounded-lg ${currentPage === totalPages
                 ? "bg-gray-300 cursor-not-allowed"
                 : "bg-blue-500 text-white hover:bg-blue-600"
-            }`}
+              }`}
           >
             Next
           </button>
         </div>
       )}
-       {ispass && selectedPharmacist && (
+      {ispass && selectedPharmacist && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
           <div className="bg-white rounded-xl shadow-2xl p-6 w-full max-w-md">
             <div className="flex justify-between items-center border-b pb-3 mb-4">

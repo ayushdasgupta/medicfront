@@ -4,42 +4,46 @@ import { allLaboratorians, changeLabPassAdmin, deleteLaboratorianByAdmin } from 
 import ConfirmationModal from "../ConfirmModal";
 
 const ManageLaboratorian: React.FC = () => {
-  const [laboratorians, setLaboratorians] = useState<ILaboratorian[]>([]); 
+  const [laboratorians, setLaboratorians] = useState<ILaboratorian[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
   const [selectedLaboratorian, setSelectedLaboratorian] = useState<ILaboratorian | null>(null);
-  
-    const [ispass, setIspass] = useState(false);
-  
-    const [isModalOpen, setIsModalOpen] = useState(false);
-  
-    const [modalData, setModalData] = useState({
-      id: "",
-      actionType: "" as "Delete",
-      title: "",
-      message: ""
-    });
-  useEffect(()=>{
-    allLaboratorians().then((data)=>{
-      if(data?.laboratorians){
+
+  const [ispass, setIspass] = useState(false);
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const [modalData, setModalData] = useState({
+    id: "",
+    actionType: "" as "Delete",
+    title: "",
+    message: ""
+  });
+  useEffect(() => {
+    allLaboratorians().then((data) => {
+      if (data?.laboratorians) {
         setLaboratorians(data.laboratorians)
-      }else{
+      } else {
         console.error("Unexpected data format:", data);
         setLaboratorians([]);
       }
-    }) .catch((error) => {
+    }).catch((error) => {
       console.error("Error fetching labratorian:", error);
       setLaboratorians([]);
     });
-  },[])
- 
-  const filteredLaboratorian = laboratorians.filter(
-    (labratorian) =>
-      labratorian.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      labratorian.email.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      labratorian.phone.toString().includes(searchQuery)
-  );
+  }, [])
+
+  const filteredLaboratorian = laboratorians.filter((labratorian) => {
+    const searchWords = searchQuery.toLowerCase().split(" ");
+
+    return searchWords.every((word) =>
+      labratorian.name.toLowerCase().includes(word) ||
+      labratorian.email.toLowerCase().includes(word) ||
+      labratorian.phone.toString().includes(word)
+    );
+  });
+
 
   // Pagination logic
   const totalPages = Math.ceil(filteredLaboratorian.length / itemsPerPage);
@@ -61,7 +65,7 @@ const ManageLaboratorian: React.FC = () => {
   // Delete a labratorian
   const handleDelete = (id: string) => {
     openConfirmationModal("Delete", id)
-    
+
   };
   const handleConfirmAction = async () => {
     try {
@@ -112,7 +116,7 @@ const ManageLaboratorian: React.FC = () => {
       <div className="mb-4">
         <input
           type="text"
-          placeholder="Search labratorian by name, email, or phone"
+          placeholder="Search labratorian by name, email, and phone wih space"
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
           className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring focus:ring-blue-500"
@@ -142,7 +146,7 @@ const ManageLaboratorian: React.FC = () => {
                   <td className="px-4 py-2 border border-gray-300">{labratorian.email}</td>
                   <td className="px-4 py-2 border border-gray-300">{labratorian.phone}</td>
                   <td className="px-4 py-2 border border-gray-300 text-center">
-                  <button
+                    <button
                       onClick={() => handleChange(labratorian)}
                       className="bg-green-500 text-white px-4 py-1 rounded-lg hover:bg-green-600 transition mr-2"
                     >
@@ -174,11 +178,10 @@ const ManageLaboratorian: React.FC = () => {
           <button
             onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
             disabled={currentPage === 1}
-            className={`px-4 py-2 rounded-lg ${
-              currentPage === 1
+            className={`px-4 py-2 rounded-lg ${currentPage === 1
                 ? "bg-gray-300 cursor-not-allowed"
                 : "bg-blue-500 text-white hover:bg-blue-600"
-            }`}
+              }`}
           >
             Previous
           </button>
@@ -188,11 +191,10 @@ const ManageLaboratorian: React.FC = () => {
           <button
             onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
             disabled={currentPage === totalPages}
-            className={`px-4 py-2 rounded-lg ${
-              currentPage === totalPages
+            className={`px-4 py-2 rounded-lg ${currentPage === totalPages
                 ? "bg-gray-300 cursor-not-allowed"
                 : "bg-blue-500 text-white hover:bg-blue-600"
-            }`}
+              }`}
           >
             Next
           </button>

@@ -12,10 +12,10 @@ import { useNavigate } from "react-router-dom";
 const PatientRegister: React.FC = () => {
     const [name, setName] = useState<string>("");
     const [email, setEmail] = useState<string>("");
-    const [phone, setPhone] = useState<number>(0);
+    const [phone, setPhone] = useState<string>("");
     const [password, setPassword] = useState<string>("");
-    const [gender, setGender] = useState<string>("Male");
-    const [age, setAge] = useState<number>(0);
+    const [gender, setGender] = useState<string>("");
+    const [age, setAge] = useState<string>("");;
     const dispatch = useAppDispatch()
     const navigate = useNavigate()
     const handleRegister = async (e: React.FormEvent) => {
@@ -23,8 +23,9 @@ const PatientRegister: React.FC = () => {
         const patientData = {
             name,
             email,
-            phone, password,
-            age,
+            phone: Number(phone),
+            password,
+            age: Number(age),
             gender
         }
         try {
@@ -32,7 +33,7 @@ const PatientRegister: React.FC = () => {
             dispatch(register(data))
             toast.success("Successfully Registered !!!")
             navigate('/patient/dashboard')
-        } catch (error:any) {
+        } catch (error: any) {
             toast.error(error.message)
         }
 
@@ -57,14 +58,14 @@ const PatientRegister: React.FC = () => {
             type: "number",
             placeholder: "Enter your phone number",
             value: phone,
-            onChange: (e) => setPhone(Number(e.target.value))
+            onChange: (e) => setPhone(e.target.value)
         },
         {
             name: "age",
             type: "number",
             placeholder: "Enter your age",
             value: age,
-            onChange: (e) => setAge(Number(e.target.value))
+            onChange: (e) => setAge(e.target.value)
         },
         {
             name: "password",
@@ -79,6 +80,7 @@ const PatientRegister: React.FC = () => {
             value: gender,
             onChange: (e) => setGender(e.target.value),
             options: [
+                { label: "Select Gender", value: "" }, 
                 { label: "Male", value: "Male" },
                 { label: "Female", value: "Female" },
                 { label: "Others", value: "Others" }

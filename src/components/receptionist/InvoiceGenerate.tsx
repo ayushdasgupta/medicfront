@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { invoiceGenerate } from "../../redux/Action/receptionistaction";
 import { useNavigate } from "react-router-dom";
+import { dateFormater } from "../../utils/constant";
 
 const InvoiceGenerate: React.FC = () => {
   const [patientId, setPatientId] = useState("");
@@ -231,8 +232,8 @@ const InvoiceGenerate: React.FC = () => {
                     }`}
                 >
                   <div>
-                    <p>{appt.doctor} - {appt.specialization}</p>
-                    <p>{appt.createdAt.toLocaleString().split("T")[0]}</p>
+                    <p>{appt.doctor} - {appt.specialization?.join(", ")}</p>
+                    <p>{dateFormater(appt.date)}</p>
                   </div>
                   <div>
                     <p>Fee: ₹{appt.fees}</p>

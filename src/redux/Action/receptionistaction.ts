@@ -1,15 +1,4 @@
 import {axiosInstance as axios}  from '../../utils/axiosinstance.js'
-export const loadReceptionist = async () => {
-    try {
-        const { data } = await axios.get('/api/v1/receptionist/me', {
-            headers: { 'Content-Type': 'application/json' },
-        });
-        return data;
-    } catch (error: any) {
-        throw error.response?.data || 'An error occurred';
-    }
-}
-
 export const logoutReceptionist = async () => {
     try {
         const { data } = await axios.get('/api/v1/receptionist/logout', {
@@ -27,6 +16,29 @@ export const loginReceptionist = async (email: string, password: string) => {
         });
         return data;
     } catch (error: any) {
+        throw error.response?.data || 'An error occurred';
+    }
+}
+export const loadReceptionist = async () => {
+    try {
+        const { data } = await axios.get('/api/v1/receptionist/me', {
+            headers: { 'Content-Type': 'application/json' },
+        });
+        return data;
+    } catch (error: any) {
+        throw error.response?.data || 'An error occurred';
+    }
+}
+export const invoiceGenerate=async(formdata:object)=>{
+    try {
+        const {data} = await axios.post(`/api/v1/receptionist/invoice/generate`,formdata,{
+            headers: {
+                "Content-Type":"application/json"
+            }
+        })
+        return data;
+        
+    } catch (error:any) {
         throw error.response?.data || 'An error occurred';
     }
 }
@@ -66,7 +78,6 @@ export const receptionistupdatepassword=async(formdata:object)=>{
         throw error.response?.data || 'An error occurred';
     }
 }
-
 export const receptionistupdateAvatar=async(formdata:object)=>{
     try {
         const {data} = await axios.patch(`/api/v1/receptionist/update/avatar`,formdata,{
@@ -80,9 +91,9 @@ export const receptionistupdateAvatar=async(formdata:object)=>{
         throw error.response?.data || 'An error occurred';
     }
 }
-export const allAvailableBeds=async()=>{
+export const createPatientByReception=async(formdata:object)=>{
     try {
-        const {data} = await axios.get(`/api/v1/receptionist/beds`,{
+        const {data} = await axios.post(`/api/v1/receptionist/create/patient`,formdata,{
             headers: {
                 "Content-Type":"application/json"
             }
@@ -93,9 +104,9 @@ export const allAvailableBeds=async()=>{
         throw error.response?.data || 'An error occurred';
     }
 }
-export const allEmergencyBeds=async()=>{
+export const bookAppointmentByReception=async(formdata:object)=>{
     try {
-        const {data} = await axios.get(`/api/v1/receptionist/emergency`,{
+        const {data} = await axios.post(`/api/v1/receptionist/book`,formdata,{
             headers: {
                 "Content-Type":"application/json"
             }
@@ -132,22 +143,10 @@ export const allDocReception=async()=>{
         throw error.response?.data || 'An error occurred';
     }
 }
-export const createPatientByReception=async(formdata:object)=>{
+//pro
+export const allAvailableBeds=async()=>{
     try {
-        const {data} = await axios.post(`/api/v1/receptionist/create/patient`,formdata,{
-            headers: {
-                "Content-Type":"application/json"
-            }
-        })
-        return data;
-        
-    } catch (error:any) {
-        throw error.response?.data || 'An error occurred';
-    }
-}
-export const bookAppointmentByReception=async(formdata:object)=>{
-    try {
-        const {data} = await axios.post(`/api/v1/receptionist/book`,formdata,{
+        const {data} = await axios.get(`/api/v1/receptionist/beds`,{
             headers: {
                 "Content-Type":"application/json"
             }
@@ -171,19 +170,6 @@ export const assignPatient=async(formdata:object)=>{
         throw error.response?.data || 'An error occurred';
     }
 }
-export const emergencyAssignPatient=async(formdata:object)=>{
-    try {
-        const {data} = await axios.patch(`/api/v1/receptionist/assign/patient/emergency`,formdata,{
-            headers: {
-                "Content-Type":"application/json"
-            }
-        })
-        return data;
-        
-    } catch (error:any) {
-        throw error.response?.data || 'An error occurred';
-    }
-}
 export const dischargePatient=async(formdata:object)=>{
     try {
         const {data} = await axios.patch(`/api/v1/receptionist/discharge/patient`,formdata,{
@@ -197,9 +183,10 @@ export const dischargePatient=async(formdata:object)=>{
         throw error.response?.data || 'An error occurred';
     }
 }
-export const invoiceGenerate=async(formdata:object)=>{
+//plus
+export const allEmergencyBeds=async()=>{
     try {
-        const {data} = await axios.post(`/api/v1/receptionist/invoice/generate`,formdata,{
+        const {data} = await axios.get(`/api/v1/receptionist/emergency`,{
             headers: {
                 "Content-Type":"application/json"
             }
@@ -210,3 +197,17 @@ export const invoiceGenerate=async(formdata:object)=>{
         throw error.response?.data || 'An error occurred';
     }
 }
+export const emergencyAssignPatient=async(formdata:object)=>{
+    try {
+        const {data} = await axios.patch(`/api/v1/receptionist/assign/patient/emergency`,formdata,{
+            headers: {
+                "Content-Type":"application/json"
+            }
+        })
+        return data;
+        
+    } catch (error:any) {
+        throw error.response?.data || 'An error occurred';
+    }
+}
+//end

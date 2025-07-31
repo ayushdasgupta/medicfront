@@ -52,7 +52,7 @@ const AppointmentsTable: React.FC = () => {
         name: APPNAME,
         description: "Appointment Payment",
         order_id: data.order.id,
-        
+
         handler: function (response: any) {
           console.log(response);
           const options = {
@@ -78,7 +78,9 @@ const AppointmentsTable: React.FC = () => {
             }
           })
         },
-
+        "theme": {
+          "color": "#3399cc"
+        }
       })
       paymentObject.open()
     } catch (error) {

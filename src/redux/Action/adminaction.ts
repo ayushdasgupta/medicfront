@@ -162,26 +162,12 @@ export const getAllInvoices=async()=>{
         throw error.response?.data || 'An error occurred';
     }
 }
-//pro
 export const createReceptionist = async (formdata: object) => {
     try {
         const { data } = await axios.post(`/api/v1/create/receptionist`, formdata,
             {
                 headers: {
                     'Content-Type': 'multipart/form-data',
-                }
-            })
-        return data
-    } catch (error: any) {
-        throw error.response?.data || 'An error occurred';
-    }
-}
-export const createBeds = async (formdata: object) => {
-    try {
-        const { data } = await axios.post(`/api/v1/admin/create/bed`, formdata,
-            {
-                headers: {
-                    "Content-Type": "application/json"
                 }
             })
         return data
@@ -203,19 +189,6 @@ export const allReceptionist = async () => {
         throw error.response?.data || 'An error occurred';
     }
 }
-export const allBeds=async()=>{
-    try {
-        const {data} = await axios.get('/api/v1/admin/allbeds',{
-            headers:{
-                "Content-Type":"application/json"
-            }
-        })
-        return data;
-
-    } catch (error:any) {
-        throw error.response?.data || 'An error occurred';
-    }
-}
 export const changeRecepPassAdmin = async (formdata: object) => {
     try {
         const { data } = await axios.patch(`/api/v1/admin/receptionist/update/pass`, formdata,
@@ -226,6 +199,33 @@ export const changeRecepPassAdmin = async (formdata: object) => {
             })
         return data
     } catch (error: any) {
+        throw error.response?.data || 'An error occurred';
+    }
+}
+//pro
+export const createBeds = async (formdata: object) => {
+    try {
+        const { data } = await axios.post(`/api/v1/admin/create/bed`, formdata,
+            {
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            })
+        return data
+    } catch (error: any) {
+        throw error.response?.data || 'An error occurred';
+    }
+}
+export const allBeds=async()=>{
+    try {
+        const {data} = await axios.get('/api/v1/admin/allbeds',{
+            headers:{
+                "Content-Type":"application/json"
+            }
+        })
+        return data;
+
+    } catch (error:any) {
         throw error.response?.data || 'An error occurred';
     }
 }
@@ -312,6 +312,7 @@ export const changePharmaPassAdmin = async (formdata: object) => {
     }
 }
 //end
+
 //basic
 export const deleteDocAdmin = async (id: string) => {
     try {
@@ -354,11 +355,9 @@ export const deleteAppointmentAdmin = async (id: string) => {
         throw error.response?.data || 'An error occurred';
     }
 }
-
-//pro
-export const deleteBeds = async (id: string) => {
+export const deleteReceptioinstAdmin = async (id: string) => {
     try {
-        const { data } = await axios.delete(`/api/v1/admin/bed/${id}`,
+        const { data } = await axios.delete(`/api/v1/admin/receptionist/${id}`,
             {
                 headers: {
                     "Content-Type": "application/json"
@@ -369,9 +368,10 @@ export const deleteBeds = async (id: string) => {
         throw error.response?.data || 'An error occurred';
     }
 }
-export const deleteReceptioinstAdmin = async (id: string) => {
+//pro
+export const deleteBeds = async (id: string) => {
     try {
-        const { data } = await axios.delete(`/api/v1/admin/receptionist/${id}`,
+        const { data } = await axios.delete(`/api/v1/admin/bed/${id}`,
             {
                 headers: {
                     "Content-Type": "application/json"

@@ -9,7 +9,7 @@ const PatientList: React.FC = () => {
   const [isPatient, setIsPatient] = useState(false);
   const [phone, setPhone] = useState<string>("");
   const [name, setName] = useState("");
-  const [bloodGroup, setBloodGroup] = useState("");
+  const [email, setEmail] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [createdPatientId, setCreatedPatientId] = useState<string | null>(null);
@@ -35,7 +35,7 @@ const PatientList: React.FC = () => {
     const formData = new FormData();
     formData.append("name", name);
     formData.append("phone", phone);
-    formData.append("bloodgroup", bloodGroup);
+    formData.append("email", email);
     setLoading(true)
     createPatientByReception(formData)
       .then((res) => {
@@ -51,7 +51,7 @@ const PatientList: React.FC = () => {
         setIsPatient(false);
         setName("");
         setPhone("");
-        setBloodGroup("");
+        setEmail("");
       })
       .catch((e) => toast.error(e.message));
   };
@@ -198,23 +198,14 @@ const PatientList: React.FC = () => {
                 />
               </div>
               <div>
-                <label className="block mb-1">Blood Group</label>
-                <select
-                  value={bloodGroup}
-                  onChange={(e) => setBloodGroup(e.target.value)}
+                <label className="block mb-1">Email</label>
+               <input
+                  type="email"
+                  value={email}
+                  placeholder="Enter email"
+                  onChange={(e) => setEmail(e.target.value)}
                   className="w-full px-4 py-2 border rounded-lg"
-                  required
-                >
-                  <option value="">Select Blood Group</option>
-                  <option value="A+">A+</option>
-                  <option value="A-">A-</option>
-                  <option value="B+">B+</option>
-                  <option value="B-">B-</option>
-                  <option value="AB+">AB+</option>
-                  <option value="AB-">AB-</option>
-                  <option value="O+">O+</option>
-                  <option value="O-">O-</option>
-                </select>
+                />
               </div>
 
               <div className="flex justify-end space-x-2">

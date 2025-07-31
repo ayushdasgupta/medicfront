@@ -3,8 +3,8 @@ import { configureStore } from "@reduxjs/toolkit";
 import adminreducer from "./slice/adminSlice";
 import doctorreducer from "./slice/doctorSlice";
 import patientreducer from "./slice/patientSlice";
-//pro
 import receptionistreducer from "./slice/receptionistSlice";
+//pro
 //plus
 import pharmacistreducer from "./slice/pharmacistSlice";
 import laboratorianreducer from "./slice/laboratorianSlice";
@@ -15,8 +15,8 @@ const store = configureStore({
     patient:patientreducer,
     admin:adminreducer,
     doctor:doctorreducer,
-//pro 
     receptionist:receptionistreducer,
+//pro 
 //plus
     pharmacist:pharmacistreducer,
     laboratorian:laboratorianreducer

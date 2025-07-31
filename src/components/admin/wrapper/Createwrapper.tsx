@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import CreateDoctor from '../CreateDoctor';
-//pro
 import ReceptionistCreate from '../ReceptionistCreate';
+//pro
 import BedCreate from '../BedCreate';
 //plus
 import LabratorianCreate from '../LaboratorianCreate';
@@ -16,8 +16,8 @@ const CreateWrapper: React.FC = () => {
     // Role options data
     const roles: { id: Role; label: string; icon: string; color: string }[] = [
         { id: 'doctor', label: 'Doctor', icon: '👨‍⚕️', color: 'bg-blue-100 hover:bg-blue-200 border-blue-300' },
-//pro
         { id: 'receptionist', label: 'Receptionist', icon: '👩‍💼', color: 'bg-green-100 hover:bg-green-200 border-green-300' },
+//pro
         { id: 'bed', label: 'Beds', icon: '🛏️', color: 'bg-yellow-100 hover:bg-yellow-200 border-yellow-300' },
 //plus
         { id: 'laboratorian', label: 'Laboratorian', icon: '🔬', color: 'bg-purple-100 hover:bg-purple-200 border-purple-300' },
@@ -30,9 +30,9 @@ const CreateWrapper: React.FC = () => {
         switch (selectedRole) {
             case 'doctor':
                 return <CreateDoctor />;
+                case 'receptionist':
+                    return <ReceptionistCreate />;
 //pro 
-            case 'receptionist':
-                return <ReceptionistCreate />;
             case 'bed':
                 return <BedCreate />;
 //plus

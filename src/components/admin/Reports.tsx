@@ -17,12 +17,12 @@ import {
   Filler
 } from "chart.js";
 import { allDoctor, allAppointment, allPatient } from "../../redux/Action/adminaction";
-import { getAllInvoices } from "../../redux/Action/adminaction"; 
-//pro
+import { getAllInvoices } from "../../redux/Action/adminaction";
 import { allReceptionist } from "../../redux/Action/adminaction";
+import { specializations } from "../../utils/constant";
+//pro
 //plus
 import { allPharmacists, allLaboratorians } from "../../redux/Action/adminaction";
-import { specializations } from "../../utils/constant";
 //end
 
 ChartJS.register(
@@ -69,12 +69,12 @@ const Report: React.FC = () => {
   const [totalTax, setTotalTax] = useState(0);
   const [totalRevenue, setTotalRevenue] = useState(0);
   const [monthlyTax, setMonthlyTax] = useState<number[]>(Array(12).fill(0));
-//pro
   const [receptionistCount, setReceptionistCount] = useState(0);
-//plus
+  //pro
+  //plus
   const [pharmacistCount, setPharmacistCount] = useState(0);
   const [laboratorianCount, setLaboratorianCount] = useState(0);
-//end
+  //end
   const [appointmentData, setAppointmentData] = useState<number[]>([]);
   const [patientData, setPatientData] = useState<number[]>([]);
   const [appointmentStatusData, setAppointmentStatusData] = useState<number[]>([0, 0, 0]); // [pending, completed, cancelled]
@@ -98,8 +98,10 @@ const Report: React.FC = () => {
         // Extract department data
         const departments: Record<string, number> = {};
         data?.doctors?.forEach((doctor: any) => {
-          const dept = doctor.specialization || "General";
-          departments[dept] = (departments[dept] || 0) + 1;
+          const specializations = Array.isArray(doctor.specialization) ? doctor.specialization : ["General"];
+          specializations.forEach((dept: string) => {
+            departments[dept] = (departments[dept] || 0) + 1;
+          });
         });
 
         setDepartmentData(Object.values(departments));
@@ -159,15 +161,15 @@ const Report: React.FC = () => {
         setAppointmentStatusData(statusData);
       })
       .catch((error) => console.error("Error fetching appointments:", error));
-
-    // Fetch receptionists
-//pro
-    allReceptionist()
+       allReceptionist()
       .then((data) => {
         setReceptionistCount(data?.receptionists?.length || 0);
       })
       .catch((error) => console.error("Error fetching receptionists:", error));
-//plus
+
+    // Fetch receptionists
+    //pro
+    //plus
     allPharmacists()
       .then((data) => {
         setPharmacistCount(data?.pharmacists?.length || 0);
@@ -178,7 +180,7 @@ const Report: React.FC = () => {
         setLaboratorianCount(data?.laboratorians?.length || 0);
       })
       .catch((error) => console.error("Error fetching receptionists:", error));
-//end 
+    //end 
 
     // Fetch invoices
     getAllInvoices()
@@ -310,29 +312,29 @@ const Report: React.FC = () => {
   // Pie Chart Data
   const pieData = {
     labels: ["Doctors", "Patients",
-//pro
       "Receptionists",
-//plus
+      //pro
+      //plus
       "Pharmacists", "Laboratorians"
-//end
+      //end
 
     ],
     datasets: [
       {
         data: [doctorCount, patientCount,
-//pro
           receptionistCount,
-//plus
+          //pro
+          //plus
           pharmacistCount, laboratorianCount
-//end
+          //end
 
         ],
         backgroundColor: ["#E63946", "#457B9D",
-//pro
           "#A7C957",
-//plus
+          //pro
+          //plus
           "#F4A261", "#9B5DE5"
-//end
+          //end
 
         ],
       },
@@ -357,7 +359,7 @@ const Report: React.FC = () => {
     datasets: [
       {
         label: "Doctor Count",
-        data: departmentData.length ? departmentData : [3, 2, 4, 3, 5], 
+        data: departmentData.length ? departmentData : [3, 2, 4, 3, 5],
         backgroundColor: "rgba(75,192,192,0.2)",
         borderColor: "rgba(75,192,192,1)",
         pointBackgroundColor: "rgba(75,192,192,1)",
@@ -624,7 +626,7 @@ const Report: React.FC = () => {
             />
           </motion.div>
         </div>
-      
+
 
         <div className="mt-6 w-1/2">
           <motion.div
@@ -637,7 +639,7 @@ const Report: React.FC = () => {
               Monthly Revenue vs Taxes
             </h3>
 
-            <div className="w-full"> 
+            <div className="w-full">
               <Line
                 data={monthlyRevenueData}
                 options={{

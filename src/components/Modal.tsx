@@ -42,8 +42,8 @@ interface ModalProps {
 export default Modal;
   const roles = [
     { icon: "👨‍⚕️", name: "Doctor" },
-//pro
     { icon: "👨‍💻", name: "Receptionist" },
+//pro
 //plus
     { icon: "💊", name: "Pharmacist" },
     { icon: "🥼", name: "Laboratorian" },

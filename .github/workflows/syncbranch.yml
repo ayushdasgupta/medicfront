@@ -27,29 +27,27 @@ jobs:
         
         # Delete excluded frontend files for basic tier
         git rm -rf --ignore-unmatch \
-         src/components/receptionist \
+         src/components/receptionist/AvailableBeds.tsx \
+         src/components/receptionist/Emergency.tsx \
          src/components/pharmacist \
          src/components/laboratorian \
          src/components/admin/BedCreate.tsx \
          src/components/admin/ManageBeds.tsx \
-         src/components/admin/ManageReceptionist.tsx \
-         src/components/admin/ReceptionistCreate.tsx \
          src/components/admin/ManagePharmacist.tsx \
          src/components/admin/ManageLaboratorian.tsx \
          src/components/admin/PharmacistCreate.tsx \
          src/components/admin/LaboratorianCreate.tsx \
-         src/pages/ReceptionistDashboard.tsx \
          src/pages/PharmacistDashboard.tsx \
          src/pages/LaboratorianDashboard.tsx \
-         src/redux/Action/receptionistaction.ts \
          src/redux/Action/pharmacistaction.ts \
          src/redux/Action/laboratorianaction.ts \
-         src/redux/slice/receptionistSlice.ts \
          src/redux/slice/pharmacistSlice.ts \
          src/redux/slice/laboratorianSlice.ts
         
         sed -i '/^\/\/ *pro *$/,/^\/\/ *end *$/d' src/components/Modal.tsx
+        sed -i '/^\/\/ *pro *$/,/^\/\/ *end *$/d' src/pages/ReceptionistDashboard.tsx
         sed -i '/^\/\/ *pro *$/,/^\/\/ *end *$/d' src/redux/Action/adminaction.ts
+        sed -i '/^\/\/ *pro *$/,/^\/\/ *end *$/d' src/redux/Action/receptionistaction.ts
         sed -i '/^\/\/ *pro *$/,/^\/\/ *end *$/d' src/components/admin/wrapper/Createwrapper.tsx
         sed -i '/^\/\/ *pro *$/,/^\/\/ *end *$/d' src/components/admin/wrapper/Rolewrapper.tsx
         sed -i '/^\/\/ *pro *$/,/^\/\/ *end *$/d' src/components/admin/Reports.tsx
@@ -67,6 +65,7 @@ jobs:
         # Delete excluded frontend files for pro tier
         git rm -rf --ignore-unmatch \
           src/components/pharmacist \
+          src/components/receptionist/Emergency.tsx \
           src/components/laboratorian \
           src/components/admin/ManagePharmacist.tsx \
           src/components/admin/ManageLaboratorian.tsx \
@@ -80,7 +79,9 @@ jobs:
           src/redux/slice/laboratorianSlice.ts
 
         sed -i '/^\/\/ *plus *$/,/^\/\/ *end *$/d' src/components/Modal.tsx
+        sed -i '/^\/\/ *plus *$/,/^\/\/ *end *$/d' src/pages/ReceptionistDashboard.tsx
         sed -i '/^\/\/ *plus *$/,/^\/\/ *end *$/d' src/redux/Action/adminaction.ts
+        sed -i '/^\/\/ *pro *$/,/^\/\/ *end *$/d' src/redux/Action/receptionistaction.ts
         sed -i '/^\/\/ *plus *$/,/^\/\/ *end *$/d' src/components/admin/wrapper/Createwrapper.tsx
         sed -i '/^\/\/ *plus *$/,/^\/\/ *end *$/d' src/components/admin/wrapper/Rolewrapper.tsx
         sed -i '/^\/\/ *plus *$/,/^\/\/ *end *$/d' src/components/admin/Reports.tsx

@@ -18,10 +18,9 @@ import PatientResetPass from "./components/patient/PatientResetPass";
 import ReceptionistLogin from "./components/receptionist/ReceptionistLogin";
 import ReceptionistDashboard from "./pages/ReceptionistDashboard";
 //pro
-
-//plus
 import PharmacistLogin from "./components/pharmacist/PharmacistLogin";
 import PharmacistDashboard from "./pages/PharmacistDashboard";
+//plus
 import LabratorianDashboard from "./pages/LaboratorianDashboard";
 import LabratorianLogin from "./components/laboratorian/LaboratorianLogin";
 //end
@@ -48,10 +47,10 @@ const App = () => {
         <Route path="/receptionist/login" element={<ReceptionistLogin />} />
         <Route path="/receptionist/dashboard" element={<ReceptionistDashboard/>} />
 {/* pro */}
-        
-{/* plus */}
         <Route path="/pharmacist/login" element={<PharmacistLogin/>} />
         <Route path="/pharmacist/dashboard" element={<PharmacistDashboard/>} />
+{/* plus */}
+        
         <Route path="/laboratorian/login" element={<LabratorianLogin/>} />
         <Route path="/laboratorian/dashboard" element={<LabratorianDashboard/>} />
 {/* end */}

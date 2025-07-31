@@ -5,8 +5,8 @@ import doctorreducer from "./slice/doctorSlice";
 import patientreducer from "./slice/patientSlice";
 import receptionistreducer from "./slice/receptionistSlice";
 //pro
-//plus
 import pharmacistreducer from "./slice/pharmacistSlice";
+//plus
 import laboratorianreducer from "./slice/laboratorianSlice";
 //end
 
@@ -17,8 +17,8 @@ const store = configureStore({
     doctor:doctorreducer,
     receptionist:receptionistreducer,
 //pro 
-//plus
     pharmacist:pharmacistreducer,
+//plus
     laboratorian:laboratorianreducer
 //end
   },

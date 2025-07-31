@@ -313,28 +313,28 @@ const Report: React.FC = () => {
   const pieData = {
     labels: ["Doctors", "Patients",
       "Receptionists",
-      //pro
-      //plus
+//pro
+//plus
       "Pharmacists", "Laboratorians"
-      //end
+//end
 
     ],
     datasets: [
       {
         data: [doctorCount, patientCount,
           receptionistCount,
-          //pro
-          //plus
+//pro
+//plus
           pharmacistCount, laboratorianCount
-          //end
+//end
 
         ],
         backgroundColor: ["#E63946", "#457B9D",
           "#A7C957",
-          //pro
-          //plus
+//pro
+//plus
           "#F4A261", "#9B5DE5"
-          //end
+//end
 
         ],
       },

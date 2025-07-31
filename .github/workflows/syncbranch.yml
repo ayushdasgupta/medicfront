@@ -64,16 +64,13 @@ jobs:
         
         # Delete excluded frontend files for pro tier
         git rm -rf --ignore-unmatch \
-          src/components/pharmacist \
           src/components/receptionist/Emergency.tsx \
           src/components/laboratorian \
           src/components/admin/ManagePharmacist.tsx \
           src/components/admin/ManageLaboratorian.tsx \
           src/components/admin/PharmacistCreate.tsx \
           src/components/admin/LaboratorianCreate.tsx \
-          src/pages/PharmacistDashboard.tsx \
           src/pages/LaboratorianDashboard.tsx \
-          src/redux/Action/pharmacistaction.ts \
           src/redux/Action/laboratorianaction.ts \
           src/redux/slice/pharmacistSlice.ts \
           src/redux/slice/laboratorianSlice.ts

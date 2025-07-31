@@ -66,13 +66,10 @@ jobs:
         git rm -rf --ignore-unmatch \
           src/components/receptionist/Emergency.tsx \
           src/components/laboratorian \
-          src/components/admin/ManagePharmacist.tsx \
           src/components/admin/ManageLaboratorian.tsx \
-          src/components/admin/PharmacistCreate.tsx \
           src/components/admin/LaboratorianCreate.tsx \
           src/pages/LaboratorianDashboard.tsx \
           src/redux/Action/laboratorianaction.ts \
-          src/redux/slice/pharmacistSlice.ts \
           src/redux/slice/laboratorianSlice.ts
 
         sed -i '/^\/\/ *plus *$/,/^\/\/ *end *$/d' src/components/Modal.tsx

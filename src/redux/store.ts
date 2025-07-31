@@ -6,9 +6,6 @@ import patientreducer from "./slice/patientSlice";
 import receptionistreducer from "./slice/receptionistSlice";
 //pro
 import pharmacistreducer from "./slice/pharmacistSlice";
-//plus
-import laboratorianreducer from "./slice/laboratorianSlice";
-//end
 
 const store = configureStore({
   reducer: {
@@ -18,9 +15,6 @@ const store = configureStore({
     receptionist:receptionistreducer,
 //pro 
     pharmacist:pharmacistreducer,
-//plus
-    laboratorian:laboratorianreducer
-//end
   },
 });
 

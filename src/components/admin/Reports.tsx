@@ -21,9 +21,6 @@ import { getAllInvoices } from "../../redux/Action/adminaction";
 import { allReceptionist } from "../../redux/Action/adminaction";
 import { specializations } from "../../utils/constant";
 //pro
-//plus
-import { allPharmacists, allLaboratorians } from "../../redux/Action/adminaction";
-//end
 
 ChartJS.register(
   Title,
@@ -169,18 +166,6 @@ const Report: React.FC = () => {
 
     // Fetch receptionists
 //pro
-//plus
-    allPharmacists()
-      .then((data) => {
-        setPharmacistCount(data?.pharmacists?.length || 0);
-      })
-      .catch((error) => console.error("Error fetching receptionists:", error));
-    allLaboratorians()
-      .then((data) => {
-        setLaboratorianCount(data?.laboratorians?.length || 0);
-      })
-      .catch((error) => console.error("Error fetching receptionists:", error));
-//end 
 
     // Fetch invoices
     getAllInvoices()
@@ -314,9 +299,6 @@ const Report: React.FC = () => {
     labels: ["Doctors", "Patients",
       "Receptionists",
 //pro
-//plus
-      "Pharmacists", "Laboratorians"
-//end
 
     ],
     datasets: [
@@ -324,17 +306,11 @@ const Report: React.FC = () => {
         data: [doctorCount, patientCount,
           receptionistCount,
 //pro
-//plus
-          pharmacistCount, laboratorianCount
-//end
 
         ],
         backgroundColor: ["#E63946", "#457B9D",
           "#A7C957",
 //pro
-//plus
-          "#F4A261", "#9B5DE5"
-//end
 
         ],
       },

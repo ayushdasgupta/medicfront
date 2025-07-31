@@ -45,9 +45,6 @@ export default Modal;
     { icon: "👨‍💻", name: "Receptionist" },
 //pro
 { icon: "💊", name: "Pharmacist" },
-//plus
-    { icon: "🥼", name: "Laboratorian" },
-//end
     { icon: "🛠️", name: "Admin" },
 
   ];

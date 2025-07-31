@@ -14,9 +14,6 @@ const Sidebar = lazy(() => import("../components/Sidebar"));
 const ShowAppointments = lazy(() => import("../components/receptionist/ShowAppointment"));
 //pro
 const AvailableBeds = lazy(() => import("../components/receptionist/AvailableBeds"));
-//plus
-const Emergency = lazy(() => import("../components/receptionist/Emergency"));
-//end
 const UpdatePatient = lazy(() => import("../components/receptionist/UpdatePatient"));
 const PatientList = lazy(() => import("../components/receptionist/PatientList"));
 const DoctorList = lazy(() => import("../components/receptionist/DoctorList"));
@@ -75,10 +72,6 @@ const ReceptionistDashboard: React.FC = () => {
 //pro
             case "bedAvailable":
                 return <AvailableBeds />;
-//plus
-            case "emergecy":
-                return <Emergency />;
-//end
             case "generateInvoice":
                 return <GenerateInvoice />;
             case "updatePatient":
@@ -113,9 +106,6 @@ const ReceptionistDashboard: React.FC = () => {
                         { id: "showAppointments", label: "Show Appointments" },
 //pro
                         { id: "bedAvailable", label: "Bed Available" },
-//plus
-                        { id: "emergecy", label: "Emergency" },
-//end
                         { id: "patientList", label: "Patients list" },
                         { id: "updatePatient", label: "Update Patient" },
                         { id: "doctorList", label: "Doctors list" },

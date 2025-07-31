@@ -3,10 +3,6 @@ import ManageDoctor from '../ManageDoctor';
 import ManageReceptionist from '../ManageReceptionist';
 //pro
 import ManageBeds from '../ManageBeds';
-//plus
-import ManageLaboratorian from '../ManageLaboratorian';
-import ManagePharmacist from '../ManagePharmacist';
-//end
 
 // Type for role options
 type Role = 'doctor' | 'receptionist' | 'laboratorian' | 'pharmacist' | 'bed';
@@ -19,10 +15,6 @@ const RoleWrapper: React.FC = () => {
         { id: 'receptionist', label: 'Receptionist', icon: '👩‍💼', color: 'bg-green-100 hover:bg-green-200 border-green-300' },
 //pro
         { id: 'bed', label: 'Beds', icon: '🛏️', color: 'bg-yellow-100 hover:bg-yellow-200 border-yellow-300' },
-//plus
-        { id: 'laboratorian', label: 'Laboratorian', icon: '🔬', color: 'bg-purple-100 hover:bg-purple-200 border-purple-300' },
-        { id: 'pharmacist', label: 'Pharmacist', icon: '💊', color: 'bg-yellow-100 hover:bg-yellow-200 border-yellow-300' },
-//end
     ];
   
     const renderRoleComponent = () => {
@@ -34,12 +26,6 @@ const RoleWrapper: React.FC = () => {
 //pro
         case 'bed':
           return <ManageBeds />;
-//plus
-        case 'laboratorian':
-          return <ManageLaboratorian />;
-        case 'pharmacist':
-          return <ManagePharmacist />;
-//end
         default:
           return (
             <div className="flex items-center justify-center h-64 bg-gray-50 rounded-lg border-2 border-dashed border-gray-300">

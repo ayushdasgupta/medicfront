@@ -183,31 +183,3 @@ export const dischargePatient=async(formdata:object)=>{
         throw error.response?.data || 'An error occurred';
     }
 }
-//plus
-export const allEmergencyBeds=async()=>{
-    try {
-        const {data} = await axios.get(`/api/v1/receptionist/emergency`,{
-            headers: {
-                "Content-Type":"application/json"
-            }
-        })
-        return data;
-        
-    } catch (error:any) {
-        throw error.response?.data || 'An error occurred';
-    }
-}
-export const emergencyAssignPatient=async(formdata:object)=>{
-    try {
-        const {data} = await axios.patch(`/api/v1/receptionist/assign/patient/emergency`,formdata,{
-            headers: {
-                "Content-Type":"application/json"
-            }
-        })
-        return data;
-        
-    } catch (error:any) {
-        throw error.response?.data || 'An error occurred';
-    }
-}
-//end

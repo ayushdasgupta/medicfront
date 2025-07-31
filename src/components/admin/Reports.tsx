@@ -168,8 +168,8 @@ const Report: React.FC = () => {
       .catch((error) => console.error("Error fetching receptionists:", error));
 
     // Fetch receptionists
-    //pro
-    //plus
+//pro
+//plus
     allPharmacists()
       .then((data) => {
         setPharmacistCount(data?.pharmacists?.length || 0);
@@ -180,7 +180,7 @@ const Report: React.FC = () => {
         setLaboratorianCount(data?.laboratorians?.length || 0);
       })
       .catch((error) => console.error("Error fetching receptionists:", error));
-    //end 
+//end 
 
     // Fetch invoices
     getAllInvoices()

@@ -43,11 +43,6 @@ export default Modal;
   const roles = [
     { icon: "👨‍⚕️", name: "Doctor" },
     { icon: "👨‍💻", name: "Receptionist" },
-//pro
-{ icon: "💊", name: "Pharmacist" },
-//plus
-    { icon: "🥼", name: "Laboratorian" },
-//end
     { icon: "🛠️", name: "Admin" },
 
   ];

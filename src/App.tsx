@@ -17,13 +17,6 @@ import PatientRegister from "./components/patient/PatientRegister";
 import PatientResetPass from "./components/patient/PatientResetPass";
 import ReceptionistLogin from "./components/receptionist/ReceptionistLogin";
 import ReceptionistDashboard from "./pages/ReceptionistDashboard";
-//pro
-import PharmacistLogin from "./components/pharmacist/PharmacistLogin";
-import PharmacistDashboard from "./pages/PharmacistDashboard";
-//plus
-import LabratorianDashboard from "./pages/LaboratorianDashboard";
-import LabratorianLogin from "./components/laboratorian/LaboratorianLogin";
-//end
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import Invoice from "./components/invoice";
 
@@ -46,14 +39,6 @@ const App = () => {
         <Route path="/doctor/dashboard" element={<DoctorDashboard/>} />
         <Route path="/receptionist/login" element={<ReceptionistLogin />} />
         <Route path="/receptionist/dashboard" element={<ReceptionistDashboard/>} />
-{/* pro */}
-        <Route path="/pharmacist/login" element={<PharmacistLogin/>} />
-        <Route path="/pharmacist/dashboard" element={<PharmacistDashboard/>} />
-{/* plus */}
-        
-        <Route path="/laboratorian/login" element={<LabratorianLogin/>} />
-        <Route path="/laboratorian/dashboard" element={<LabratorianDashboard/>} />
-{/* end */}
         <Route path="/invoice/:id" element={<Invoice/>} />
 
         <Route path="*" element={<NotFound />} />

@@ -81,7 +81,7 @@ jobs:
         sed -i '/^\/\/ *plus *$/,/^\/\/ *end *$/d' src/components/Modal.tsx
         sed -i '/^\/\/ *plus *$/,/^\/\/ *end *$/d' src/pages/ReceptionistDashboard.tsx
         sed -i '/^\/\/ *plus *$/,/^\/\/ *end *$/d' src/redux/Action/adminaction.ts
-        sed -i '/^\/\/ *pro *$/,/^\/\/ *end *$/d' src/redux/Action/receptionistaction.ts
+        sed -i '/^\/\/ *plus *$/,/^\/\/ *end *$/d' src/redux/Action/receptionistaction.ts
         sed -i '/^\/\/ *plus *$/,/^\/\/ *end *$/d' src/components/admin/wrapper/Createwrapper.tsx
         sed -i '/^\/\/ *plus *$/,/^\/\/ *end *$/d' src/components/admin/wrapper/Rolewrapper.tsx
         sed -i '/^\/\/ *plus *$/,/^\/\/ *end *$/d' src/components/admin/Reports.tsx
